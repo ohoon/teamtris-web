@@ -20,13 +20,13 @@
 * 테트리스 복식모드(2:2) 구현
 * 포인트 및 랭킹 시스템 구현
 
-# Change Log
-## [2021-01-07]
+## Change Log
+### [2021-01-07]
  
-### Added
-- express-generator를 이용하여 기본적인 RESTful 서버 셋팅
-- CRA를 이용하여 기본적인 클라이언트 사이드 셋팅
+**Added**
+* express-generator를 이용하여 기본적인 RESTful 서버 셋팅
+* CRA를 이용하여 기본적인 클라이언트 사이드 셋팅
  
-### Changed
+**Changed**
  
-### Fixed
+**Fixed**
