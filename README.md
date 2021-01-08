@@ -30,3 +30,13 @@
 **Changed**
  
 **Fixed**
+
+### [2021-01-08]
+ 
+**Added**
+* stylesheet 작업을 위한 styled-components 라이브러리 채택
+* 현재 사용자 목록을 확인할 수 있는 기본적인 UI 구현
+ 
+**Changed**
+ 
+**Fixed**
