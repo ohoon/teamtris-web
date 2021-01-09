@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { UserBlock } from '../modules/users';
+import { CurrentUsers } from '../modules/users';
 import UserItem from './UserItem';
 
 const UserListBlock = styled.div`
@@ -28,7 +28,7 @@ const UserListBlock = styled.div`
 `;
 
 interface UserListProps {
-    users: UserBlock[];
+    users: CurrentUsers;
 }
 
 function UserList({ users }: UserListProps) {

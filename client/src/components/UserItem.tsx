@@ -1,8 +1,8 @@
 import React from 'react';
-import { UserBlock } from '../modules/users';
+import { CurrentUser } from '../modules/users';
 
 interface UserItemProps {
-    user: UserBlock;
+    user: CurrentUser;
 }
 
 function UserItem({ user }: UserItemProps) {

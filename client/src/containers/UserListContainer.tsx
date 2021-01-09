@@ -29,7 +29,7 @@ const userTemplate = [
     }
 ];
 
-function UsersContainer() {
+function UserListContainer() {
     return (
         <UserList
             users={userTemplate}
@@ -37,4 +37,4 @@ function UsersContainer() {
     );
 }
 
-export default UsersContainer;
+export default UserListContainer;

@@ -1,10 +1,10 @@
 import React from 'react';
-import UsersContainer from './containers/UsersContainer';
+import UserListContainer from './containers/UserListContainer';
 
 function App() {
   return (
     <>
-      <UsersContainer />
+      <UserListContainer />
     </>
   );
 }
