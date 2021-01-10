@@ -1,26 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Row, Col } from 'react-bootstrap';
 import { Rooms } from '../modules/rooms';
 import RoomItem from '../components/RoomItem';
 
-const RoomListGridBlock = styled.div`
-    display: grid;
+const RoomListBlock = styled.div`
     width: 80%;
+    height: 400px;
     padding: 10px;
     border: 3px solid #E8E8E8;
     background: #EEEEEE;
-    grid-template-rows: 150px;
-    grid-template-columns: repeat(2, 1fr);
-
-    .item {
-        display: flex;
-        position: relative;
-        padding: 16px;
-        border: 3px solid black;
-        border-radius: 20px;
-        box-sizing: border-box;
-        font-size: 16px;
-    }
+    overflow-x: hidden;
+    overflow-y: auto;
 `;
 
 interface RoomListProps {
@@ -28,14 +19,25 @@ interface RoomListProps {
 }
 
 function RoomList({ rooms }: RoomListProps) {
+    const gridRooms: Rooms[] = [];
+    for (let i = 0; i < rooms.length; i= i + 2) {
+        gridRooms.push(rooms.slice(i, i + 2));
+    }
+    
     return (
-        <RoomListGridBlock>
-            {rooms.map(room =>
-                <RoomItem
-                    room={room}
-                />
+        <RoomListBlock>
+            {gridRooms.map(row =>
+                <Row>
+                    {row.map(col =>
+                        <Col>
+                            <RoomItem
+                                room={col}
+                            />
+                        </Col>
+                    )}
+                </Row>
             )}
-        </RoomListGridBlock>
+        </RoomListBlock>
     );
 }
 
