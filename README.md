@@ -50,3 +50,15 @@
 **Changed**
  
 **Fixed**
+
+### [2021-01-10]
+ 
+**Added**
+* 접속한 사람들끼리 대화를 나눌 수 있는 채팅방 UI 구현
+* 보다 쉽게 UI를 디자인하기 위해서 react-bootstrap을 채택
+* 앞서 구현한 사용자 목록, 프로필, 생성된 방 목록, 채팅방 UI를 2 x 2 grid 구조로 Home Page UI에 배치
+ 
+**Changed**
+* react-bootstrap으로 채팅방과 생성된 방 목록 UI 디자인을 재수정
+ 
+**Fixed**
