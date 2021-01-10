@@ -5,7 +5,6 @@ import { Rooms } from '../modules/rooms';
 import RoomItem from '../components/RoomItem';
 
 const RoomListBlock = styled.div`
-    width: 80%;
     height: 400px;
     padding: 10px;
     border: 3px solid #E8E8E8;

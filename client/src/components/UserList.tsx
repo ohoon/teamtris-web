@@ -4,8 +4,6 @@ import { CurrentUsers } from '../modules/users';
 import UserItem from './UserItem';
 
 const UserListBlock = styled.div`
-    width: 20%;
-
     .head {
         padding: 1px 10px 1px 10px;
         border: 3px solid #E8E8E8;

@@ -4,7 +4,6 @@ import { ChatLog } from '../modules/chats';
 import ChatMsg from './ChatMsg';
 
 const ChatBoxBlock = styled.div`
-    width: 80%;
     height: 200px;
     padding: 10px;
     background: #EEEEEE;

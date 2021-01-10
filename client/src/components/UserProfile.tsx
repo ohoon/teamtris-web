@@ -4,7 +4,6 @@ import { Profile } from '../modules/users';
 
 const UserProfileBlock = styled.div`
     display: flex;
-    width: 20%;
     height: 200px;
     padding: 16px 10px 16px 10px;
     border: 3px solid #E8E8E8;
