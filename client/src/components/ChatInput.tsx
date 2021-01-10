@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
 
 const ChatInputForm = styled.form`
     width: 80%;
@@ -8,15 +9,19 @@ const ChatInputForm = styled.form`
 function ChatInput() {
     return (
         <ChatInputForm>
-            <input
-                type="text"
-                placeholder="메시지 보내기"
-            />
-            <button
-                type="submit"
-            >
-                전송
-            </button>
+            <InputGroup>
+                <FormControl
+                    placeholder="메시지 보내기"
+                />
+                <InputGroup.Append>
+                    <Button
+                        type="submit"
+                        variant="outline-secondary"
+                    >
+                        전송
+                    </Button>
+                </InputGroup.Append>
+            </InputGroup>
         </ChatInputForm>
     );
 }
