@@ -1,11 +1,7 @@
 import React from 'react';
 import UserProfile from '../components/UserProfile';
 
-const profileTemplate = {
-    id: 1323,
-    username: 'gildong',
-    nickname: '홍길동'
-};
+const profileTemplate = null;
 
 function UserProfileContainer() {
     return (

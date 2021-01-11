@@ -1,6 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button } from 'react-bootstrap';
 import { Profile } from '../modules/users';
+import { useHistory } from 'react-router-dom';
+
+const LogInButtonBlock = styled.div`
+    height: 200px;
+    padding: 32px;
+    border: 3px solid #E8E8E8;
+    background: #EEEEEE;
+    text-align: center;
+`;
 
 const UserProfileBlock = styled.div`
     display: flex;
@@ -22,10 +32,27 @@ const UserProfileBlock = styled.div`
 `;
 
 interface UserProfileProps {
-    user: Profile;
+    user: Profile | null;
 }
 
 function UserProfile({ user }: UserProfileProps) {
+    const history = useHistory();
+    const goToLogin = () => history.push('/login');
+    if (user == null) {
+        return (
+            <LogInButtonBlock>
+                <p>
+                    로그인이 필요합니다.
+                </p>
+                <Button
+                    onClick={goToLogin}
+                >
+                    로그인
+                </Button>
+            </LogInButtonBlock>
+        );
+    }
+
     return (
         <UserProfileBlock>
             <img
