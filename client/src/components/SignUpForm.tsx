@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { SignUpInputs } from '../api/users';
 
 const SignUpFormBlock = styled(Form)`
     width: 800px;
@@ -15,7 +16,11 @@ const SignUpButton = styled(Button)`
     margin: 50px auto;
 `;
 
-function SignUpForm() {
+interface SignUpFormProps {
+    onSubmit: (input: SignUpInputs) => void;
+}
+
+function SignUpForm({ onSubmit }: SignUpFormProps) {
     const [input, setInput] = useState({
         userId: '',
         password: '',
@@ -33,7 +38,7 @@ function SignUpForm() {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log(input);
+        onSubmit(input);
     };
 
     return (
