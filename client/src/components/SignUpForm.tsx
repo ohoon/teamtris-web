@@ -17,9 +17,9 @@ const SignUpButton = styled(Button)`
 
 function SignUpForm() {
     const [input, setInput] = useState({
-        id: '',
+        userId: '',
         password: '',
-        passwordCheck: '',
+        passwordConfirm: '',
         nickname: '',
         email: ''
     });
@@ -53,13 +53,13 @@ function SignUpForm() {
                     sm="10"
                 >
                     <Form.Control
-                        name="id"
+                        name="userId"
                         type="text"
                         placeholder="아이디를 입력해 주세요"
-                        aria-describedby="idHelpBlock"
+                        aria-describedby="userIdHelpBlock"
                         onChange={onChange}
                     />
-                    <Form.Text id="idHelpBlock" muted>
+                    <Form.Text id="userIdHelpBlock" muted>
                         5~20자 영문, 숫자로 입력해 주세요.
                     </Form.Text>
                 </Col>
@@ -101,13 +101,13 @@ function SignUpForm() {
                     sm="10"
                 >
                     <Form.Control
-                        name="passwordCheck"
+                        name="passwordConfirm"
                         type="password"
                         placeholder="한번 더 입력해 주세요"
-                        aria-describedby="passwordCheckHelpBlock"
+                        aria-describedby="passwordConfirmHelpBlock"
                         onChange={onChange}
                     />
-                    <Form.Text id="passwordCheckHelpBlock" muted>
+                    <Form.Text id="passwordConfirmHelpBlock" muted>
                         입력한 비밀번호와 똑같이 입력해 주세요.
                     </Form.Text>
                 </Col>
