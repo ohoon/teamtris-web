@@ -36,7 +36,7 @@ export interface User {
     email?: string;
 }
 
-interface UserDocument extends User, Document {
+export interface UserDocument extends User, Document {
     passwordConfirm: string;
 }
 

@@ -4,6 +4,7 @@ import logger from 'morgan';
 
 import indexRouter from './api/index';
 import usersRouter from './api/users';
+import authRouter from './api/auth';
 
 import mongoose from 'mongoose';
 
@@ -32,5 +33,6 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 export default app;
