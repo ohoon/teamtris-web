@@ -11,7 +11,8 @@
 * ~메인화면 UI 구성 (ex: lobby, userlist, profile, chatbox...)~ [2021-01-10]
 * ~회원가입 및 로그인 화면 UI 구성~ [2021-01-11]
 * ~회원가입 기능 구현~ [2021-01-12]
-* 로그인 인증 및 인가 구현
+* 로그인 인증 및 인가 구현 [50%]
+* 패스워드 암호화 적용
 * 클라이언트 입력 유효성 검증 구현
 * 소켓을 이용한 room, userlist, chat 구현
 * 테트리스 대기 화면 UI 구성
@@ -70,3 +71,17 @@
 **Changed**
 * 회원가입 폼의 `id`와 `passwordCheck`을 `userId`와 `passwordConfirm`으로 변경
 * typescript에 최적화된 패키지 설정 및 파일 구조 재구성
+
+### [2021-01-13]
+ 
+**Added**
+* Stateless한 사용자 인증 및 인가를 위해 `jsonwebtoken` 라이브러리 채택
+* 로그인을 시도하면 jwt 토큰을 발급하고, 이 토큰을 통해 접근 권한을 인가할 수 있게 하는 API 구현
+* 로그인 폼의 사용자 인증 후에 토큰 발급 기능 구현
+ 
+**Changed**
+* 서버단의 `routes` 폴더를 `api`로 변경
+* typescript에 최적화된 패키지 설정 및 파일 구조 재구성
+
+**Fixed**
+* pm2 stop 기능을 하는 npm script의 잘못된 경로 수정
