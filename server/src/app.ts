@@ -2,8 +2,8 @@ import express, { Application } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import indexRouter from './api/index';
+import usersRouter from './api/users';
 
 import mongoose from 'mongoose';
 
