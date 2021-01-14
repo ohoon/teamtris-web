@@ -11,7 +11,7 @@
 * ~메인화면 UI 구성 (ex: lobby, userlist, profile, chatbox...)~ [2021-01-10]
 * ~회원가입 및 로그인 화면 UI 구성~ [2021-01-11]
 * ~회원가입 기능 구현~ [2021-01-12]
-* 로그인 인증 및 인가 구현 [50%]
+* 로그인 인증 및 인가 구현 [80%]
 * 패스워드 암호화 적용
 * 클라이언트 입력 유효성 검증 구현
 * 소켓을 이용한 room, userlist, chat 구현
@@ -85,3 +85,17 @@
 
 **Fixed**
 * pm2 stop 기능을 하는 npm script의 잘못된 경로 수정
+
+### [2021-01-14]
+ 
+**Added**
+* 새로고침이나 언마운트되는 경우에도 토큰을 가지고 있을 수 있도록 access token을 localStroage에 저장하도록 구현
+* localStroage에 있는 토큰을 이용해 현재 이용중인 사용자를 식별하고 프로필 UI에 정보를 출력하도록 구현
+ 
+**Changed**
+* Mongoose DAO에 관련하여 callback 함수를 호출하는 방식을 Promise를 사용하는 방식으로 수정
+* 토큰에 담겨진 _id값을 통해 현재 이용하고 있는 사용자 자신의 정보를 가지고 오는 서버단의 라우터 주소를 수정
+
+**Fixed**
+* Room, Chat, User 목록의 각 아이템에 key 값이 지정되지 않은 것을 수정
+* access token을 주고 받을 때 x-access-token 헤더에 담아 보내던 것을 authorization 헤더에 담아 보내도록 수정
