@@ -57,8 +57,8 @@ router.post('/login', (req, res, next) => {
         res.json(jsonUtil_1.error(err));
     }
 }));
-/* Login check. */
-router.get('/login', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+/* Show me. */
+router.get('/me', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.default.findById(req.body.decoded._id).exec();
         res.json(jsonUtil_1.success(user));

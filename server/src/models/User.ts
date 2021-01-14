@@ -29,11 +29,11 @@ const UserSchema = new Schema({
     }
 });
 
-export interface User {
+interface User {
     userId: string;
     password: string;
-    nickname?: string;
-    email?: string;
+    nickname: string | null;
+    email: string | null;
 }
 
 export interface UserDocument extends User, Document {

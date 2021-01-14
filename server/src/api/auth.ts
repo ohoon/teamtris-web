@@ -44,8 +44,7 @@ router.post('/login',
         expiresIn: 60 * 60 * 24
       };
 
-      jwt.sign(payload, process.env.JWT_SECRET!, options, (err:
-         Error | null, token: string | undefined) => {
+      jwt.sign(payload, process.env.JWT_SECRET!, options, (err, token) => {
         if (err) return res.json(error(err));
         res.json(success(token));
       });
@@ -55,8 +54,8 @@ router.post('/login',
   }
 );
 
-/* Login check. */
-router.get('/login',
+/* Show me. */
+router.get('/me',
   isLoggedIn,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
