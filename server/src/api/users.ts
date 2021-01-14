@@ -1,15 +1,17 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { CallbackError } from 'mongoose';
-import UserModel, { User } from '../models/User';
+import UserModel from '../models/User';
+import { success, error } from '../lib/jsonUtil';
 
 const router = express.Router();
 
 /* CREATE user. */
-router.post('/', (req: Request, res: Response, next: NextFunction) => {
-  UserModel.create(req.body, (err: CallbackError, user: User) => {
-    if (err) res.json(err)
-    res.json(user);
-  });
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await UserModel.create(req.body);
+    res.json(success(user));
+  } catch (err) {
+    res.json(error(err))
+  }
 });
 
 export default router;
