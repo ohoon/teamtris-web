@@ -1,4 +1,5 @@
-export type Chat = {
+type Chat = {
+    id: number;
     sender: string;
     message: string;
 };

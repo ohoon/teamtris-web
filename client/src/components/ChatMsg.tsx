@@ -1,14 +1,15 @@
 import React from 'react';
-import { Chat } from '../modules/chats';
 
 interface ChatMsgProps {
-    chat: Chat;
+    key: number;
+    sender: string;
+    message: string;
 }
 
-function ChatMsg({ chat }: ChatMsgProps) {
+function ChatMsg({ sender, message }: ChatMsgProps) {
     return (
         <div>
-            {chat.sender}: {chat.message}
+            {sender}: {message}
         </div>
     );
 }

@@ -1,4 +1,4 @@
-export type Room = {
+type Room = {
     id: number;
     title: string;
     password: string | null;

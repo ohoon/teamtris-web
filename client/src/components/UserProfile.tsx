@@ -38,7 +38,7 @@ interface UserProfileProps {
 function UserProfile({ user }: UserProfileProps) {
     const history = useHistory();
     const goToLogin = () => history.push('/login');
-    if (user == null) {
+    if (!user) {
         return (
             <LogInButtonBlock>
                 <p>

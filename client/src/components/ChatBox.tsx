@@ -21,8 +21,10 @@ function ChatBox({ chats }: ChatBoxProps) {
         <ChatBoxBlock>
             {chats.map(chat =>
                 <ChatMsg
-                    chat={chat}
-                />    
+                    key={chat.id}
+                    sender={chat.sender}
+                    message={chat.message}
+                />
             )}
         </ChatBoxBlock>
     );

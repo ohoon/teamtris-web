@@ -1,4 +1,4 @@
-export type CurrentUser = {
+type CurrentUser = {
     socketId: number;
     username: string;
     nickname: string | null;

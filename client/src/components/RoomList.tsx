@@ -26,11 +26,21 @@ function RoomList({ rooms }: RoomListProps) {
     return (
         <RoomListBlock>
             {gridRooms.map(row =>
-                <Row>
+                <Row
+                    key={row[0].id}
+                >
                     {row.map(col =>
-                        <Col>
+                        <Col
+                            key={col.id}
+                        >
                             <RoomItem
-                                room={col}
+                                id={col.id}
+                                title={col.title}
+                                password={col.password}
+                                current={col.current}
+                                max={col.max}
+                                mode={col.mode}
+                                isLock={col.isLock}
                             />
                         </Col>
                     )}

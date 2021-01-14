@@ -42,7 +42,9 @@ function UserList({ users }: UserListProps) {
             >
                 {users.map(user =>
                     <UserItem
-                        user={user}
+                        key={user.socketId}
+                        username={user.username}
+                        nickname={user.nickname}
                     />
                 )}
             </ul>

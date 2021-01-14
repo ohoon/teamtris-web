@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Room } from '../modules/rooms';
 
 const RoomItemBlock = styled.div`
     display: flex;
@@ -13,17 +12,21 @@ const RoomItemBlock = styled.div`
 `;
 
 interface RoomItemProps {
-    room: Room;
+    id: number;
+    title: string;
+    password: string | null;
+    current: number;
+    max: number;
+    mode: string;
+    isLock: boolean;
 }
 
-function RoomItem({ room }: RoomItemProps) {
+function RoomItem({ title, current, max }: RoomItemProps) {
     return (
-        <RoomItemBlock
-            key={room.id}
-        >
-            {room.title}
+        <RoomItemBlock>
+            {title}
             <br />
-            {room.current} / {room.max}
+            {current} / {max}
         </RoomItemBlock>
     );
 }
