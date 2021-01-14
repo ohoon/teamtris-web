@@ -32,13 +32,14 @@ const UserProfileBlock = styled.div`
 `;
 
 interface UserProfileProps {
-    user: Profile | null;
+    profile: Profile | null;
 }
 
-function UserProfile({ user }: UserProfileProps) {
+function UserProfile({ profile }: UserProfileProps) {
     const history = useHistory();
     const goToLogin = () => history.push('/login');
-    if (!user) {
+    
+    if (!profile) {
         return (
             <LogInButtonBlock>
                 <p>
@@ -63,8 +64,8 @@ function UserProfile({ user }: UserProfileProps) {
             <p
                 className="name"
             >
-                {user.nickname ||
-                    user.username
+                {profile.nickname ||
+                    profile.username
                 }
             </p>
         </UserProfileBlock>

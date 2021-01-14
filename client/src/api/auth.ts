@@ -13,3 +13,11 @@ export async function login(input: LoginInputs) {
     
     return response.data;
 }
+
+export async function me() {
+    const response = await axios.get<any>(
+        '/auth/me'
+    );
+
+    return response.data;
+}
