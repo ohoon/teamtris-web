@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const UserSchema = new mongoose_1.Schema({
-    userId: {
+    username: {
         type: String,
         required: [
             true,
-            'UserId is required!'
+            'Username is required!'
         ],
         unique: true
     },

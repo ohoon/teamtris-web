@@ -18,13 +18,13 @@ const authUtil_1 = require("../lib/authUtil");
 const jsonUtil_1 = require("../lib/jsonUtil");
 const User_1 = __importDefault(require("../models/User"));
 const router = express_1.default.Router();
-/* Login. */
+/* Create token. */
 router.post('/login', (req, res, next) => {
     let isValid = true;
     const errors = {};
-    if (!req.body.userId) {
+    if (!req.body.username) {
         isValid = false;
-        errors.userId = { message: 'UserId is required!' };
+        errors.username = { message: 'Username is required!' };
     }
     if (!req.body.password) {
         isValid = false;
@@ -35,13 +35,13 @@ router.post('/login', (req, res, next) => {
     next();
 }, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.findOne({ userId: req.body.userId }).select({ userId: 1, password: 1, nickname: 1, email: 1 }).exec();
+        const user = yield User_1.default.findOne({ username: req.body.username }).select({ username: 1, password: 1, nickname: 1, email: 1 }).exec();
         if (!user || user.password !== req.body.password) {
-            return res.json(jsonUtil_1.error(null, 'UserId or Password is invaild!'));
+            return res.json(jsonUtil_1.error(null, 'Username or Password is invaild!'));
         }
         const payload = {
             _id: user._id,
-            userId: user.userId,
+            username: user.username,
             nickname: user.nickname
         };
         const options = {
@@ -57,16 +57,6 @@ router.post('/login', (req, res, next) => {
         res.json(jsonUtil_1.error(err));
     }
 }));
-/* Show me. */
-router.get('/me', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const user = yield User_1.default.findById(req.body.decoded._id).exec();
-        res.json(jsonUtil_1.success(user));
-    }
-    catch (err) {
-        res.json(jsonUtil_1.error(err));
-    }
-}));
 /* Refresh token. */
 router.put('/login', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -75,7 +65,7 @@ router.put('/login', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0
             return res.json(jsonUtil_1.error(null, '_id is invaild!'));
         const payload = {
             _id: user._id,
-            userId: user.userId,
+            username: user.username,
             nickname: user.nickname
         };
         const options = {

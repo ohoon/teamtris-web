@@ -1,11 +1,11 @@
 import { Schema, Document, model } from 'mongoose';
 
 const UserSchema = new Schema({
-    userId: {
+    username: {
         type: String,
         required: [
             true,
-            'UserId is required!'
+            'Username is required!'
         ],
         unique: true
     },
@@ -30,7 +30,7 @@ const UserSchema = new Schema({
 });
 
 interface User {
-    userId: string;
+    username: string;
     password: string;
     nickname: string | null;
     email: string | null;

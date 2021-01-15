@@ -6,15 +6,15 @@ import UserModel from '../models/User';
 
 const router = express.Router();
 
-/* Login. */
+/* Create token. */
 router.post('/login',
   (req: Request, res: Response, next: NextFunction) => {
     let isValid = true;
     const errors: JsonError = {};
 
-    if (!req.body.userId) {
+    if (!req.body.username) {
       isValid = false;
-      errors.userId = { message: 'UserId is required!' };
+      errors.username = { message: 'Username is required!' };
     }
 
     if (!req.body.password) {
@@ -28,15 +28,15 @@ router.post('/login',
   },
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await UserModel.findOne({ userId: req.body.userId }).select({ userId: 1, password: 1, nickname: 1, email: 1 }).exec();
+      const user = await UserModel.findOne({ username: req.body.username }).select({ username: 1, password: 1, nickname: 1, email: 1 }).exec();
 
       if (!user || user.password !== req.body.password) {
-        return res.json(error(null, 'UserId or Password is invaild!'));
+        return res.json(error(null, 'Username or Password is invaild!'));
       }
 
       const payload = {
         _id: user._id,
-        userId: user.userId,
+        username: user.username,
         nickname: user.nickname
       };
 
@@ -54,19 +54,6 @@ router.post('/login',
   }
 );
 
-/* Show me. */
-router.get('/me',
-  isLoggedIn,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await UserModel.findById(req.body.decoded._id).exec();
-      res.json(success(user));
-    } catch (err) {
-      res.json(error(err));
-    }
-  }
-);
-
 /* Refresh token. */
 router.put('/login',
   isLoggedIn,
@@ -78,7 +65,7 @@ router.put('/login',
       
       const payload = {
         _id: user._id,
-        userId: user.userId,
+        username: user.username,
         nickname: user.nickname
       };
 
