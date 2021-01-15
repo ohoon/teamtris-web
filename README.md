@@ -11,7 +11,7 @@
 * ~메인화면 UI 구성 (ex: lobby, userlist, profile, chatbox...)~ [2021-01-10]
 * ~회원가입 및 로그인 화면 UI 구성~ [2021-01-11]
 * ~회원가입 기능 구현~ [2021-01-12]
-* 로그인 인증 및 인가 구현 [80%]
+* 로그인 인증 및 인가 구현 [90%]
 * 패스워드 암호화 적용
 * 클라이언트 입력 유효성 검증 구현
 * 소켓을 이용한 room, userlist, chat 구현
@@ -99,3 +99,18 @@
 **Fixed**
 * Room, Chat, User 목록의 각 아이템에 key 값이 지정되지 않은 것을 수정
 * access token을 주고 받을 때 x-access-token 헤더에 담아 보내던 것을 authorization 헤더에 담아 보내도록 수정
+
+### [2021-01-15]
+ 
+**Added**
+* 상태를 보다 유연하고 편리하게 관리하기 위해서 `redux` `react-redux` `redux-thunk` 라이브러리 채택
+* 액션 함수 생성 등의 기능을 제공하는 `typesafe-actions` 라이브러리 사용
+* 디버그를 보다 직관적이고 효율적으로 하기 위해 `redux-devtools-extension` `redux-logger` 라이브러리 사용
+ 
+**Changed**
+* 토큰 소유자의 정보를 가져오는 showMe API의 라우팅 주소를 `/auth/me`에서 `/users/me`로 변경
+* 내 정보를 가져오는 작업을 thunk 함수로 dispatch 하도록 변경
+* 기존 방 목록, 유저 목록 등의 구조를 새롭게 리팩토링
+
+**Fixed**
+* localStorage의 토큰 정보를 불러오기 전에 axios 헤더에 연결하여 헤더의 access token 값이 undefined가 되는 문제 수정
