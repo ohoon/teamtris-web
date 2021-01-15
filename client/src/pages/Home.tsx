@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 import UserListContainer from '../containers/UserListContainer';
 import RoomListContainer from '../containers/RoomListContainer';
-import UserProfileContainer from '../containers/UserProfileContainer';
+import MyProfileContainer from '../containers/MyProfileContainer';
 import ChatsContainer from '../containers/ChatsContainer';
 
 const Wrapper = styled(Container)`
@@ -30,7 +30,7 @@ function Home() {
                 <Col
                     md={3}
                 >
-                    <UserProfileContainer />
+                    <MyProfileContainer />
                 </Col>
                 <Col
                     md={9}
