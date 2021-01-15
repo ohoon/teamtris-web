@@ -22,7 +22,7 @@ interface SignUpFormProps {
 
 function SignUpForm({ onSubmit }: SignUpFormProps) {
     const [input, setInput] = useState({
-        userId: '',
+        username: '',
         password: '',
         passwordConfirm: '',
         nickname: '',
@@ -58,13 +58,13 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                     sm="10"
                 >
                     <Form.Control
-                        name="userId"
+                        name="username"
                         type="text"
                         placeholder="아이디를 입력해 주세요"
-                        aria-describedby="userIdHelpBlock"
+                        aria-describedby="usernameHelpBlock"
                         onChange={onChange}
                     />
-                    <Form.Text id="userIdHelpBlock" muted>
+                    <Form.Text id="usernameHelpBlock" muted>
                         5~20자 영문, 숫자로 입력해 주세요.
                     </Form.Text>
                 </Col>

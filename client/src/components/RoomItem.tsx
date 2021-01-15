@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Room } from '../socket/rooms';
 
 const RoomItemBlock = styled.div`
     display: flex;
@@ -11,14 +12,8 @@ const RoomItemBlock = styled.div`
     font-size: 16px;
 `;
 
-interface RoomItemProps {
-    id: number;
-    title: string;
-    password: string | null;
-    current: number;
-    max: number;
-    mode: string;
-    isLock: boolean;
+interface RoomItemProps extends Room {
+
 }
 
 function RoomItem({ title, current, max }: RoomItemProps) {

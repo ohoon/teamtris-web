@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
-import { Rooms } from '../modules/rooms';
+import { Rooms } from '../socket/rooms';
 import RoomItem from '../components/RoomItem';
 
 const RoomListBlock = styled.div`
@@ -37,6 +37,7 @@ function RoomList({ rooms }: RoomListProps) {
                                 id={col.id}
                                 title={col.title}
                                 password={col.password}
+                                participant={col.participant}
                                 current={col.current}
                                 max={col.max}
                                 mode={col.mode}

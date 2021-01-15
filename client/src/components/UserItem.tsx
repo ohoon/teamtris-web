@@ -1,9 +1,8 @@
 import React from 'react';
+import { ConnectedUser } from '../socket/users';
 
-interface UserItemProps {
+interface UserItemProps extends ConnectedUser {
     key: number;
-    username: string;
-    nickname: string | null;
 }
 
 function UserItem({ username, nickname }: UserItemProps) {

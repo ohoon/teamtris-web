@@ -1,9 +1,8 @@
 import React from 'react';
+import { Chat } from '../socket/chats';
 
-interface ChatMsgProps {
+interface ChatMsgProps extends Chat {
     key: number;
-    sender: string;
-    message: string;
 }
 
 function ChatMsg({ sender, message }: ChatMsgProps) {

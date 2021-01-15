@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CurrentUsers } from '../modules/users';
+import { ConnectedUsers } from '../socket/users';
 import UserItem from './UserItem';
 
 const UserListBlock = styled.div`
@@ -26,7 +26,7 @@ const UserListBlock = styled.div`
 `;
 
 interface UserListProps {
-    users: CurrentUsers;
+    users: ConnectedUsers;
 }
 
 function UserList({ users }: UserListProps) {
@@ -43,6 +43,8 @@ function UserList({ users }: UserListProps) {
                 {users.map(user =>
                     <UserItem
                         key={user.socketId}
+                        socketId={user.socketId}
+                        id={user.id}
                         username={user.username}
                         nickname={user.nickname}
                     />
