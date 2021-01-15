@@ -19,7 +19,7 @@ interface LoginFormProps {
 
 function LoginForm({ onSubmit }: LoginFormProps) {
     const [input, setInput] = useState({
-        userId: '',
+        username: '',
         password: ''
     });
 
@@ -41,10 +41,10 @@ function LoginForm({ onSubmit }: LoginFormProps) {
         >
             <Form.Group>
                 <Form.Control
-                    name="userId"
+                    name="username"
                     type="text"
                     placeholder="아이디"
-                    value={input.userId}
+                    value={input.username}
                     onChange={onChange}
                 />
             </Form.Group>

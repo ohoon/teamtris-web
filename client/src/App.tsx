@@ -1,17 +1,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import axios from 'axios';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 
 function App() {
-  const token = localStorage.getItem('ACCESS_TOKEN');
-
-  if (token) {
-    axios.defaults.headers.authorization = `Bearer ${token}`;
-  }
-
   return (
     <Switch>
       <Route
