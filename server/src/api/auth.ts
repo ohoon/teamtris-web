@@ -30,7 +30,7 @@ router.post('/login',
     try {
       const user = await UserModel.findOne({ username: req.body.username }).select({ username: 1, password: 1, nickname: 1, email: 1 }).exec();
 
-      if (!user || user.password !== req.body.password) {
+      if (!user || !user.authenticate(req.body.password)) {
         return res.json(error(null, 'Username or Password is invaild!'));
       }
 

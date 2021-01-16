@@ -36,7 +36,7 @@ router.post('/login', (req, res, next) => {
 }, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.default.findOne({ username: req.body.username }).select({ username: 1, password: 1, nickname: 1, email: 1 }).exec();
-        if (!user || user.password !== req.body.password) {
+        if (!user || !user.authenticate(req.body.password)) {
             return res.json(jsonUtil_1.error(null, 'Username or Password is invaild!'));
         }
         const payload = {

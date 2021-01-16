@@ -1,6 +1,23 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, Document, Model, model } from 'mongoose';
+import { hashSync, compareSync } from 'bcrypt';
 
-const UserSchema = new Schema({
+export interface User {
+    username: string;
+    password: string;
+    nickname: string | null;
+    email: string | null;
+}
+
+export interface UserDocument extends User, Document {
+    passwordConfirm: string;
+    authenticate(password: string): boolean;
+}
+
+export interface UserModel extends Model<UserDocument> {
+
+}
+
+const UserSchema = new Schema<UserDocument, UserModel>({
     username: {
         type: String,
         required: [
@@ -29,17 +46,17 @@ const UserSchema = new Schema({
     }
 });
 
-interface User {
-    username: string;
-    password: string;
-    nickname: string | null;
-    email: string | null;
-}
+UserSchema.pre<UserDocument>('save', function(next) {
+    if (this.isModified('password')) {
+        this.password = hashSync(this.password, 12);
+        return next();
+    }
 
-export interface UserDocument extends User, Document {
-    passwordConfirm: string;
-}
+    next();
+});
 
-const UserModel = model<UserDocument>('User', UserSchema);
+UserSchema.methods.authenticate = function(this: UserDocument, password: string) {
+    return compareSync(password, this.password);
+};
 
-export default UserModel;
+export default model<UserDocument, UserModel>('User', UserSchema);;

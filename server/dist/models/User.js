@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const bcrypt_1 = require("bcrypt");
 const UserSchema = new mongoose_1.Schema({
     username: {
         type: String,
@@ -29,6 +30,16 @@ const UserSchema = new mongoose_1.Schema({
         virtuals: true
     }
 });
-const UserModel = mongoose_1.model('User', UserSchema);
-exports.default = UserModel;
+UserSchema.pre('save', function (next) {
+    if (this.isModified('password')) {
+        this.password = bcrypt_1.hashSync(this.password, 12);
+        return next();
+    }
+    next();
+});
+UserSchema.methods.authenticate = function (password) {
+    return bcrypt_1.compareSync(password, this.password);
+};
+exports.default = mongoose_1.model('User', UserSchema);
+;
 //# sourceMappingURL=User.js.map
