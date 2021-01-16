@@ -23,7 +23,7 @@ const parseError = (err: any) => {
     
     if (err.name == 'ValidationError') {
         parsed = err.errors;
-    } else if (err.code == '11000' && 'username' in err.errmsg) {
+    } else if (err.code == '11000' && err.errmsg.indexOf('username') > -1) {
         parsed.username = { message: 'This username already exists!'};
     } else {
         parsed.unhandled = err;
