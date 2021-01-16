@@ -7,9 +7,17 @@ function SignUpContainer() {
     const history = useHistory();
 
     const onSubmit = async (input: SignUpInputs) => {
-        await createUser(input);
-        alert('가입이 완료되었습니다.');
-        history.push('/login');
+        try {
+            const result = await createUser(input);
+            if (!result.success) {
+                throw new Error(result.message);
+            }
+            
+            alert('가입이 완료되었습니다.');
+            history.push('/login');
+        } catch (err) {
+            alert('가입 오류')
+        }
     }
 
     return (
