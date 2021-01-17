@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
-import NavBarContainer from '../containers/NavBarContainer';
 import UserListContainer from '../containers/UserListContainer';
 import RoomListContainer from '../containers/RoomListContainer';
 import MyProfileContainer from '../containers/MyProfileContainer';
@@ -14,35 +13,32 @@ const Wrapper = styled(Container)`
 
 function Home() {
     return (
-        <>
-            <NavBarContainer />
-            <Wrapper>
-                <Row>
-                    <Col
-                        md={3}
-                    >
-                        <UserListContainer />
-                    </Col>
-                    <Col
-                        md={9}
-                    >
-                        <RoomListContainer />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col
-                        md={3}
-                    >
-                        <MyProfileContainer />
-                    </Col>
-                    <Col
-                        md={9}
-                    >
-                        <ChatsContainer />
-                    </Col>
-                </Row>
-            </Wrapper>
-        </>
+        <Wrapper>
+            <Row>
+                <Col
+                    md={3}
+                >
+                    <UserListContainer />
+                </Col>
+                <Col
+                    md={9}
+                >
+                    <RoomListContainer />
+                </Col>
+            </Row>
+            <Row>
+                <Col
+                    md={3}
+                >
+                    <MyProfileContainer />
+                </Col>
+                <Col
+                    md={9}
+                >
+                    <ChatsContainer />
+                </Col>
+            </Row>
+        </Wrapper>
     );
 }
 
