@@ -1,9 +1,3 @@
-export interface JsonError {
-    username?: { message: string };
-    password?: { message: string };
-    unhandled?: any;
-};
-
 export const success = (data: any) => ({
     success: true,
     data: data,
@@ -14,20 +8,24 @@ export const success = (data: any) => ({
 export const error = (err: any, message?: string) => ({
     success: false,
     data: null,
-    error: (err) ? parseError(err) : null,
-    message: message
+    error: err && errorHandler(err),
+    message: message || err._message
 });
 
-const parseError = (err: any) => {
-    let parsed: JsonError = {};
+const errorHandler = (err: any) => {
+    let result: any = {};
     
-    if (err.name == 'ValidationError') {
-        parsed = err.errors;
-    } else if (err.code == '11000' && err.errmsg.indexOf('username') > -1) {
-        parsed.username = { message: 'This username already exists!'};
+    if (err.errors) {
+        result = err.errors;
+    } else if (err.code == '11000') {
+        if (err.errmsg.indexOf('username') > -1) {
+            result.username = { name: 'DuplicateError', message: '이미 등록된 아이디입니다.'};
+        } else if (err.errmsg.indexOf('nickname') > -1) {
+            result.nickname = { name: 'DuplicateError', message: '이미 등록된 닉네임입니다.'};
+        }
     } else {
-        parsed.unhandled = err;
+        result.unhandled = err;
     }
 
-    return parsed;
+    return result;
 };

@@ -24,14 +24,14 @@ router.post('/login', (req, res, next) => {
     const errors = {};
     if (!req.body.username) {
         isValid = false;
-        errors.username = { message: 'Username is required!' };
+        errors.username = { name: 'ValidationError', message: 'Username is required!' };
     }
     if (!req.body.password) {
         isValid = false;
-        errors.password = { message: 'Password is required!' };
+        errors.password = { name: 'ValidationError', message: 'Password is required!' };
     }
     if (!isValid)
-        return res.json(jsonUtil_1.error({ name: 'ValidationError', errors: errors }));
+        return res.json(jsonUtil_1.error({ errors: errors, _message: 'Login validation failed' }));
     next();
 }, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {

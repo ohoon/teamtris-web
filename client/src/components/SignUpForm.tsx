@@ -17,7 +17,7 @@ const SignUpButton = styled(Button)`
 `;
 
 interface SignUpFormProps {
-    onSubmit: (input: SignUpInputs) => void;
+    onSubmit: (input: SignUpInputs) => any;
 }
 
 function SignUpForm({ onSubmit }: SignUpFormProps) {
@@ -29,6 +29,8 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
         email: ''
     });
 
+    const [error, setError] = useState({ });
+
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInput(input => ({
             ...input,
@@ -36,13 +38,15 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
         }));
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        onSubmit(input);
+        const err = await onSubmit(input);
+        if (err) setError(err);
     };
 
     return (
         <SignUpFormBlock
+            noValidate
             onSubmit={handleSubmit}
         >
             <Form.Group
@@ -62,11 +66,20 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         type="text"
                         placeholder="아이디를 입력해 주세요"
                         aria-describedby="usernameHelpBlock"
+                        isInvalid={'username' in error}
                         onChange={onChange}
                     />
-                    <Form.Text id="usernameHelpBlock" muted>
-                        5~20자 영문, 숫자로 입력해 주세요.
-                    </Form.Text>
+                    {('username' in error) && (error['username']['name'] === 'DuplicateError') ?
+                        <Form.Control.Feedback
+                            type="invalid"
+                        >
+                            {error['username']['message']}
+                        </Form.Control.Feedback> :
+                        <Form.Text id="usernameHelpBlock" muted>
+                            5-16자 영문, 숫자로 입력해 주세요.
+                        </Form.Text>
+                    }
+
                 </Col>
             </Form.Group>
             <Form.Group
@@ -86,10 +99,11 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         type="password"
                         placeholder="비밀번호를 입력해 주세요"
                         aria-describedby="passwordHelpBlock"
+                        isInvalid={'password' in error}
                         onChange={onChange}
                     />
                     <Form.Text id="passwordHelpBlock" muted>
-                        8~20자의 영문, 숫자, 특수문자 조합으로 입력해 주세요.
+                        8-20자 영문, 숫자의 조합으로 입력해 주세요.
                     </Form.Text>
                 </Col>
             </Form.Group>
@@ -110,6 +124,7 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         type="password"
                         placeholder="한번 더 입력해 주세요"
                         aria-describedby="passwordConfirmHelpBlock"
+                        isInvalid={'passwordConfirm' in error}
                         onChange={onChange}
                     />
                     <Form.Text id="passwordConfirmHelpBlock" muted>
@@ -134,11 +149,19 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         type="text"
                         placeholder="닉네임을 입력해 주세요"
                         aria-describedby="nicknameHelpBlock"
+                        isInvalid={'nickname' in error}
                         onChange={onChange}
                     />
-                    <Form.Text id="nicknameHelpBlock" muted>
-                        2~20자 닉네임을 입력해 주세요.
-                    </Form.Text>
+                    {('nickname' in error) && (error['nickname']['name'] === 'DuplicateError') ?
+                        <Form.Control.Feedback
+                            type="invalid"
+                        >
+                            {error['nickname']['message']}
+                        </Form.Control.Feedback> :
+                        <Form.Text id="nicknameHelpBlock" muted>
+                            2-20자 닉네임을 입력해 주세요.
+                        </Form.Text>
+                    }
                 </Col>
             </Form.Group>
             <Form.Group
@@ -158,10 +181,11 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         type="email"
                         placeholder="example@example.com"
                         aria-describedby="emailHelpBlock"
+                        isInvalid={'email' in error}
                         onChange={onChange}
                     />
                     <Form.Text id="emailHelpBlock" muted>
-                        아이디/비밀번호 찾기에 사용되므로 정확하게 입력해 주세요.
+                        아이디 또는 비밀번호 찾기에 사용되므로 정확하게 입력해 주세요.
                     </Form.Text>
                 </Col>
             </Form.Group>

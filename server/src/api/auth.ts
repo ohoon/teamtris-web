@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { isLoggedIn } from '../lib/authUtil';
-import { error, JsonError, success } from '../lib/jsonUtil';
+import { error, success } from '../lib/jsonUtil';
 import UserModel from '../models/User';
 
 const router = express.Router();
@@ -10,19 +10,19 @@ const router = express.Router();
 router.post('/login',
   (req: Request, res: Response, next: NextFunction) => {
     let isValid = true;
-    const errors: JsonError = {};
+    const errors: any = {};
 
     if (!req.body.username) {
       isValid = false;
-      errors.username = { message: 'Username is required!' };
+      errors.username = { name: 'ValidationError', message: 'Username is required!' };
     }
 
     if (!req.body.password) {
       isValid = false;
-      errors.password = { message: 'Password is required!' };
+      errors.password = { name: 'ValidationError', message: 'Password is required!' };
     }
 
-    if (!isValid) return res.json(error({ name: 'ValidationError', errors: errors }));
+    if (!isValid) return res.json(error({ errors: errors, _message: 'Login validation failed' }));
 
     next();
   },

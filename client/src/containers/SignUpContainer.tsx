@@ -10,13 +10,13 @@ function SignUpContainer() {
         try {
             const result = await createUser(input);
             if (!result.success) {
-                throw new Error(result.message);
+                throw result.error;
             }
             
             alert('가입이 완료되었습니다.');
-            history.push('/login');
+            return history.push('/login');
         } catch (err) {
-            alert('가입 오류')
+            return err;
         }
     }
 
