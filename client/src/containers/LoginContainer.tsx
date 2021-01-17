@@ -10,7 +10,7 @@ function LoginContainer() {
         try {
             const result = await getAccessToken(input);
             if (!result.success) {
-                throw new Error(result.message);
+                throw result;
             }
 
             const accessToken = result.data;
@@ -18,7 +18,17 @@ function LoginContainer() {
             axios.defaults.headers.authorization = `Bearer ${accessToken}`;
             history.push('/');
         } catch (err) {
-            alert(`로그인에 실패하였습니다.`);
+            if (err.error) {
+                if (err.error.username) {
+                    return alert(err.error.username.message);
+                }
+
+                if (err.error.password) {
+                    return alert(err.error.password.message);
+                }
+            }
+
+            alert(err.message);
         }
     };
 
