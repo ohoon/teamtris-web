@@ -7,7 +7,7 @@ export interface LoginInputs {
 
 export async function getAccessToken(input: LoginInputs) {
     const response = await axios.post<any>(
-        '/auth/login',
+        'http://localhost:5005/auth/login',
         input
     );
     

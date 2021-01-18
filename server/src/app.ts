@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import cors from 'cors';
 
 import indexRouter from './api/index';
 import usersRouter from './api/users';
@@ -30,6 +31,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

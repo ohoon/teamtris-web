@@ -10,7 +10,7 @@ export interface SignUpInputs {
 
 export async function createUser(input: SignUpInputs) {
     const response = await axios.post<any>(
-        '/users',
+        'http://localhost:5005/users',
         input
     );
     
@@ -29,7 +29,7 @@ export interface Me extends User {
 
 export async function getMe() {
     const response = await axios.get<any>(
-        '/users/me'
+        'http://localhost:5005/users/me'
     );
 
     return response.data;
