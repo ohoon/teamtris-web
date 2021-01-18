@@ -7,6 +7,7 @@
 import app from '../app';
 import debugLib from 'debug';
 import { createServer } from 'http';
+import createSocketIoServer from '../socket/io';
 import ErrnoException = NodeJS.ErrnoException;
 const debug = debugLib('server:server');
 
@@ -22,6 +23,12 @@ app.set('port', port);
  */
 
 const server = createServer(app);
+
+/**
+ * Create Socket.io server.
+ */
+
+createSocketIoServer(server);
 
 /**
  * Listen on provided port, on all network interfaces.

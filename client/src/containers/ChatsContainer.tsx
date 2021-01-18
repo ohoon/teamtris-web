@@ -1,17 +1,18 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ChatBox from '../components/ChatBox';
 import ChatInput from '../components/ChatInput';
-import { ChatLog } from '../socket/chats';
-
-const chatTemplate: ChatLog = [];
+import { RootState } from '../modules';
 
 function ChatBoxContainer() {
+    const me = useSelector((state: RootState) => state.users.me.data);
+    
     return (
         <>
-            <ChatBox
-                chats={chatTemplate}
+            <ChatBox />
+            <ChatInput
+                sender={me ? me.nickname || me.username : null}
             />
-            <ChatInput />
         </>
     );
 }

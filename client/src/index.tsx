@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom'
 import axios from 'axios';
+import './socket';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';

@@ -10,6 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../app"));
 const debug_1 = __importDefault(require("debug"));
 const http_1 = require("http");
+const io_1 = __importDefault(require("../socket/io"));
 const debug = debug_1.default('server:server');
 /**
  * Get port from environment and store in Express.
@@ -20,6 +21,10 @@ app_1.default.set('port', port);
  * Create HTTP server.
  */
 const server = http_1.createServer(app_1.default);
+/**
+ * Create Socket.io server.
+ */
+io_1.default(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
