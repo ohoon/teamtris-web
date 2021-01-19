@@ -14,7 +14,7 @@
 * ~로그인 인증 및 인가 구현~ [2021-01-16]
 * ~패스워드 암호화 적용~ [2021-01-16]
 * ~클라이언트 입력 유효성 검증 구현~ [2021-01-17]
-* 소켓을 이용한 room, userlist, chat 구현 [30%]
+* 소켓을 이용한 room, userlist, chat 구현 [60%]
 * 테트리스 대기 화면 UI 구성
 * 테트리스 연습모드(solo) 구현
 * 테트리스 단식모드(1:1) 구현
@@ -145,3 +145,17 @@
  
 **Changed**
 * react의 package.json의 proxy 기능으로 CORS 문제를 해결했던 것을 express에서 cors 미들웨어로 대처하도록 수정
+
+### [2021-01-19]
+ 
+**Added**
+* 컴포넌트가 언마운트될때 socket listener도 제거되도록 구현
+* socket listener을 구현하여 로그인한 사용자들의 목록을 userlist에서 확인할 수 있게 구현함
+ 
+**Changed**
+* 각 리스트에 관련된 컴포넌트에서 list.map()의 각 item의 key를 map 함수 내에서 제공하는 index 인수값으로 변경
+* 기존에 profile 컴포넌트에서 getMeThunk를 dispatch하는 것을 NavBar에서 dispatch하도록 수정
+* socket 관련 코드를 컴포넌트가 아닌 컨테이너에서 정의하여 컴포넌트에게 값을 전달하도록 변경
+
+**Fixed**
+* getmeThunk가 처음 마운트될 때만 dispatch되어 로그인을 해도 즉시 me 상태가 변경되지 않던 문제를 해결
