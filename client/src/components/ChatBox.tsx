@@ -10,6 +10,7 @@ const ChatBoxBlock = styled.div`
     background: #EEEEEE;
     border: 3px solid #E8E8E8;
     font-size: 12px;
+    word-break: break-all;
     overflow-y: auto;
 `;
 
@@ -24,7 +25,11 @@ function ChatBox() {
         socket.on('receive chat', (chat: Chat) => {
             setChats(chats => chats.concat(chat));
             scrollToBottom();
-        })
+        });
+
+        return () => {
+            socket.removeListener('receive chat');
+        };
     }, []);
 
     return (
