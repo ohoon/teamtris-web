@@ -1,5 +1,5 @@
 export type ConnectedUser = {
-    socketId: number;
+    socketId: string;
     id: number;
     username: string;
     nickname: string | null;
