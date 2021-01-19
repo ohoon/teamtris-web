@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../modules';
-import { getMeThunk } from '../modules/users';
 import MyProfile from '../components/MyProfile';
 
 const LogInButtonBlock = styled.div`
@@ -17,11 +16,6 @@ const LogInButtonBlock = styled.div`
 
 function MyProfileContainer() {
     const { data } = useSelector((state: RootState) => state.users.me);
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-        dispatch(getMeThunk());
-    }, [dispatch]);
 
     const history = useHistory();
     const goToLogin = () => history.push('/login');
