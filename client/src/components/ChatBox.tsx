@@ -36,10 +36,9 @@ function ChatBox() {
         <ChatBoxBlock
             ref={chatBoxRef}
         >
-            {chats.map(chat =>
+            {chats.map((chat, index) =>
                 <ChatMsg
-                    key={chat.id}
-                    id={chat.id}
+                    key={index + 1}
                     sender={chat.sender}
                     message={chat.message}
                 />

@@ -25,13 +25,13 @@ function RoomList({ rooms }: RoomListProps) {
     
     return (
         <RoomListBlock>
-            {gridRooms.map(row =>
+            {gridRooms.map((row, index) =>
                 <Row
-                    key={row[0].id}
+                    key={index + 1}
                 >
-                    {row.map(col =>
+                    {row.map((col, index) =>
                         <Col
-                            key={col.id}
+                            key={index + 1}
                         >
                             <RoomItem
                                 id={col.id}

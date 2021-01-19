@@ -40,9 +40,9 @@ function UserList({ users }: UserListProps) {
             <ul
                 className="body"
             >
-                {users.map(user =>
+                {users.map((user, index) =>
                     <UserItem
-                        key={user.socketId}
+                        key={index + 1}
                         socketId={user.socketId}
                         id={user.id}
                         username={user.username}

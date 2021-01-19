@@ -7,11 +7,9 @@ function createSocketIoServer(server) {
             origin: 'http://localhost:5000'
         }
     });
-    let chatRef = 1;
     io.on('connection', (socket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
         socket.on('send chat', (chat) => {
-            chat.id = chatRef++;
             io.emit('receive chat', chat);
         });
     });
