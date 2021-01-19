@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { RefObject } from 'react';
 import styled from 'styled-components';
-import socket from '../socket';
-import { Chat, ChatLog } from '../socket/chats';
+import { ChatLog } from '../socket/chats';
 import ChatMsg from './ChatMsg';
 
 const ChatBoxBlock = styled.div`
@@ -14,24 +13,12 @@ const ChatBoxBlock = styled.div`
     overflow-y: auto;
 `;
 
-function ChatBox() {
-    const [chats, setChats] = useState<ChatLog>([]);
-    const chatBoxRef = useRef<HTMLDivElement>(null);
-    const scrollToBottom = () => {
-        chatBoxRef.current?.scrollTo({ top: chatBoxRef.current.scrollHeight })
-    };
+interface ChatBoxProps {
+    chats: ChatLog;
+    chatBoxRef: RefObject<HTMLDivElement>;
+}
 
-    useEffect(() => {
-        socket.on('receive chat', (chat: Chat) => {
-            setChats(chats => chats.concat(chat));
-            scrollToBottom();
-        });
-
-        return () => {
-            socket.removeListener('receive chat');
-        };
-    }, []);
-
+function ChatBox({ chats, chatBoxRef }: ChatBoxProps) {
     return (
         <ChatBoxBlock
             ref={chatBoxRef}

@@ -1,45 +1,42 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
-import socket from '../socket';
 
 interface ChatInputProps {
-    sender: string | null;
+    input: string;
+    onChange: (value: string) => void;
+    onSubmit: () => void;
+    disabled: boolean;
 }
 
-function ChatInput({ sender }: ChatInputProps) {
-    const [message, setMessage] = useState('');
-    const chat = {
-        sender: sender,
-        message: message
+function ChatInput({ input, onChange, onSubmit, disabled }: ChatInputProps) {
+
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        onChange(e.target.value);
     };
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setMessage(e.target.value);
-    };
-
-    const onSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        if (sender && message) socket.emit('send chat', chat);
-        setMessage('');
+        onSubmit();
     };
 
     return (
         <form
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
         >
             <InputGroup>
                 <FormControl
                     placeholder="메시지 보내기"
-                    value={message}
-                    onChange={onChange}
-                    disabled={!sender}
+                    value={input}
+                    onChange={handleChange}
+                    disabled={disabled}
                 />
                 <InputGroup.Append>
                     <Button
                         type="submit"
                         variant="outline-secondary"
-                        disabled={!sender}
+                        disabled={disabled}
                     >
                         전송
                     </Button>
