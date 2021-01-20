@@ -16,9 +16,12 @@ function createSocketIoServer(server) {
             user && users.push(user);
             io.emit('update userlist', users);
         });
-        socket.on('leave channel', (socketId) => {
-            users = users.filter(user => user.socketId !== socketId);
-            io.emit('update userlist', users);
+        socket.on('leave channel', () => {
+            const user = users.find(user => user.socketId === socket.id);
+            if (user) {
+                users.splice(users.indexOf(user), 1);
+                io.emit('update userlist', users);
+            }
         });
         socket.on('request roomlist', () => {
             socket.emit('update roomlist', rooms);
@@ -32,9 +35,13 @@ function createSocketIoServer(server) {
         socket.on('send chat', (chat) => {
             io.emit('receive chat', chat);
         });
-    });
-    io.on('disconnection', () => {
-        console.log('연결 해제');
+        socket.on('disconnect', () => {
+            const user = users.find(user => user.socketId === socket.id);
+            if (user) {
+                users.splice(users.indexOf(user), 1);
+                socket.broadcast.emit('update userlist', users);
+            }
+        });
     });
 }
 exports.default = createSocketIoServer;

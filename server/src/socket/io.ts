@@ -49,9 +49,13 @@ export default function createSocketIoServer(server: Server) {
             io.emit('update userlist', users);
         });
 
-        socket.on('leave channel', (socketId: string) => {
-            users = users.filter(user => user.socketId !== socketId);
-            io.emit('update userlist', users);
+        socket.on('leave channel', () => {
+            const user = users.find(user => user.socketId === socket.id);
+
+            if (user) {
+                users.splice(users.indexOf(user), 1);
+                io.emit('update userlist', users);
+            }
         });
 
         socket.on('request roomlist', () => {
@@ -75,9 +79,15 @@ export default function createSocketIoServer(server: Server) {
         socket.on('send chat', (chat: Chat) => {
             io.emit('receive chat', chat);
         });
+
+        socket.on('disconnect', () => {
+            const user = users.find(user => user.socketId === socket.id);
+
+            if (user) {
+                users.splice(users.indexOf(user), 1);
+                socket.broadcast.emit('update userlist', users);
+            }
+        });
     });
 
-    io.on('disconnection', () => {
-        console.log('연결 해제');
-    })
 }

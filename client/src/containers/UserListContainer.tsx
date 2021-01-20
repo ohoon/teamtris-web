@@ -21,7 +21,7 @@ function UserListContainer() {
         socket.emit('join channel', user);
 
         return () => {
-            me && socket.emit('leave channel', socket.id);
+            me && socket.emit('leave channel');
         };
     }, [me]);
 
@@ -29,11 +29,9 @@ function UserListContainer() {
         socket.on('update userlist', (users: ConnectedUsers) => {
             setUsers(users);
         });
-        window.addEventListener('beforeunload', () => socket.emit('leave channel', socket.id));
 
         return () => {
             socket.removeListener('update userlist');
-            window.removeEventListener('beforeunload', () => socket.emit('leave channel', socket.id));
         }
     }, []);
 
