@@ -4,7 +4,7 @@ import { Me } from '../api/users';
 
 const MyProfileBlock = styled.div`
     display: flex;
-    height: 200px;
+    height: 100%;
     padding: 16px 10px 16px 10px;
     border: 3px solid #E8E8E8;
     background: #EEEEEE;

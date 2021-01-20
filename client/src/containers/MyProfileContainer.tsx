@@ -7,7 +7,7 @@ import { RootState } from '../modules';
 import MyProfile from '../components/MyProfile';
 
 const LogInButtonBlock = styled.div`
-    height: 200px;
+    height: 100%;
     padding: 32px;
     border: 3px solid #E8E8E8;
     background: #EEEEEE;

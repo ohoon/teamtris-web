@@ -65,6 +65,7 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         name="username"
                         type="text"
                         placeholder="아이디를 입력해 주세요"
+                        value={input.username}
                         aria-describedby="usernameHelpBlock"
                         isInvalid={'username' in error}
                         onChange={onChange}
@@ -98,6 +99,7 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         name="password"
                         type="password"
                         placeholder="비밀번호를 입력해 주세요"
+                        value={input.password}
                         aria-describedby="passwordHelpBlock"
                         isInvalid={'password' in error}
                         onChange={onChange}
@@ -123,6 +125,7 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         name="passwordConfirm"
                         type="password"
                         placeholder="한번 더 입력해 주세요"
+                        value={input.passwordConfirm}
                         aria-describedby="passwordConfirmHelpBlock"
                         isInvalid={'passwordConfirm' in error}
                         onChange={onChange}
@@ -148,6 +151,7 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         name="nickname"
                         type="text"
                         placeholder="닉네임을 입력해 주세요"
+                        value={input.nickname}
                         aria-describedby="nicknameHelpBlock"
                         isInvalid={'nickname' in error}
                         onChange={onChange}
@@ -180,6 +184,7 @@ function SignUpForm({ onSubmit }: SignUpFormProps) {
                         name="email"
                         type="email"
                         placeholder="example@example.com"
+                        value={input.email}
                         aria-describedby="emailHelpBlock"
                         isInvalid={'email' in error}
                         onChange={onChange}

@@ -4,6 +4,8 @@ import { ConnectedUsers } from '../socket/users';
 import UserItem from './UserItem';
 
 const UserListBlock = styled.div`
+    height: 100%;
+    
     .head {
         padding: 1px 10px 1px 10px;
         border: 3px solid #E8E8E8;
@@ -13,7 +15,7 @@ const UserListBlock = styled.div`
     }
     
     .body {
-        height: 400px;
+        height: 100%;
         margin: 0 auto;
         padding: 6px 10px 6px 10px;
         border: 3px solid #E8E8E8;
