@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
+import DialogContainer from '../containers/DialogContainer';
 import UserListContainer from '../containers/UserListContainer';
 import RoomListContainer from '../containers/RoomListContainer';
 import MyProfileContainer from '../containers/MyProfileContainer';
@@ -38,6 +39,7 @@ function Home() {
                     <ChatsContainer />
                 </Col>
             </Row>
+            <DialogContainer />
         </Wrapper>
     );
 }
