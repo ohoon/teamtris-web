@@ -1,12 +1,18 @@
+export type RoomCreateInputs = {
+    title: string;
+    password: string;
+    max: 2 | 4 | 8;
+    mode: 'single' | 'double';
+};
+
 export type Room = {
     id: number;
     title: string;
-    password: string | null;
-    participant: number[];
+    password: string;
+    participant: string[];
     current: number;
-    max: number;
-    mode: string;
-    isLock: boolean;
+    max: 2 | 4 | 8;
+    mode: 'single' | 'double';
 };
 
 export type Rooms = Room[];

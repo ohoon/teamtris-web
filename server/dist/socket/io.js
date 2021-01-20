@@ -8,6 +8,8 @@ function createSocketIoServer(server) {
         }
     });
     let users = [];
+    let rooms = [];
+    let roomRef = 1;
     io.on('connection', (socket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
         socket.on('join channel', (user) => {
@@ -17,6 +19,15 @@ function createSocketIoServer(server) {
         socket.on('leave channel', (socketId) => {
             users = users.filter(user => user.socketId !== socketId);
             io.emit('update userlist', users);
+        });
+        socket.on('request roomlist', () => {
+            socket.emit('update roomlist', rooms);
+        });
+        socket.on('create room', (input) => {
+            console.log(io.sockets.allSockets());
+            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', participant: [socket.id], current: 1 });
+            rooms.push(room);
+            io.emit('update roomlist', rooms);
         });
         socket.on('send chat', (chat) => {
             io.emit('receive chat', chat);

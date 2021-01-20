@@ -16,9 +16,11 @@ interface RoomItemProps extends Room {
 
 }
 
-function RoomItem({ title, current, max }: RoomItemProps) {
+function RoomItem({ id, title, current, max, mode }: RoomItemProps) {
     return (
         <RoomItemBlock>
+            [{id}]
+            [{mode}]
             {title}
             <br />
             {current} / {max}
