@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 
 function DialogContainer() {
     const { roomCreate } = useSelector((state: RootState) => state.dialog);
+    const me = useSelector((state: RootState) => state.users.me.data);
     const dispatch = useDispatch();
 
     const onClose = (name: string) => {
@@ -22,7 +23,14 @@ function DialogContainer() {
     };
 
     const createRoom = (input: RoomCreateInputs) => {
-        socket.emit('create room', input);
+        const user = me && {
+            socketId: socket.id,
+            id: me.id,
+            username: me.username,
+            nickname: me.nickname
+        };
+
+        socket.emit('request room', input, user);
     };
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Rooms } from '../socket/rooms';
+import { Rooms } from '../../../server/src/socket/io';
 import RoomItem from '../components/RoomItem';
 
 const RoomListBlock = styled.div`
@@ -60,12 +60,13 @@ function RoomList({ rooms, onRoomCreate }: RoomListProps) {
                         {row.map((col, index) =>
                             <Col
                                 key={index + 1}
+                                md={6}
                             >
                                 <RoomItem
                                     id={col.id}
                                     title={col.title}
                                     password={col.password}
-                                    participant={col.participant}
+                                    players={col.players}
                                     current={col.current}
                                     max={col.max}
                                     mode={col.mode}

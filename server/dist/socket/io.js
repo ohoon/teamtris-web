@@ -26,11 +26,11 @@ function createSocketIoServer(server) {
         socket.on('request roomlist', () => {
             socket.emit('update roomlist', rooms);
         });
-        socket.on('create room', (input) => {
-            console.log(io.sockets.allSockets());
-            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', participant: [socket.id], current: 1 });
+        socket.on('request room', (input, user) => {
+            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [user], current: 1 });
             rooms.push(room);
-            io.emit('update roomlist', rooms);
+            socket.emit('create room', room);
+            socket.broadcast.emit('update roomlist', rooms);
         });
         socket.on('send chat', (chat) => {
             io.emit('receive chat', chat);

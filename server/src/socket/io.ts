@@ -8,15 +8,23 @@ interface ConnectedUser {
     nickname: string | null;
 }
 
-interface Room {
+export interface Player extends ConnectedUser {
+
+}
+
+export type Players = Player[];
+
+export interface Room {
     id: number;
     title: string;
     password: string;
-    participant: string[];
+    players: Player[];
     current: number;
     max: 2 | 4 | 8;
     mode: 'single' | 'double';
 }
+
+export type Rooms = Room[];
 
 interface RoomCreateInputs {
     title: string;
@@ -62,18 +70,18 @@ export default function createSocketIoServer(server: Server) {
             socket.emit('update roomlist', rooms);
         });
 
-        socket.on('create room', (input: RoomCreateInputs) => {
-            console.log(io.sockets.allSockets())
+        socket.on('request room', (input: RoomCreateInputs, user: Player) => {
             const room = {
                 ...input,
                 id: roomRef++,
                 title: input.title || '테트리스 같이 해요',
-                participant: [socket.id],
+                players: [user],
                 current: 1
             };
 
             rooms.push(room);
-            io.emit('update roomlist', rooms);
+            socket.emit('create room', room);
+            socket.broadcast.emit('update roomlist', rooms);
         });
 
         socket.on('send chat', (chat: Chat) => {

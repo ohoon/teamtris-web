@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Room } from '../socket/rooms';
+import { Room } from '../../../server/src/socket/io';
 
 const RoomItemBlock = styled.div`
     display: flex;
