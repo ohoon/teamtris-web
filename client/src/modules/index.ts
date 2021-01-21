@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import users from './users';
+import room from './room';
 import dialog from './dialog';
 
 const rootReducer = combineReducers({
     users,
+    room,
     dialog
 });
 
