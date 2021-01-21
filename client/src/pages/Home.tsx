@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { RootState } from '../modules';
 import DialogContainer from '../containers/DialogContainer';
+import RoomLobbyContainer from '../containers/RoomLobbyContainer';
 import UserListContainer from '../containers/UserListContainer';
 import RoomListContainer from '../containers/RoomListContainer';
 import MyProfileContainer from '../containers/MyProfileContainer';
@@ -13,19 +16,32 @@ const Wrapper = styled(Container)`
 `;
 
 function Home() {
+    const room = useSelector((state: RootState) => state.room);
+
     return (
         <Wrapper>
             <Row>
-                <Col
-                    md={3}
-                >
-                    <UserListContainer />
-                </Col>
-                <Col
-                    md={9}
-                >
-                    <RoomListContainer />
-                </Col>
+                {room ?
+                    <>
+                        <Col
+                            md={12}
+                        >
+                            <RoomLobbyContainer />
+                        </Col>
+                    </> :
+                    <>
+                        <Col
+                            md={3}
+                        >
+                            <UserListContainer />
+                        </Col>
+                        <Col
+                            md={9}
+                        >
+                            <RoomListContainer />
+                        </Col>
+                    </>
+                }
             </Row>
             <Row>
                 <Col
