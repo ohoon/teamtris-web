@@ -23,14 +23,14 @@ function DialogContainer() {
     };
 
     const onCreateRoom = (input: CreateRoomInputs) => {
-        const user = me && {
+        const player = me && {
             socketId: socket.id,
             _id: me._id,
             username: me.username,
             nickname: me.nickname
         };
 
-        socket.emit('request room', input, user);
+        socket.emit('request room', input, player);
     };
 
     return (

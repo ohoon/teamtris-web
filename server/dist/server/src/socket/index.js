@@ -12,7 +12,6 @@ function createSocketIoServer(server) {
     let roomRef = 1;
     io.on('connection', (socket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
-        console.log(`현재 rooms: ${rooms}`);
         socket.on('join channel', (user) => {
             user && users.push(user);
             io.emit('update userlist', users);
@@ -27,22 +26,40 @@ function createSocketIoServer(server) {
         socket.on('request roomlist', () => {
             socket.emit('update roomlist', rooms);
         });
-        socket.on('request room', (input, user) => {
-            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [user], current: 1 });
+        socket.on('request room', (input, player) => {
+            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [player], current: 1 });
             rooms.push(room);
+            socket.currentRoomId = room.id;
             socket.emit('create room', room);
             socket.broadcast.emit('update roomlist', rooms);
         });
-        socket.on('leave room', (roomId) => {
+        socket.on('join room', (roomId, player) => {
             const room = rooms.find(room => room.id === roomId);
+            if (room) {
+                const roomIndex = rooms.indexOf(room);
+                rooms[roomIndex].players.push(player);
+                rooms[roomIndex].current = rooms[roomIndex].players.length;
+                socket.currentRoomId = room.id;
+                socket.emit('enter room', rooms[roomIndex]);
+                socket.broadcast.emit('update room', rooms[roomIndex]);
+            }
+        });
+        socket.on('leave room', () => {
+            const room = rooms.find(room => room.id === socket.currentRoomId);
             if (room) {
                 const roomIndex = rooms.indexOf(room);
                 const players = room.players;
                 const player = players.find(player => player.socketId === socket.id);
                 if (player) {
-                    rooms[roomIndex].players.splice(players.indexOf(player), 1);
-                    rooms[roomIndex].current = rooms[roomIndex].players.length;
-                    socket.broadcast.emit('update room', rooms[roomIndex]);
+                    if (players.length > 1) {
+                        rooms[roomIndex].players.splice(players.indexOf(player), 1);
+                        rooms[roomIndex].current = rooms[roomIndex].players.length;
+                        socket.broadcast.emit('update room', rooms[roomIndex]);
+                    }
+                    else {
+                        rooms.splice(roomIndex, 1);
+                    }
+                    socket.currentRoomId = null;
                     io.emit('update roomlist', rooms);
                 }
             }
@@ -55,6 +72,24 @@ function createSocketIoServer(server) {
             if (user) {
                 users.splice(users.indexOf(user), 1);
                 socket.broadcast.emit('update userlist', users);
+            }
+            const room = rooms.find(room => room.id === socket.currentRoomId);
+            if (room) {
+                const roomIndex = rooms.indexOf(room);
+                const players = room.players;
+                const player = players.find(player => player.socketId === socket.id);
+                if (player) {
+                    if (players.length > 1) {
+                        rooms[roomIndex].players.splice(players.indexOf(player), 1);
+                        rooms[roomIndex].current = rooms[roomIndex].players.length;
+                        socket.broadcast.emit('update room', rooms[roomIndex]);
+                    }
+                    else {
+                        rooms.splice(roomIndex, 1);
+                    }
+                    socket.currentRoomId = null;
+                    socket.broadcast.emit('update roomlist', rooms);
+                }
             }
         });
     });

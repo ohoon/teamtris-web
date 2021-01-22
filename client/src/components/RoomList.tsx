@@ -34,10 +34,11 @@ const CreateRoomButton = styled(Button)`
 
 interface RoomListProps {
     rooms: Rooms;
+    onJoinRoom: (roomId: number) => void;
     onCreateRoom: () => void;
 }
 
-function RoomList({ rooms, onCreateRoom }: RoomListProps) {
+function RoomList({ rooms, onJoinRoom, onCreateRoom }: RoomListProps) {
     return (
         <RoomListBlock>
             <div
@@ -70,6 +71,7 @@ function RoomList({ rooms, onCreateRoom }: RoomListProps) {
                                 current={room.current}
                                 max={room.max}
                                 mode={room.mode}
+                                onJoinRoom={onJoinRoom}
                             />
                         </Col>
                     )}

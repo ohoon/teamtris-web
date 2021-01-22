@@ -10,6 +10,13 @@ function RoomLobbyContainer() {
     const room = useSelector((state: RootState) => state.room);
     const dispatch = useDispatch();
 
+    const onLeaveRoom = () => {
+        if (room) {
+            socket.emit('leave room');
+            dispatch(setRoom(null));
+        }
+    };
+
     useEffect(() => {
         socket.on('update room', (room: Room) => {
             dispatch(setRoom(room));
@@ -18,8 +25,7 @@ function RoomLobbyContainer() {
         return () => {
             socket.removeListener('update room');
         }
-    }, [dispatch]);
-
+    }, [dispatch])
     return (
         <>
             {room &&            
@@ -31,6 +37,7 @@ function RoomLobbyContainer() {
                     current={room.current}
                     max={room.max}
                     mode={room.mode}
+                    onLeaveRoom={onLeaveRoom}
                 />
             }
         </>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { Room } from '../../../server/src/socket/rooms';
 import RoomLobbySlot from './RoomLobbySlot';
 
@@ -22,13 +22,21 @@ const RoomLobbyBlock = styled.div`
         overflow-x: hidden;
         overflow-y: auto;
     }
+
+    .menu {
+        margin: auto;
+    }
+`;
+
+const LeaveRoomButton = styled(Button)`
+    
 `;
 
 interface RoomLobbyProps extends Room {
-    
+    onLeaveRoom: () => void;
 }
 
-function RoomLobby({ id, title, players, current, max, mode }: RoomLobbyProps) {
+function RoomLobby({ id, title, players, current, max, mode, onLeaveRoom }: RoomLobbyProps) {
     return (
         <RoomLobbyBlock>
             <div
@@ -62,6 +70,17 @@ function RoomLobby({ id, title, players, current, max, mode }: RoomLobbyProps) {
                         </Col>
                     )}
                 </Row>
+            </div>
+            <div
+                className="menu"
+            >
+                <LeaveRoomButton
+                    variant="dark"
+                    size="sm"
+                    onClick={onLeaveRoom}
+                >
+                    나가기
+                </LeaveRoomButton>
             </div>
         </RoomLobbyBlock>
     );
