@@ -18,7 +18,7 @@ function RoomLobbyContainer() {
         return () => {
             socket.removeListener('update room');
         }
-    }, [])
+    }, [dispatch])
     return (
         <>
             {room &&            

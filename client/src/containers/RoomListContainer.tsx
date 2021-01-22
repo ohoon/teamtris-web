@@ -30,7 +30,7 @@ function RoomListContainer() {
             socket.removeListener('update roomlist');
             socket.removeListener('create room');
         };
-    }, []);
+    }, [dispatch]);
     
     return (
         <RoomList
