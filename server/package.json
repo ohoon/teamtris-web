@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"pm2 start ./dist/bin/www.js --watch --no-daemon\"",
+    "start": "tsc && concurrently \"tsc -w\" \"pm2 start ./dist/server/src/bin/www.js --watch --no-daemon\"",
     "stop": "pm2 stop ./dist/bin/www.js"
   },
   "dependencies": {

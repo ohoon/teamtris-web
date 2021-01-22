@@ -12,6 +12,7 @@ function createSocketIoServer(server) {
     let roomRef = 1;
     io.on('connection', (socket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
+        console.log(`현재 rooms: ${rooms}`);
         socket.on('join channel', (user) => {
             user && users.push(user);
             io.emit('update userlist', users);
@@ -31,6 +32,20 @@ function createSocketIoServer(server) {
             rooms.push(room);
             socket.emit('create room', room);
             socket.broadcast.emit('update roomlist', rooms);
+        });
+        socket.on('leave room', (roomId) => {
+            const room = rooms.find(room => room.id === roomId);
+            if (room) {
+                const roomIndex = rooms.indexOf(room);
+                const players = room.players;
+                const player = players.find(player => player.socketId === socket.id);
+                if (player) {
+                    rooms[roomIndex].players.splice(players.indexOf(player), 1);
+                    rooms[roomIndex].current = rooms[roomIndex].players.length;
+                    socket.broadcast.emit('update room', rooms[roomIndex]);
+                    io.emit('update roomlist', rooms);
+                }
+            }
         });
         socket.on('send chat', (chat) => {
             io.emit('receive chat', chat);
