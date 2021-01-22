@@ -20,37 +20,51 @@ function Home() {
 
     return (
         <Wrapper>
-            <Row>
+            <Row
+                noGutters
+            >
                 {room ?
                     <>
-                        <Col
-                            md={12}
-                        >
+                        <Col>
                             <RoomLobbyContainer />
                         </Col>
                     </> :
                     <>
                         <Col
+                            lg={3}
                             md={3}
+                            sm={3}
+                            xs={3}
                         >
                             <UserListContainer />
                         </Col>
                         <Col
+                            lg={9}
                             md={9}
+                            sm={9}
+                            xs={9}
                         >
                             <RoomListContainer />
                         </Col>
                     </>
                 }
             </Row>
-            <Row>
+            <Row
+                noGutters
+            >
                 <Col
+                    lg={3}
                     md={3}
+                    sm={3}
+                    xs={3}
                 >
                     <MyProfileContainer />
                 </Col>
                 <Col
+                    lg={9}
                     md={9}
+                    sm={9}
+                    xs={9}
                 >
                     <ChatsContainer />
                 </Col>

@@ -38,11 +38,6 @@ interface RoomListProps {
 }
 
 function RoomList({ rooms, onRoomCreate }: RoomListProps) {
-    const gridRooms: Rooms[] = [];
-    for (let i = 0; i < rooms.length; i= i + 2) {
-        gridRooms.push(rooms.slice(i, i + 2));
-    }
-    
     return (
         <RoomListBlock>
             <div
@@ -53,28 +48,32 @@ function RoomList({ rooms, onRoomCreate }: RoomListProps) {
             <div
                 className="body"
             >
-                {gridRooms.map((row, index) =>
-                    <Row
-                        key={index + 1}
-                    >
-                        {row.map((col, index) =>
-                            <Col
-                                key={index + 1}
-                                md={6}
-                            >
-                                <RoomItem
-                                    id={col.id}
-                                    title={col.title}
-                                    password={col.password}
-                                    players={col.players}
-                                    current={col.current}
-                                    max={col.max}
-                                    mode={col.mode}
-                                />
-                            </Col>
-                        )}
-                    </Row>
-                )}
+                <Row
+                    lg={2}
+                    md={2}
+                    sm={1}
+                    xs={1}
+                >
+                    {rooms.map((room, index) =>
+                        <Col
+                            key={index + 1}
+                            lg={6}
+                            md={6}
+                            sm={12}
+                            xs={12}
+                        >
+                            <RoomItem
+                                id={room.id}
+                                title={room.title}
+                                password={room.password}
+                                players={room.players}
+                                current={room.current}
+                                max={room.max}
+                                mode={room.mode}
+                            />
+                        </Col>
+                    )}
+                </Row>
             </div>
             <div
                 className="menu"
