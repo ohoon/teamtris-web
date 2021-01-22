@@ -3,7 +3,7 @@ import { SHOW_DIALOG, HIDE_DIALOG } from './actions';
 import { DialogAction, DialogState } from './types';
 
 const initialState = {
-    roomCreate: false
+    createRoom: false
 };
 
 const reducer = createReducer<DialogState, DialogAction>(initialState, {

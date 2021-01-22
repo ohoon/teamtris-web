@@ -1,4 +1,4 @@
-export interface RoomCreateInputs {
+export interface CreateRoomInputs {
     title: string;
     password: string;
     max: 2 | 4 | 8;

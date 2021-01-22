@@ -3,7 +3,7 @@ import { Server as socketIO, Socket } from 'socket.io';
 import { ConnectedUser, ConnectedUsers, Player } from './users';
 import { Rooms } from './rooms';
 import { Chat } from './chats';
-import { RoomCreateInputs } from '../../../client/src/socket/rooms';
+import { CreateRoomInputs } from '../../../client/src/socket/rooms';
 
 export default function createSocketIoServer(server: Server) {
     const io = new socketIO(server, {
@@ -37,7 +37,7 @@ export default function createSocketIoServer(server: Server) {
             socket.emit('update roomlist', rooms);
         });
 
-        socket.on('request room', (input: RoomCreateInputs, user: Player) => {
+        socket.on('request room', (input: CreateRoomInputs, user: Player) => {
             const room = {
                 ...input,
                 id: roomRef++,

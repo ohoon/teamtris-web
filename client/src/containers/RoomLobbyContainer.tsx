@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
+import { setRoom } from '../modules/room';
 import socket from '../socket';
 import RoomLobby from '../components/RoomLobby';
 import { Room } from '../../../server/src/socket/rooms';
-import { setRoom } from '../modules/room';
 
 function RoomLobbyContainer() {
     const room = useSelector((state: RootState) => state.room);
@@ -18,7 +18,8 @@ function RoomLobbyContainer() {
         return () => {
             socket.removeListener('update room');
         }
-    }, [dispatch])
+    }, [dispatch]);
+
     return (
         <>
             {room &&            

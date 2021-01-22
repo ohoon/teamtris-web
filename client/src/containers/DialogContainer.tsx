@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
-import RoomCreateDialog from '../components/RoomCreateDialog';
+import CreateRoomDialog from '../components/CreateRoomDialog';
 import { hideDialog } from '../modules/dialog';
-import { RoomCreateInputs } from '../socket/rooms';
+import { CreateRoomInputs } from '../socket/rooms';
 
 const Wrapper = styled.div`
     position: absolute;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 `;
 
 function DialogContainer() {
-    const { roomCreate } = useSelector((state: RootState) => state.dialog);
+    const { createRoom } = useSelector((state: RootState) => state.dialog);
     const me = useSelector((state: RootState) => state.users.me.data);
     const dispatch = useDispatch();
 
@@ -22,7 +22,7 @@ function DialogContainer() {
         dispatch(hideDialog(name));
     };
 
-    const createRoom = (input: RoomCreateInputs) => {
+    const onCreateRoom = (input: CreateRoomInputs) => {
         const user = me && {
             socketId: socket.id,
             _id: me._id,
@@ -35,10 +35,10 @@ function DialogContainer() {
 
     return (
         <Wrapper>
-            {roomCreate &&
-                <RoomCreateDialog
+            {createRoom &&
+                <CreateRoomDialog
                     onClose={onClose}
-                    onSubmit={createRoom}
+                    onSubmit={onCreateRoom}
                 />
             }
         </Wrapper>

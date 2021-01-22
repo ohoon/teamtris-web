@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { RoomCreateInputs } from '../socket/rooms';
+import { CreateRoomInputs } from '../socket/rooms';
 
 const DialogBlock = styled.div`
     border: 3px solid #E8E8E8;
@@ -43,13 +43,13 @@ const CreateButton = styled(Button)`
     margin-bottom: 0;
 `;
 
-interface RoomCreateDialogProps {
+interface CreateRoomDialogProps {
     onClose: (name: string) => void;
-    onSubmit: (input: RoomCreateInputs) => void;
+    onSubmit: (input: CreateRoomInputs) => void;
 }
 
-function RoomCreateDialog({ onClose, onSubmit }: RoomCreateDialogProps) {
-    const [input, setInput] = useState<RoomCreateInputs>({
+function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
+    const [input, setInput] = useState<CreateRoomInputs>({
         title: '',
         password: '',
         max: 8,
@@ -64,7 +64,7 @@ function RoomCreateDialog({ onClose, onSubmit }: RoomCreateDialogProps) {
     };
 
     const handleClose = () => {
-        onClose('roomCreate');
+        onClose('createRoom');
     }
 
     const handleSubmit = (e: FormEvent) => {
@@ -194,4 +194,4 @@ function RoomCreateDialog({ onClose, onSubmit }: RoomCreateDialogProps) {
     );
 }
 
-export default RoomCreateDialog;
+export default CreateRoomDialog;

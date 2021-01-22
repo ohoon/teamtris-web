@@ -16,13 +16,13 @@ function RoomListContainer() {
 
     const [rooms, setRooms] = useState<Room[]>([]);
 
-    const onRoomCreate = () => {
+    const onCreateRoom = () => {
         if (!me) {
             alert('로그인이 필요합니다.');
             return history.push('/login');
         }
 
-        dispatch(showDialog('roomCreate'));
+        dispatch(showDialog('createRoom'));
     };
 
     useEffect(() => {
@@ -45,7 +45,7 @@ function RoomListContainer() {
     return (
         <RoomList
             rooms={rooms}
-            onRoomCreate={onRoomCreate}
+            onCreateRoom={onCreateRoom}
         />
     );
 }

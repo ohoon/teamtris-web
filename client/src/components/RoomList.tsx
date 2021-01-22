@@ -28,16 +28,16 @@ const RoomListBlock = styled.div`
     }
 `;
 
-const RoomCreateButton = styled(Button)`
+const CreateRoomButton = styled(Button)`
     
 `;
 
 interface RoomListProps {
     rooms: Rooms;
-    onRoomCreate: () => void;
+    onCreateRoom: () => void;
 }
 
-function RoomList({ rooms, onRoomCreate }: RoomListProps) {
+function RoomList({ rooms, onCreateRoom }: RoomListProps) {
     return (
         <RoomListBlock>
             <div
@@ -78,13 +78,13 @@ function RoomList({ rooms, onRoomCreate }: RoomListProps) {
             <div
                 className="menu"
             >
-                <RoomCreateButton
+                <CreateRoomButton
                     variant="dark"
                     size="sm"
-                    onClick={onRoomCreate}
+                    onClick={onCreateRoom}
                 >
                     방 만들기
-                </RoomCreateButton>
+                </CreateRoomButton>
             </div>
         </RoomListBlock>
     );

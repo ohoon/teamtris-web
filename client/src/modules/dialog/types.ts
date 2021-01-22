@@ -2,7 +2,7 @@ import { ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 
 export type DialogState = {
-    roomCreate: boolean;
+    createRoom: boolean;
 };
 
 export type DialogAction = ActionType<typeof actions>;
