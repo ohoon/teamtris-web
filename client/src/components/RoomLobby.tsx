@@ -56,7 +56,7 @@ function RoomLobby({ id, title, players, current, max, mode }: RoomLobbyProps) {
                             >
                                 <RoomLobbySlot
                                     socketId={col.socketId}
-                                    id={col.id}
+                                    _id={col._id}
                                     username={col.username}
                                     nickname={col.nickname}
                                 />

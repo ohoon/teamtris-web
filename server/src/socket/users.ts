@@ -1,6 +1,6 @@
 export interface ConnectedUser {
     socketId: string;
-    id: number;
+    _id: string;
     username: string;
     nickname: string;
 }

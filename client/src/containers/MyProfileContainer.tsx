@@ -37,7 +37,7 @@ function MyProfileContainer() {
 
     return (
         <MyProfile
-            id={data.id}
+            _id={data._id}
             username={data.username}
             nickname={data.nickname}
         />

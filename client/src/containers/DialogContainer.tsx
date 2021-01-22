@@ -25,7 +25,7 @@ function DialogContainer() {
     const createRoom = (input: RoomCreateInputs) => {
         const user = me && {
             socketId: socket.id,
-            id: me.id,
+            _id: me._id,
             username: me.username,
             nickname: me.nickname
         };

@@ -18,7 +18,7 @@ export async function createUser(input: SignUpInputs) {
 }
 
 export interface User {
-    id: number;
+    _id: string;
     username: string;
     nickname: string;
 }

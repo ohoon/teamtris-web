@@ -15,11 +15,9 @@ interface RoomLobbySlotProps extends Player {
 
 }
 
-function RoomLobbySlot({ socketId, id, username, nickname }: RoomLobbySlotProps) {
+function RoomLobbySlot({ socketId, username, nickname }: RoomLobbySlotProps) {
     return (
         <RoomLobbySlotBlock>
-            [{id}]
-            <br />
             {username}({nickname})
         </RoomLobbySlotBlock>
     );
