@@ -1,42 +1,9 @@
 import { Server } from 'http';
 import { Server as socketIO, Socket } from 'socket.io';
-
-interface ConnectedUser {
-    socketId: string;
-    id: number;
-    username: string;
-    nickname: string | null;
-}
-
-export interface Player extends ConnectedUser {
-
-}
-
-export type Players = Player[];
-
-export interface Room {
-    id: number;
-    title: string;
-    password: string;
-    players: Player[];
-    current: number;
-    max: 2 | 4 | 8;
-    mode: 'single' | 'double';
-}
-
-export type Rooms = Room[];
-
-interface RoomCreateInputs {
-    title: string;
-    password: string;
-    max: 2 | 4 | 8;
-    mode: 'single' | 'double';
-}
-
-interface Chat {
-    sender: string;
-    message: string;
-}
+import { ConnectedUser, ConnectedUsers, Player } from './users';
+import { Rooms } from './rooms';
+import { Chat } from './chats';
+import { RoomCreateInputs } from '../../../client/src/socket/rooms';
 
 export default function createSocketIoServer(server: Server) {
     const io = new socketIO(server, {
@@ -45,8 +12,8 @@ export default function createSocketIoServer(server: Server) {
         }
     });
 
-    let users: ConnectedUser[] = [];
-    let rooms: Room[] = [];
+    let users: ConnectedUsers = [];
+    let rooms: Rooms = [];
     let roomRef = 1;
 
     io.on('connection', (socket: Socket) => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../modules';
 import socket from '../socket';
 import RoomCreateDialog from '../components/RoomCreateDialog';
-import { RootState } from '../modules';
 import { hideDialog } from '../modules/dialog';
 import { RoomCreateInputs } from '../socket/rooms';
 

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
 import RoomLobby from '../components/RoomLobby';
-import { Room } from '../../../server/src/socket/io';
+import { Room } from '../../../server/src/socket/rooms';
 import { setRoom } from '../modules/room';
 
 function RoomLobbyContainer() {

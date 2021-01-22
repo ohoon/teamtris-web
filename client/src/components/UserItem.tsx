@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectedUser } from '../socket/users';
+import { ConnectedUser } from '../../../server/src/socket/users';
 
 interface UserItemProps extends ConnectedUser {
 

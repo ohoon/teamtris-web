@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Rooms } from '../../../server/src/socket/io';
+import { Rooms } from '../../../server/src/socket/rooms';
 import RoomItem from '../components/RoomItem';
 
 const RoomListBlock = styled.div`

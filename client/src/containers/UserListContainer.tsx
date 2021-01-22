@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import UserList from '../components/UserList';
 import { RootState } from '../modules';
 import socket from '../socket';
-import { ConnectedUsers } from '../socket/users';
+import { ConnectedUsers } from '../../../server/src/socket/users';
+import UserList from '../components/UserList';
 
 function UserListContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);

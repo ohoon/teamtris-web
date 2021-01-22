@@ -1,6 +1,4 @@
-export type Chat = {
+export interface ChatInputs {
     sender: string;
     message: string;
 };
-
-export type ChatLog = Chat[];

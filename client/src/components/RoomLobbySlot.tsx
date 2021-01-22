@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Player } from '../../../server/src/socket/io';
+import { Player } from '../../../server/src/socket/users';
 
 const RoomLobbySlotBlock = styled.div`
     padding: 16px;

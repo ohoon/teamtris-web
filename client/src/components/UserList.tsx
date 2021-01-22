@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ConnectedUsers } from '../socket/users';
+import { ConnectedUsers } from '../../../server/src/socket/users';
 import UserItem from './UserItem';
 
 const UserListBlock = styled.div`

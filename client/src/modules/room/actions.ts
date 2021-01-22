@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions';
-import { Room } from '../../../../server/src/socket/io';
+import { Room } from '../../../../server/src/socket/rooms';
 
 export const SET_ROOM = 'room/SET_ROOM';
 

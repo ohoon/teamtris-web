@@ -4,8 +4,8 @@ export interface SignUpInputs {
     username: string;
     password: string;
     passwordConfirm: string;
-    nickname: string | null;
-    email: string | null;
+    nickname: string;
+    email: string;
 }
 
 export async function createUser(input: SignUpInputs) {
@@ -20,7 +20,7 @@ export async function createUser(input: SignUpInputs) {
 export interface User {
     id: number;
     username: string;
-    nickname: string | null;
+    nickname: string;
 }
 
 export interface Me extends User {

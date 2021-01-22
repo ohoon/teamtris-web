@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
-import { Room, Players } from '../../../server/src/socket/io';
+import { Room } from '../../../server/src/socket/rooms';
+import { Players } from '../../../server/src/socket/users';
 import RoomLobbySlot from './RoomLobbySlot';
 
 const RoomLobbyBlock = styled.div`

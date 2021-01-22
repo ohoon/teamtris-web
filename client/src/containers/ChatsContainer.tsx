@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../modules';
 import socket from '../socket';
-import { Chat, ChatLog } from '../socket/chats';
+import { Chat, Chats } from '../../../server/src/socket/chats';
 import ChatBox from '../components/ChatBox';
 import ChatInput from '../components/ChatInput';
-import { RootState } from '../modules';
 
 function ChatBoxContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);
 
-    const [chats, setChats] = useState<ChatLog>([]);
+    const [chats, setChats] = useState<Chats>([]);
     const chatBoxRef = useRef<HTMLDivElement>(null);
     
     const scrollToBottom = () => {

@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 import styled from 'styled-components';
-import { ChatLog } from '../socket/chats';
+import { Chats } from '../../../server/src/socket/chats';
 import ChatMsg from './ChatMsg';
 
 const ChatBoxBlock = styled.div`
@@ -14,7 +14,7 @@ const ChatBoxBlock = styled.div`
 `;
 
 interface ChatBoxProps {
-    chats: ChatLog;
+    chats: Chats;
     chatBoxRef: RefObject<HTMLDivElement>;
 }
 

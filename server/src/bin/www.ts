@@ -7,7 +7,7 @@
 import app from '../app';
 import debugLib from 'debug';
 import { createServer } from 'http';
-import createSocketIoServer from '../socket/io';
+import createSocketIoServer from '../socket';
 import ErrnoException = NodeJS.ErrnoException;
 const debug = debugLib('server:server');
 

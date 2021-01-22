@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import socket from '../socket';
 import { showDialog } from '../modules/dialog';
 import RoomList from '../components/RoomList';
-import { Room } from '../../../server/src/socket/io';
+import { Room } from '../../../server/src/socket/rooms';
 import { setRoom } from '../modules/room';
 
 function RoomListContainer() {
