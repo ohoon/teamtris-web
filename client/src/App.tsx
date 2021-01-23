@@ -4,6 +4,7 @@ import Navigation from './pages/partial/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Game from './pages/Game';
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
         <Route
           path="/signup"
           component={SignUp}
+        />
+        <Route
+          path="/game"
+          component={Game}
         />
         <Route
           render={({ location }) => (
