@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { TETROMINOS } from '../tetris/tetrominos';
 
-const StageCell = styled.div<{ type: number | string, color: string }>`
+const CellBlock = styled.div<{ type: number | string, color: string }>`
     width: auto;
     background: rgba(${props => props.color}, 0.8);
     border: ${props => (props.type === 0 ? "0px solid" : "4px solid")};
@@ -18,11 +18,11 @@ interface TetrisStageCellProps {
 
 function TetrisStageCell({ type }: TetrisStageCellProps) {
     return (
-        <StageCell
+        <CellBlock
             type={type}
             color={TETROMINOS[type].color}
         />
     );
 }
 
-export default TetrisStageCell;
+export default memo(TetrisStageCell);

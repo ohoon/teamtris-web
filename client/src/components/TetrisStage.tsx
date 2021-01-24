@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import TetrisStageCell from './TetrisStageCell';
 import { STAGE_WIDTH, STAGE_HEIGHT } from '../tetris/stage';
-import { Cells } from '../tetris/cell';
+import { Stage } from '../tetris/stage';
 
-const Stage = styled.div`
+const StageBlock = styled.div`
     display: grid;
     grid-template-rows: repeat(
         ${STAGE_HEIGHT},
@@ -15,21 +15,21 @@ const Stage = styled.div`
         1fr
     );
     grid-gap: 1px;
-    border: 6px solid #AA0000;
-    border-radius: 6px;
     width: 100%;
     max-width: 20vw;
+    margin: auto;
+    border: 6px solid #AA0000;
+    border-radius: 6px;
     background: #111;
-    margin: 100px auto;
 `;
 
 interface TetrisStageProps {
-    stage: Cells[];
+    stage: Stage;
 }
 
 function TetrisStage({ stage }: TetrisStageProps) {
     return (
-        <Stage>
+        <StageBlock>
             {stage.map(row =>
                 row.map((cell, x) =>
                     <TetrisStageCell
@@ -38,8 +38,8 @@ function TetrisStage({ stage }: TetrisStageProps) {
                     />
                 )
             )}
-        </Stage>
+        </StageBlock>
     );
 }
 
-export default TetrisStage;
+export default memo(TetrisStage);
