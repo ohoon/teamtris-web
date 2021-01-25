@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from 'react';
+import React, { KeyboardEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import TetrisStage from '../components/TetrisStage';
 import useStage from '../tetris/hooks/useStage';
@@ -12,16 +12,24 @@ const Wrapper = styled.div`
 `;
 
 function TetrisContainer() {
-    const [cursor, updateCursorPos, resetCursor] = useCursor();
-    const [stage, setStage] = useStage(cursor, resetCursor);
-
+    const [gameOver, setGameOver] = useState(false);
     const [delay, setDelay] = useState<number | null>(null);
 
     const startGame = () => {
         setStage(createStage());
         resetCursor();
+
+        setGameOver(false);
         setDelay(1000);
     };
+
+    const endGame = useCallback(() => {
+        setGameOver(true);
+        setDelay(null);
+    }, []);
+
+    const [cursor, updateCursorPos, resetCursor] = useCursor();
+    const [stage, setStage] = useStage(cursor, resetCursor, endGame);
 
     const checkCollision = (pos: Pos) => {
         const { x: X, y: Y } = pos;
@@ -100,29 +108,33 @@ function TetrisContainer() {
     const dropBurstCursor = () => {
         setDelay(null);
         dropBurst();
-    }
+    };
 
     const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
         const { key } = e;
 
-        if (key === 'ArrowDown') {
-            setDelay(1000);
-        } else if (key === ' ') {
-            setDelay(1000);
+        if (!gameOver) {
+            if (key === 'ArrowDown') {
+                setDelay(1000);
+            } else if (key === ' ') {
+                setDelay(1000);
+            }
         }
     };
 
     const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
         const { key } = e;
         
-        if (key === 'ArrowLeft') {
-            moveCursor(-1);
-        } else if (key === 'ArrowRight') {
-            moveCursor(1);
-        } else if (key === 'ArrowDown') {
-            dropCursor();
-        } else if (key === ' ') {
-            dropBurstCursor();
+        if (!gameOver) {
+            if (key === 'ArrowLeft') {
+                moveCursor(-1);
+            } else if (key === 'ArrowRight') {
+                moveCursor(1);
+            } else if (key === 'ArrowDown') {
+                dropCursor();
+            } else if (key === ' ') {
+                dropBurstCursor();
+            }
         }
     };
 
@@ -135,6 +147,7 @@ function TetrisContainer() {
         >
             <TetrisStage
                 stage={stage}
+                gameOver={gameOver}
             />
             <button
                 onClick={startGame}

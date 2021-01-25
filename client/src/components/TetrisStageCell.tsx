@@ -14,13 +14,14 @@ const CellBlock = styled.div<{ type: number | string, color: string }>`
 
 interface TetrisStageCellProps {
     type: number | string;
+    gameOver: boolean;
 }
 
-function TetrisStageCell({ type }: TetrisStageCellProps) {
+function TetrisStageCell({ type, gameOver }: TetrisStageCellProps) {
     return (
         <CellBlock
             type={type}
-            color={TETROMINOS[type].color}
+            color={type !== 0 && gameOver ? '100, 100, 100' : TETROMINOS[type].color}
         />
     );
 }

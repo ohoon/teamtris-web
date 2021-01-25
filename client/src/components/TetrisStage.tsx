@@ -25,9 +25,10 @@ const StageBlock = styled.div`
 
 interface TetrisStageProps {
     stage: Stage;
+    gameOver: boolean;
 }
 
-function TetrisStage({ stage }: TetrisStageProps) {
+function TetrisStage({ stage, gameOver }: TetrisStageProps) {
     return (
         <StageBlock>
             {stage.map(row =>
@@ -35,6 +36,7 @@ function TetrisStage({ stage }: TetrisStageProps) {
                     <TetrisStageCell
                         key={x}
                         type={cell[0]}
+                        gameOver={gameOver}
                     />
                 )
             )}
