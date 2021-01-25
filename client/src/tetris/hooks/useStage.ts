@@ -35,6 +35,17 @@ function useStage(cursor: Cursor, resetCursor: () => void, endGame: () => void):
     
             if (cursor.collided) {
                 resetCursor();
+                
+                const sweepedStage: Stage = [];
+                newStage.forEach(row => {
+                    if (!row.find(cell => cell[0] === 0)) {
+                        sweepedStage.unshift(new Array(newStage[0].length).fill([0, 'not blocked']));
+                    } else {
+                        sweepedStage.push(row);
+                    }
+                });
+
+                return sweepedStage;
             }
 
             return newStage;
