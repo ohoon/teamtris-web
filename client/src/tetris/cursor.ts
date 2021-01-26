@@ -1,4 +1,4 @@
-import { STAGE_WIDTH } from './stage';
+import { STAGE_WIDTH, Stage } from './stage';
 import { randomTetromino } from './tetrominos';
 
 export interface Pos {
@@ -20,3 +20,24 @@ export const createCursor = () => ({
     tetromino: randomTetromino().shape,
     collided: false
 });
+
+export const checkCollision = (cursor: Cursor, stage: Stage, pos: Pos) => {
+    const { x: X, y: Y } = pos;
+    for (let y = 0; y < cursor.tetromino.length; y += 1) {
+        for (let x = 0; x < cursor.tetromino[y].length; x += 1) {
+            if (cursor.tetromino[y][x] === 0) {
+                continue;
+            }
+            
+            if (
+                !stage[y + cursor.pos.y + Y] ||
+                !stage[y + cursor.pos.y + Y][x + cursor.pos.x + X] ||
+                stage[y + cursor.pos.y + Y][x + cursor.pos.x + X][1] === 'blocked'
+            ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+};

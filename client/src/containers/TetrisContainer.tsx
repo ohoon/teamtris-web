@@ -5,7 +5,7 @@ import useStage from '../tetris/hooks/useStage';
 import useCursor from '../tetris/hooks/useCursor';
 import useInteval from '../tetris/hooks/useInterval';
 import { createStage } from '../tetris/stage';
-import { Pos } from '../tetris/cursor';
+import { checkCollision } from '../tetris/cursor';
 
 const Wrapper = styled.div`
     margin: 100px auto;
@@ -28,32 +28,11 @@ function TetrisContainer() {
         setDelay(null);
     }, []);
 
-    const [cursor, updateCursorPos, resetCursor] = useCursor();
+    const [cursor, updateCursorPos, rotateCursor, resetCursor] = useCursor();
     const [stage, setStage] = useStage(cursor, resetCursor, endGame);
 
-    const checkCollision = (pos: Pos) => {
-        const { x: X, y: Y } = pos;
-        for (let y = 0; y < cursor.tetromino.length; y += 1) {
-            for (let x = 0; x < cursor.tetromino[y].length; x += 1) {
-                if (cursor.tetromino[y][x] === 0) {
-                    continue;
-                }
-                
-                if (
-                    !stage[y + cursor.pos.y + Y] ||
-                    !stage[y + cursor.pos.y + Y][x + cursor.pos.x + X] ||
-                    stage[y + cursor.pos.y + Y][x + cursor.pos.x + X][1] === 'blocked'
-                ) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    };
-
     const moveCursor = (X: number) => {
-        if (!checkCollision({
+        if (!checkCollision(cursor, stage, {
             x: X,
             y: 0
         })) {
@@ -66,7 +45,7 @@ function TetrisContainer() {
     };
 
     const drop = () => {
-        if (!checkCollision({
+        if (!checkCollision(cursor, stage, {
             x: 0,
             y: 1
         })) {
@@ -84,9 +63,9 @@ function TetrisContainer() {
         }
     };
 
-    const dropBurst = () => {
+    const hardDrop = () => {
         let Y = 1;
-        while (!checkCollision({
+        while (!checkCollision(cursor, stage, {
             x: 0,
             y: Y
         })) {
@@ -105,9 +84,9 @@ function TetrisContainer() {
         drop();
     };
 
-    const dropBurstCursor = () => {
+    const hardDropCursor = () => {
         setDelay(null);
-        dropBurst();
+        hardDrop();
     };
 
     const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -130,10 +109,12 @@ function TetrisContainer() {
                 moveCursor(-1);
             } else if (key === 'ArrowRight') {
                 moveCursor(1);
+            } else if (key === 'ArrowUp') {
+                rotateCursor(stage, 1);
             } else if (key === 'ArrowDown') {
                 dropCursor();
             } else if (key === ' ') {
-                dropBurstCursor();
+                hardDropCursor();
             }
         }
     };
