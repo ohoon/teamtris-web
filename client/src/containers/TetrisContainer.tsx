@@ -1,5 +1,6 @@
 import React, { KeyboardEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { Button } from 'react-bootstrap';
 import TetrisStage from '../components/TetrisStage';
 import useStage from '../tetris/hooks/useStage';
 import useCursor from '../tetris/hooks/useCursor';
@@ -8,7 +9,16 @@ import { createStage } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
 
 const Wrapper = styled.div`
+    width: 40%;
+    display: flex;
     margin: 100px auto;
+    padding: 16px;
+    border: 10px solid #AA0000;
+    border-radius: 6px;
+`;
+
+const StartButton = styled(Button)`
+    height: 10%;
 `;
 
 function TetrisContainer() {
@@ -130,12 +140,12 @@ function TetrisContainer() {
                 stage={stage}
                 gameOver={gameOver}
             />
-            <button
+            <StartButton
                 onClick={startGame}
-                onKeyDown={(e) => e.preventDefault()}
+                onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => gameOver || e.preventDefault()}
             >
                 시작
-            </button>
+            </StartButton>
         </Wrapper>
     );
 }

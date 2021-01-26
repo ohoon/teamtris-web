@@ -18,8 +18,6 @@ const StageBlock = styled.div`
     width: 100%;
     max-width: 20vw;
     margin: auto;
-    border: 6px solid #AA0000;
-    border-radius: 6px;
     background: #111;
 `;
 
