@@ -34,6 +34,7 @@ function TetrisStage({ stage, gameOver }: TetrisStageProps) {
                     <TetrisStageCell
                         key={x}
                         type={cell[0]}
+                        outline={cell[2]}
                         gameOver={gameOver}
                     />
                 )

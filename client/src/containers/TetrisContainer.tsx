@@ -74,17 +74,17 @@ function TetrisContainer() {
     };
 
     const hardDrop = () => {
-        let Y = 1;
+        let Y = 0;
         while (!checkCollision(cursor, stage, {
             x: 0,
-            y: Y
+            y: Y + 1
         })) {
             Y += 1;
         }
 
         updateCursorPos({
             x: 0,
-            y: Y - 1,
+            y: Y,
             collided: true
         });
     };

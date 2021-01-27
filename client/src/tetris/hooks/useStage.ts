@@ -1,6 +1,7 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { Cursor } from '../cursor';
+import { Cursor, checkCollision } from '../cursor';
 import { createStage, Stage } from '../stage';
+import { TETROMINOS } from '../tetrominos';
 
 function useStage(cursor: Cursor, resetCursor: () => void, endGame: () => void): [Stage, Dispatch<SetStateAction<Stage>>] {
     const [stage, setStage] = useState<Stage>(createStage());
@@ -15,13 +16,29 @@ function useStage(cursor: Cursor, resetCursor: () => void, endGame: () => void):
                     )
                 )
             );
-    
+
+            let outlineY = 0;
+            if (cursor.tetromino !== TETROMINOS[0].shape) {
+                while (!checkCollision(cursor, newStage, {
+                    x: 0,
+                    y: outlineY + 1
+                })) {
+                    outlineY += 1;
+                }
+            }
+
             cursor.tetromino.forEach((row, y) =>
                 row.forEach((type, x) => {
                     if (type !== 0) {
-                        if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][0] !== 0) {
+                        if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
                             endGame();
                         }
+
+                        newStage[y + cursor.pos.y + outlineY][x + cursor.pos.x] = [
+                            `${type}`,
+                            'not blocked',
+                            true
+                        ];
 
                         newStage[y + cursor.pos.y][x + cursor.pos.x] = [
                             type,

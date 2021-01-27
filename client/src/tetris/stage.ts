@@ -1,7 +1,7 @@
 export const STAGE_WIDTH = 12;
 export const STAGE_HEIGHT = 20;
 
-export type Cell = [number | string, string];
+export type Cell = [number | string, string, boolean?];
 
 export type Stage = Cell[][];
 
