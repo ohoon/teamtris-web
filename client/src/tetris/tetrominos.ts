@@ -1,4 +1,14 @@
-export const TETROMINOS: any = {
+export type TetrominoType = number | string;
+export type TetrominoShape = TetrominoType[][];
+
+export type Tetromino = {
+    [key in TetrominoType]: {
+        shape: TetrominoShape;
+        color: string;
+    };
+};
+
+export const TETROMINOS: Tetromino = {
     0: {
         shape: [
             [0]

@@ -1,5 +1,5 @@
 import { STAGE_WIDTH, Stage } from './stage';
-import { randomTetromino } from './tetrominos';
+import { TetrominoShape, randomTetromino } from './tetrominos';
 
 export interface Pos {
     x: number;
@@ -8,7 +8,7 @@ export interface Pos {
 
 export interface Cursor {
     pos: Pos;
-    tetromino: (number | string)[][];
+    tetromino: TetrominoShape;
     collided: boolean;
 }
 
