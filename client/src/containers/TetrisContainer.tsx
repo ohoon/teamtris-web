@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import TetrisHold from '../components/TetrisHold';
 import TetrisStage from '../components/TetrisStage';
+import TetrisNext from '../components/TetrisNext';
 import useStage from '../tetris/hooks/useStage';
 import useCursor from '../tetris/hooks/useCursor';
 import useInteval from '../tetris/hooks/useInterval';
-import { TetrominoShape } from '../tetris/tetrominos';
+import useQueue from '../tetris/hooks/useQueue';
+import { randomTetromino, TetrominoShape } from '../tetris/tetrominos';
 import { createStage } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
 
@@ -15,12 +17,26 @@ const Wrapper = styled.div`
     display: flex;
     margin: 100px auto;
     padding: 16px;
-    border: 10px solid #AA0000;
+    border: 10px solid #343A40;
     border-radius: 6px;
+    background: #909090;
+`;
+
+const Side = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ButtonGroup = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const StartButton = styled(Button)`
-    height: 10%;
+    height: 100%;
+    margin: 10%;
 `;
 
 function TetrisContainer() {
@@ -31,9 +47,11 @@ function TetrisContainer() {
     const startGame = () => {
         setStage(createStage());
         resetCursor();
+        initQueue();
 
         setHold(null);
         setGameOver(false);
+
         setDelay(1000);
     };
 
@@ -43,7 +61,16 @@ function TetrisContainer() {
     }, []);
 
     const [cursor, updateCursorPos, rotateCursor, resetCursor] = useCursor();
-    const [stage, setStage] = useStage(cursor, resetCursor, endGame);
+    const [queue, pushQueue, popQueue, resetQueue] = useQueue<TetrominoShape>();
+    const [stage, setStage] = useStage(cursor, resetCursor, pushQueue, popQueue, endGame);
+
+    const initQueue = () => {
+        resetQueue();
+
+        for (let i = 0; i < 4; i++) {
+            pushQueue(randomTetromino().shape);
+        }
+    };
 
     const moveCursor = (X: number) => {
         if (!checkCollision(cursor, stage, {
@@ -105,8 +132,16 @@ function TetrisContainer() {
 
     const holdCursor = () => {
         setDelay(null);
+
+        const _hold = hold?.slice();
         setHold(cursor.tetromino);
-        resetCursor(hold || undefined);
+
+        if (_hold) {
+            resetCursor(_hold);
+        } else {
+            resetCursor(popQueue() || undefined);
+            pushQueue(randomTetromino().shape);
+        }
     }
 
     const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -150,19 +185,31 @@ function TetrisContainer() {
             onKeyUp={onKeyUp}
             onKeyDown={onKeyDown}
         >
-            <TetrisHold
-                tetromino={hold}
-            />
+            <Side>
+                <TetrisHold
+                    tetromino={hold}
+                />
+            </Side>
             <TetrisStage
                 stage={stage}
                 gameOver={gameOver}
             />
-            <StartButton
-                onClick={startGame}
-                onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => gameOver || e.preventDefault()}
-            >
-                시작
-            </StartButton>
+            <Side>
+                <TetrisNext
+                    tetrominos={queue}
+                />
+                <ButtonGroup>
+                    <StartButton
+                        variant="info"
+                        size="lg"
+                        onClick={startGame}
+                        onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => gameOver || e.preventDefault()}
+                        block
+                    >
+                        시작
+                    </StartButton>
+                </ButtonGroup>
+            </Side>
         </Wrapper>
     );
 }

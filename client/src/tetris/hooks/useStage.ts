@@ -1,9 +1,9 @@
 import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { Cursor, checkCollision } from '../cursor';
 import { createStage, Stage } from '../stage';
-import { TETROMINOS } from '../tetrominos';
+import { randomTetromino, TETROMINOS, TetrominoShape } from '../tetrominos';
 
-function useStage(cursor: Cursor, resetCursor: () => void, endGame: () => void): [Stage, Dispatch<SetStateAction<Stage>>] {
+function useStage(cursor: Cursor, resetCursor: (tetromino?: TetrominoShape) => void, pushQueue: (item: TetrominoShape) => void, popQueue: () => TetrominoShape | null, endGame: () => void): [Stage, Dispatch<SetStateAction<Stage>>] {
     const [stage, setStage] = useState<Stage>(createStage());
 
     useEffect(() => {
@@ -51,7 +51,8 @@ function useStage(cursor: Cursor, resetCursor: () => void, endGame: () => void):
             );
     
             if (cursor.collided) {
-                resetCursor();
+                resetCursor(popQueue() || undefined);
+                pushQueue(randomTetromino().shape);
                 
                 const sweepedStage: Stage = [];
                 newStage.forEach(row => {
@@ -69,7 +70,7 @@ function useStage(cursor: Cursor, resetCursor: () => void, endGame: () => void):
         };
 
         setStage((prevStage: Stage) => updateStage(prevStage));
-    }, [cursor, resetCursor, endGame]);
+    }, [cursor, resetCursor, pushQueue, popQueue, endGame]);
 
     return [stage, setStage];
 };
