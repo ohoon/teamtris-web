@@ -1,10 +1,12 @@
 import React, { KeyboardEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
+import TetrisHold from '../components/TetrisHold';
 import TetrisStage from '../components/TetrisStage';
 import useStage from '../tetris/hooks/useStage';
 import useCursor from '../tetris/hooks/useCursor';
 import useInteval from '../tetris/hooks/useInterval';
+import { TetrominoShape } from '../tetris/tetrominos';
 import { createStage } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
 
@@ -22,6 +24,7 @@ const StartButton = styled(Button)`
 `;
 
 function TetrisContainer() {
+    const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState(false);
     const [delay, setDelay] = useState<number | null>(null);
 
@@ -29,6 +32,7 @@ function TetrisContainer() {
         setStage(createStage());
         resetCursor();
 
+        setHold(null);
         setGameOver(false);
         setDelay(1000);
     };
@@ -99,6 +103,12 @@ function TetrisContainer() {
         hardDrop();
     };
 
+    const holdCursor = () => {
+        setDelay(null);
+        setHold(cursor.tetromino);
+        resetCursor(hold || undefined);
+    }
+
     const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
         const { key } = e;
 
@@ -106,6 +116,8 @@ function TetrisContainer() {
             if (key === 'ArrowDown') {
                 setDelay(1000);
             } else if (key === ' ') {
+                setDelay(1000);
+            } else if (key === 'Shift') {
                 setDelay(1000);
             }
         }
@@ -125,6 +137,8 @@ function TetrisContainer() {
                 dropCursor();
             } else if (key === ' ') {
                 hardDropCursor();
+            } else if (key === 'Shift') {
+                holdCursor();
             }
         }
     };
@@ -136,6 +150,9 @@ function TetrisContainer() {
             onKeyUp={onKeyUp}
             onKeyDown={onKeyDown}
         >
+            <TetrisHold
+                tetromino={hold}
+            />
             <TetrisStage
                 stage={stage}
                 gameOver={gameOver}

@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
-import { TETROMINOS } from '../tetrominos';
+import { TETROMINOS, TetrominoShape } from '../tetrominos';
 import { Cursor, Pos, createCursor, checkCollision } from '../cursor';
 import { Stage } from '../stage';
 
-function useCursor(): [Cursor, (pos: Pos & { collided: boolean }) => void, (stage: Stage, dir: number) => void, () => void] {
+function useCursor(): [Cursor, (pos: Pos & { collided: boolean }) => void, (stage: Stage, dir: number) => void, (tetromino ?: TetrominoShape) => void] {
     const [cursor, setCursor] = useState<Cursor>({
         pos: {
             x: 0,
@@ -65,8 +65,8 @@ function useCursor(): [Cursor, (pos: Pos & { collided: boolean }) => void, (stag
         setCursor(rotatedCursor);
     };
 
-    const resetCursor = useCallback(() => {
-        setCursor(createCursor());
+    const resetCursor = useCallback((tetromino ?: TetrominoShape) => {
+        setCursor(createCursor(tetromino));
     }, []);
 
     return [cursor, updateCursorPos, rotateCursor, resetCursor];

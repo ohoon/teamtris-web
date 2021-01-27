@@ -27,7 +27,7 @@ const CellBlock = styled.div<{ type: number | string, color: string, outline?: b
 interface TetrisStageCellProps {
     type: number | string;
     outline?: boolean;
-    gameOver: boolean;
+    gameOver?: boolean;
 }
 
 function TetrisStageCell({ type, outline, gameOver }: TetrisStageCellProps) {
