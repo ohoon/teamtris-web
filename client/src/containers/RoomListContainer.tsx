@@ -41,6 +41,10 @@ function RoomListContainer() {
         dispatch(showDialog('createRoom'));
     };
 
+    const goToPractice = () => {
+        history.push('/practice');
+    };
+
     useEffect(() => {
         socket.on('update roomlist', (rooms: Rooms) => {
             setRooms(rooms);
@@ -68,6 +72,7 @@ function RoomListContainer() {
             rooms={rooms}
             onJoinRoom={onJoinRoom}
             onCreateRoom={onCreateRoom}
+            goToPractice={goToPractice}
         />
     );
 }

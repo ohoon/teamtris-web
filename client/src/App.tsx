@@ -4,7 +4,7 @@ import Navigation from './pages/partial/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Game from './pages/Game';
+import Practice from './pages/Practice';
 
 function App() {
   return (
@@ -25,8 +25,8 @@ function App() {
           component={SignUp}
         />
         <Route
-          path="/game"
-          component={Game}
+          path="/practice"
+          component={Practice}
         />
         <Route
           render={({ location }) => (

@@ -24,21 +24,28 @@ const RoomListBlock = styled.div`
     }
     
     .menu {
+        display: flex;
+        justify-content: flex-end;
         margin: auto;
     }
 `;
 
+const GoToPracticeButton = styled(Button)`
+
+`;
+
 const CreateRoomButton = styled(Button)`
-    
+    margin-left: 2px;  
 `;
 
 interface RoomListProps {
     rooms: Rooms;
     onJoinRoom: (roomId: number) => void;
     onCreateRoom: () => void;
+    goToPractice: () => void;
 }
 
-function RoomList({ rooms, onJoinRoom, onCreateRoom }: RoomListProps) {
+function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListProps) {
     return (
         <RoomListBlock>
             <div
@@ -80,6 +87,13 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom }: RoomListProps) {
             <div
                 className="menu"
             >
+                <GoToPracticeButton
+                    variant="dark"
+                    size="sm"
+                    onClick={goToPractice}
+                >
+                    연습하기
+                </GoToPracticeButton>
                 <CreateRoomButton
                     variant="dark"
                     size="sm"
