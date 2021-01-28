@@ -2,6 +2,7 @@ import React, { KeyboardEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import TetrisHold from '../components/TetrisHold';
+import TetrisHelp from '../components/TetrisHelp';
 import TetrisStage from '../components/TetrisStage';
 import TetrisNext from '../components/TetrisNext';
 import useStage from '../tetris/hooks/useStage';
@@ -189,6 +190,7 @@ function TetrisContainer() {
                 <TetrisHold
                     tetromino={hold}
                 />
+                <TetrisHelp />
             </Side>
             <TetrisStage
                 stage={stage}
