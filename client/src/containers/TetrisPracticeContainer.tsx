@@ -1,14 +1,16 @@
-import React, { KeyboardEvent, useCallback, useState } from 'react';
+import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import TetrisHold from '../components/TetrisHold';
 import TetrisHelp from '../components/TetrisHelp';
 import TetrisStage from '../components/TetrisStage';
 import TetrisNext from '../components/TetrisNext';
+import TetrisStatus from '../components/TetrisStatus';
 import useStage from '../tetris/hooks/useStage';
 import useCursor from '../tetris/hooks/useCursor';
 import useInteval from '../tetris/hooks/useInterval';
 import useQueue from '../tetris/hooks/useQueue';
+import useStatus from '../tetris/hooks/useStatus';
 import { randomTetromino, TetrominoShape } from '../tetris/tetrominos';
 import { createStage } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
@@ -44,16 +46,18 @@ function TetrisContainer() {
     const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState(false);
     const [delay, setDelay] = useState<number | null>(null);
+    const dropSpeed = useRef(1000);
 
     const startGame = () => {
         setStage(createStage());
         resetCursor();
         initQueue();
+        resetStatus();
 
         setHold(null);
         setGameOver(false);
 
-        setDelay(1000);
+        setDelay(dropSpeed.current);
     };
 
     const endGame = useCallback(() => {
@@ -63,12 +67,13 @@ function TetrisContainer() {
 
     const [cursor, updateCursorPos, rotateCursor, resetCursor] = useCursor();
     const [queue, pushQueue, popQueue, resetQueue] = useQueue<TetrominoShape>();
-    const [stage, setStage] = useStage(cursor, resetCursor, pushQueue, popQueue, endGame);
+    const [stage, setStage, lineCleared] = useStage(cursor, resetCursor, pushQueue, popQueue, endGame);
+    const [score, rows, level, resetStatus] = useStatus(lineCleared);
 
     const initQueue = () => {
         resetQueue();
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 3; i++) {
             pushQueue(randomTetromino().shape);
         }
     };
@@ -150,11 +155,11 @@ function TetrisContainer() {
 
         if (!gameOver) {
             if (key === 'ArrowDown') {
-                setDelay(1000);
+                setDelay(dropSpeed.current);
             } else if (key === ' ') {
-                setDelay(1000);
+                setDelay(dropSpeed.current);
             } else if (key === 'Shift') {
-                setDelay(1000);
+                setDelay(dropSpeed.current);
             }
         }
     };
@@ -181,6 +186,10 @@ function TetrisContainer() {
 
     useInteval(drop, delay);
 
+    useEffect(() => {
+        dropSpeed.current = 1000 / level + 200;
+    }, [level]);
+
     return (
         <Wrapper
             onKeyUp={onKeyUp}
@@ -199,6 +208,11 @@ function TetrisContainer() {
             <Side>
                 <TetrisNext
                     tetrominos={queue}
+                />
+                <TetrisStatus
+                    score={score}
+                    rows={rows}
+                    level={level}
                 />
                 <ButtonGroup>
                     <StartButton

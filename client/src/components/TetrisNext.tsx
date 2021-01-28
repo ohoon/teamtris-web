@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { TetrominoShape } from '../tetris/tetrominos';
 import TetrisStageCell from './TetrisStageCell';
 
 const NextBlock = styled.div`
     width: 6vw;
-    height: 24vw;
+    height: 18vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,4 +53,4 @@ function TetrisNext({ tetrominos }: TetrisNextProps) {
     );
 }
 
-export default TetrisNext;
+export default memo(TetrisNext);

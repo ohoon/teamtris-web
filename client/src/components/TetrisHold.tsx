@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { TetrominoShape } from '../tetris/tetrominos';
 import TetrisStageCell from './TetrisStageCell';
@@ -52,4 +52,4 @@ function TetrisHold({ tetromino }: TetrisHoldProps) {
     );
 }
 
-export default TetrisHold;
+export default memo(TetrisHold);

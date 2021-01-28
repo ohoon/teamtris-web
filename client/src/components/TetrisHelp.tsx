@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -91,4 +91,4 @@ function TetrisHelp() {
     );
 }
 
-export default TetrisHelp;
+export default memo(TetrisHelp);
