@@ -8,17 +8,35 @@ const RoomLobbySlotBlock = styled.div`
     border-radius: 16px;
     background: #D3D7DB;
     font-size: 16px;
-    text-align: center;
+    text-align: left;
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
 `;
 
 interface RoomLobbySlotProps extends Player {
-
+    isReady: boolean;
+    isMaster: boolean;
 }
 
-function RoomLobbySlot({ socketId, username, nickname }: RoomLobbySlotProps) {
+function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster }: RoomLobbySlotProps) {
     return (
         <RoomLobbySlotBlock>
-            {username}({nickname})
+            <img
+                className="profile-image"
+                src="male.png"
+                alt="profileImage"
+            />
+            <strong>
+                {isMaster ? "방장" : isReady && "준비 완료"}
+            </strong>
+            <br />
+            <strong>
+                {nickname || username}
+            </strong>
         </RoomLobbySlotBlock>
     );
 }

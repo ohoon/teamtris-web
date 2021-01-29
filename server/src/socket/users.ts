@@ -8,7 +8,7 @@ export interface ConnectedUser {
 export type ConnectedUsers = ConnectedUser[];
 
 export interface Player extends ConnectedUser {
-
+    isReady: boolean;
 }
 
 export type Players = Player[];

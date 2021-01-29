@@ -10,11 +10,17 @@ function RoomLobbyContainer() {
     const room = useSelector((state: RootState) => state.room);
     const dispatch = useDispatch();
 
+    const onStartGame = () => {
+        socket.emit('request game');
+    };
+
+    const onReady = () => {
+        socket.emit('toggle ready');
+    };
+
     const onLeaveRoom = () => {
-        if (room) {
-            socket.emit('leave room');
-            dispatch(setRoom(null));
-        }
+        socket.emit('leave room');
+        dispatch(setRoom(null));
     };
 
     useEffect(() => {
@@ -22,8 +28,13 @@ function RoomLobbyContainer() {
             dispatch(setRoom(room));
         });
 
+        socket.on('create game', () => {
+            alert('create!');
+        });
+
         return () => {
             socket.removeListener('update room');
+            socket.removeListener('create game');
         }
     }, [dispatch])
     return (
@@ -33,10 +44,14 @@ function RoomLobbyContainer() {
                     id={room.id}
                     title={room.title}
                     password={room.password}
+                    master={room.master}
                     players={room.players}
                     current={room.current}
                     max={room.max}
                     mode={room.mode}
+                    isMaster={room.master.socketId === socket.id}
+                    onStartGame={onStartGame}
+                    onReady={onReady}
                     onLeaveRoom={onLeaveRoom}
                 />
             }

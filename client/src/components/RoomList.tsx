@@ -74,6 +74,7 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
                                 id={room.id}
                                 title={room.title}
                                 password={room.password}
+                                master={room.master}
                                 players={room.players}
                                 current={room.current}
                                 max={room.max}

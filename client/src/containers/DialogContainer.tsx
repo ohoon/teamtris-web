@@ -27,7 +27,8 @@ function DialogContainer() {
             socketId: socket.id,
             _id: me._id,
             username: me.username,
-            nickname: me.nickname
+            nickname: me.nickname,
+            isReady: true
         };
 
         socket.emit('request room', input, player);
