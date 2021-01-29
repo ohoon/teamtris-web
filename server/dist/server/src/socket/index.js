@@ -38,12 +38,14 @@ function createSocketIoServer(server) {
             const room = rooms.find(room => room.id === roomId);
             if (room) {
                 const roomIndex = rooms.indexOf(room);
-                rooms[roomIndex].players.push(player);
-                rooms[roomIndex].current = rooms[roomIndex].players.length;
-                socket.currentRoomId = room.id;
-                socket.join(`room${room.id}`);
-                socket.emit('enter room', rooms[roomIndex]);
-                socket.broadcast.emit('update room', rooms[roomIndex]);
+                if (rooms[roomIndex].current < rooms[roomIndex].max) {
+                    rooms[roomIndex].players.push(player);
+                    rooms[roomIndex].current = rooms[roomIndex].players.length;
+                    socket.currentRoomId = room.id;
+                    socket.join(`room${room.id}`);
+                    socket.emit('enter room', rooms[roomIndex]);
+                    socket.broadcast.emit('update room', rooms[roomIndex]);
+                }
             }
         });
         socket.on('leave room', () => {
