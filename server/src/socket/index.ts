@@ -22,10 +22,10 @@ export default function createSocketIoServer(server: Server) {
 
     io.on('connection', (socket: CustomSocket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
-
         socket.on('join channel', (user: ConnectedUser | null) => {
             user && users.push(user);
-            io.emit('update userlist', users);
+            socket.join('channel');
+            io.in('channel').emit('update userlist', users);
         });
 
         socket.on('leave channel', () => {
@@ -33,7 +33,7 @@ export default function createSocketIoServer(server: Server) {
 
             if (user) {
                 users.splice(users.indexOf(user), 1);
-                io.emit('update userlist', users);
+                io.in('channel').emit('update userlist', users);
             }
         });
 
@@ -53,9 +53,10 @@ export default function createSocketIoServer(server: Server) {
 
             rooms.push(room);
             socket.currentRoomId = room.id;
+            socket.leave('channel');
             socket.join(`room${room.id}`);
             socket.emit('create room', room);
-            socket.broadcast.emit('update roomlist', rooms);
+            io.in('channel').emit('update roomlist', rooms);
         });
 
         socket.on('join room', (roomId: number, player: Player) => {
@@ -69,9 +70,10 @@ export default function createSocketIoServer(server: Server) {
                     rooms[roomIndex].current = rooms[roomIndex].players.length;
                     
                     socket.currentRoomId = room.id;
+                    socket.leave('channel');
                     socket.join(`room${room.id}`);
                     socket.emit('enter room', rooms[roomIndex]);
-                    socket.broadcast.emit('update room', rooms[roomIndex]);    
+                    socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);    
                 }
             }
         });
@@ -103,8 +105,8 @@ export default function createSocketIoServer(server: Server) {
                     }
                     
                     socket.currentRoomId = null;
-                    socket.leave(`room${currentRoomId}`);
-                    io.emit('update roomlist', rooms);
+                    socket.leave(`room${room.id}`);
+                    io.in('channel').emit('update roomlist', rooms);
                 }
             }
         });
@@ -117,7 +119,7 @@ export default function createSocketIoServer(server: Server) {
                 const players = room.players;
                 
                 if (!players.find(player => player.isReady === false)) {
-                    io.emit('create game');
+                    io.in(`room${room.id}`).emit('create game');
                 }
             }
         });
@@ -134,13 +136,13 @@ export default function createSocketIoServer(server: Server) {
                 if (me) {
                     const meIndex = players.indexOf(me);
                     rooms[roomIndex].players[meIndex].isReady = !rooms[roomIndex].players[meIndex].isReady;
-                    io.emit('update room', rooms[roomIndex]);
+                    io.in(`room${room.id}`).emit('update room', rooms[roomIndex]);
                 }
             }
         });
 
-        socket.on('send chat', (chat: Chat) => {
-            io.emit('receive chat', chat);
+        socket.on('send chat', (chat: Chat, target: string) => {
+            io.in(target).emit('receive chat', chat);
         });
 
         socket.on('disconnect', () => {
@@ -148,7 +150,7 @@ export default function createSocketIoServer(server: Server) {
 
             if (user) {
                 users.splice(users.indexOf(user), 1);
-                socket.broadcast.emit('update userlist', users);
+                socket.to('channel').emit('update userlist', users);
             }
 
             const curretnRoomId = socket.currentRoomId;
@@ -171,14 +173,14 @@ export default function createSocketIoServer(server: Server) {
                         rooms[roomIndex].players.splice(players.indexOf(me), 1);
                         rooms[roomIndex].current = rooms[roomIndex].players.length;
 
-                        socket.broadcast.emit('update room', rooms[roomIndex]);
+                        socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);
                     } else {
                         rooms.splice(roomIndex, 1);
                     }
                     
                     socket.currentRoomId = null;
-                    socket.leave(`room${curretnRoomId}`);
-                    socket.broadcast.emit('update roomlist', rooms);
+                    socket.leave(`room${room.id}`);
+                    socket.to('channel').emit('update roomlist', rooms);
                 }
             }
         });

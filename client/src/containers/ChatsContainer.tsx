@@ -8,6 +8,7 @@ import ChatInput from '../components/ChatInput';
 
 function ChatBoxContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);
+    const room = useSelector((state: RootState) => state.room);
 
     const [chats, setChats] = useState<Chats>([]);
     const chatBoxRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ function ChatBoxContainer() {
         };
         
         if (me && input) {
-            socket.emit('send chat', chat);
+            socket.emit('send chat', chat, room ? `room${room.id}` : 'channel');
         }
         
         setInput('');
