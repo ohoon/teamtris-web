@@ -10,6 +10,11 @@ const RoomItemBlock = styled.div`
     border-radius: 20px;
     background: #D3D7DB;
     font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+        background: #B3B7BC;
+    }
 `;
 
 interface RoomItemProps extends Room {
