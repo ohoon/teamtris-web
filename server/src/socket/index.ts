@@ -47,7 +47,8 @@ export default function createSocketIoServer(server: Server) {
                 id: roomRef++,
                 title: input.title || '테트리스 같이 해요',
                 players: [player],
-                current: 1
+                current: 1,
+                isStart: false
             };
 
             rooms.push(room);

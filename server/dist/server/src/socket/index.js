@@ -28,7 +28,7 @@ function createSocketIoServer(server) {
             socket.emit('update roomlist', rooms);
         });
         socket.on('request room', (input, player) => {
-            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [player], current: 1 });
+            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [player], current: 1, isStart: false });
             rooms.push(room);
             socket.currentRoomId = room.id;
             socket.leave('channel');

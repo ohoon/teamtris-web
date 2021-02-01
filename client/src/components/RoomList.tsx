@@ -78,6 +78,7 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
                                 current={room.current}
                                 max={room.max}
                                 mode={room.mode}
+                                isStart={room.isStart}
                                 onJoinRoom={onJoinRoom}
                             />
                         </Col>

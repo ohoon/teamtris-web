@@ -8,6 +8,7 @@ export interface Room {
     current: number;
     max: 2 | 4 | 8;
     mode: 'single' | 'double';
+    isStart: boolean;
 }
 
 export type Rooms = Room[];
