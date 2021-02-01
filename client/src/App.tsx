@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Practice from './pages/Practice';
+import Game from './pages/Game';
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
         <Route
           path="/practice"
           component={Practice}
+        />
+        <Route
+          path="/game"
+          component={Game}
         />
         <Route
           render={({ location }) => (

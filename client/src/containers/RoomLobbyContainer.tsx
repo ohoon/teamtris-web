@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { RootState } from '../modules';
-import { setRoom } from '../modules/room';
+import { setRoom, startGame } from '../modules/room';
 import socket from '../socket';
 import RoomLobby from '../components/RoomLobby';
 import { Room } from '../../../server/src/socket/rooms';
 
 function RoomLobbyContainer() {
-    const room = useSelector((state: RootState) => state.room);
+    const room = useSelector((state: RootState) => state.room)!;
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     const onStartGame = () => {
         socket.emit('request game');
@@ -29,33 +32,31 @@ function RoomLobbyContainer() {
         });
 
         socket.on('create game', () => {
-            alert('create!');
+            dispatch(startGame());
+            history.push('/game');
         });
 
         return () => {
             socket.removeListener('update room');
             socket.removeListener('create game');
         }
-    }, [dispatch])
-    return (
-        <>
-            {room &&            
-                <RoomLobby
-                    id={room.id}
-                    title={room.title}
-                    password={room.password}
-                    players={room.players}
-                    current={room.current}
-                    max={room.max}
-                    mode={room.mode}
-                    isReady={room.players.find(player => player.socketId === socket.id)!.isReady}
-                    isMaster={room.players.find(player => player.socketId === socket.id)!.isMaster}
-                    onStartGame={onStartGame}
-                    onReady={onReady}
-                    onLeaveRoom={onLeaveRoom}
-                />
-            }
-        </>
+    }, [dispatch, history])
+    return (    
+        <RoomLobby
+            id={room.id}
+            title={room.title}
+            password={room.password}
+            players={room.players}
+            current={room.current}
+            max={room.max}
+            mode={room.mode}
+            isStart={room.isStart}
+            isReady={room.players.find(player => player.socketId === socket.id)!.isReady}
+            isMaster={room.players.find(player => player.socketId === socket.id)!.isMaster}
+            onStartGame={onStartGame}
+            onReady={onReady}
+            onLeaveRoom={onLeaveRoom}
+        />
     );
 }
 

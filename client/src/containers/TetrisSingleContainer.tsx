@@ -43,7 +43,7 @@ const StartButton = styled(Button)`
     margin: 10%;
 `;
 
-function TetrisPracticeContainer() {
+function TetrisSingleContainer() {
     const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState(false);
     const [delay, setDelay] = useState<number | null>(null);
@@ -231,4 +231,4 @@ function TetrisPracticeContainer() {
     );
 }
 
-export default TetrisPracticeContainer;
+export default TetrisSingleContainer;
