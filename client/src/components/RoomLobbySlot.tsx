@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Player } from '../../../server/src/socket/users';
+import { WaitingPlayer } from '../../../server/src/socket/users';
 
 const RoomLobbySlotBlock = styled.div`
     padding: 16px;
@@ -17,9 +17,8 @@ const RoomLobbySlotBlock = styled.div`
     }
 `;
 
-interface RoomLobbySlotProps extends Player {
-    isReady: boolean;
-    isMaster: boolean;
+interface RoomLobbySlotProps extends WaitingPlayer {
+
 }
 
 function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster }: RoomLobbySlotProps) {

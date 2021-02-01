@@ -28,7 +28,7 @@ function createSocketIoServer(server) {
             socket.emit('update roomlist', rooms);
         });
         socket.on('request room', (input, player) => {
-            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', master: player, players: [player], current: 1 });
+            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [player], current: 1 });
             rooms.push(room);
             socket.currentRoomId = room.id;
             socket.leave('channel');
@@ -60,10 +60,9 @@ function createSocketIoServer(server) {
                 const me = players.find(player => player.socketId === socket.id);
                 if (me) {
                     if (players.length > 1) {
-                        if (rooms[roomIndex].master === me) {
-                            const candidate = players.filter(player => player !== me);
-                            rooms[roomIndex].master = candidate[0];
-                            rooms[roomIndex].players[players.indexOf(candidate[0])].isReady = true;
+                        if (me.isMaster) {
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isMaster = true;
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isReady = true;
                         }
                         rooms[roomIndex].players.splice(players.indexOf(me), 1);
                         rooms[roomIndex].current = rooms[roomIndex].players.length;
@@ -119,10 +118,9 @@ function createSocketIoServer(server) {
                 const me = players.find(player => player.socketId === socket.id);
                 if (me) {
                     if (players.length > 1) {
-                        if (rooms[roomIndex].master === me) {
-                            const candidate = players.filter(player => player !== me);
-                            rooms[roomIndex].master = candidate[0];
-                            rooms[roomIndex].players[players.indexOf(candidate[0])].isReady = true;
+                        if (me.isMaster) {
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isMaster = true;
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isReady = true;
                         }
                         rooms[roomIndex].players.splice(players.indexOf(me), 1);
                         rooms[roomIndex].current = rooms[roomIndex].players.length;

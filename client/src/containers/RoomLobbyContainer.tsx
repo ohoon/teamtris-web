@@ -44,12 +44,12 @@ function RoomLobbyContainer() {
                     id={room.id}
                     title={room.title}
                     password={room.password}
-                    master={room.master}
                     players={room.players}
                     current={room.current}
                     max={room.max}
                     mode={room.mode}
-                    isMaster={room.master.socketId === socket.id}
+                    isReady={room.players.find(player => player.socketId === socket.id)!.isReady}
+                    isMaster={room.players.find(player => player.socketId === socket.id)!.isMaster}
                     onStartGame={onStartGame}
                     onReady={onReady}
                     onLeaveRoom={onLeaveRoom}

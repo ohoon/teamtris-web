@@ -41,13 +41,14 @@ const LeaveRoomButton = styled(Button)`
 `;
 
 interface RoomLobbyProps extends Room {
+    isReady: boolean;
     isMaster: boolean;
     onStartGame: () => void;
     onReady: () => void;
     onLeaveRoom: () => void;
 }
 
-function RoomLobby({ id, title, master, players, current, max, mode, isMaster, onStartGame, onReady, onLeaveRoom }: RoomLobbyProps) {
+function RoomLobby({ id, title, players, current, max, mode, isReady, isMaster, onStartGame, onReady, onLeaveRoom }: RoomLobbyProps) {
     return (
         <RoomLobbyBlock>
             <div
@@ -78,7 +79,7 @@ function RoomLobby({ id, title, master, players, current, max, mode, isMaster, o
                                 username={player.username}
                                 nickname={player.nickname}
                                 isReady={player.isReady}
-                                isMaster={player.socketId === master.socketId}
+                                isMaster={player.isMaster}
                             />
                         </Col>
                     )}
@@ -100,7 +101,10 @@ function RoomLobby({ id, title, master, players, current, max, mode, isMaster, o
                         size="sm"
                         onClick={onReady}
                     >
-                        준비
+                        {isReady ?
+                            "준비 취소":
+                            "준비"
+                        }
                     </ReadyButton>
                 }
                 <LeaveRoomButton

@@ -1,3 +1,5 @@
+import { Stage } from '../../../client/src/tetris/stage';
+
 export interface ConnectedUser {
     socketId: string;
     _id: string;
@@ -7,8 +9,16 @@ export interface ConnectedUser {
 
 export type ConnectedUsers = ConnectedUser[];
 
-export interface Player extends ConnectedUser {
+export interface WaitingPlayer extends ConnectedUser {
     isReady: boolean;
+    isMaster: boolean;
+}
+
+export type WaitingPlayers = WaitingPlayer[];
+
+export interface Player extends ConnectedUser {
+    stage: Stage;
+    gameOver: boolean;
 }
 
 export type Players = Player[];

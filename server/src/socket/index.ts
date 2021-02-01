@@ -1,6 +1,6 @@
 import { Server } from 'http';
 import { Server as socketIO, Socket } from 'socket.io';
-import { ConnectedUser, ConnectedUsers, Player } from './users';
+import { ConnectedUser, ConnectedUsers, WaitingPlayer } from './users';
 import { Rooms } from './rooms';
 import { Chat } from './chats';
 import { CreateRoomInputs } from '../../../client/src/socket/rooms';
@@ -41,12 +41,11 @@ export default function createSocketIoServer(server: Server) {
             socket.emit('update roomlist', rooms);
         });
 
-        socket.on('request room', (input: CreateRoomInputs, player: Player) => {
+        socket.on('request room', (input: CreateRoomInputs, player: WaitingPlayer) => {
             const room = {
                 ...input,
                 id: roomRef++,
                 title: input.title || '테트리스 같이 해요',
-                master: player,
                 players: [player],
                 current: 1
             };
@@ -59,7 +58,7 @@ export default function createSocketIoServer(server: Server) {
             io.in('channel').emit('update roomlist', rooms);
         });
 
-        socket.on('join room', (roomId: number, player: Player) => {
+        socket.on('join room', (roomId: number, player: WaitingPlayer) => {
             const room = rooms.find(room => room.id === roomId);
 
             if (room) {
@@ -89,11 +88,9 @@ export default function createSocketIoServer(server: Server) {
                 
                 if (me) {
                     if (players.length > 1) {
-                        if (rooms[roomIndex].master === me) {
-                            const candidate = players.filter(player => player !== me);
-                            
-                            rooms[roomIndex].master = candidate[0];
-                            rooms[roomIndex].players[players.indexOf(candidate[0])].isReady = true;
+                        if (me.isMaster) {
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isMaster = true;
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isReady = true;
                         }
                         
                         rooms[roomIndex].players.splice(players.indexOf(me), 1);
@@ -163,11 +160,9 @@ export default function createSocketIoServer(server: Server) {
 
                 if (me) {
                     if (players.length > 1) {
-                        if (rooms[roomIndex].master === me) {
-                            const candidate = players.filter(player => player !== me);
-                            
-                            rooms[roomIndex].master = candidate[0];
-                            rooms[roomIndex].players[players.indexOf(candidate[0])].isReady = true;
+                        if (me.isMaster) {
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isMaster = true;
+                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isReady = true;
                         }
 
                         rooms[roomIndex].players.splice(players.indexOf(me), 1);

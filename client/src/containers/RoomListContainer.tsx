@@ -27,7 +27,8 @@ function RoomListContainer() {
             _id: me._id,
             username: me.username,
             nickname: me.nickname,
-            isReady: false
+            isReady: false,
+            isMaster: false
         };
 
         socket.emit('join room', roomId, player);
