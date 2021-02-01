@@ -15,10 +15,8 @@ import { randomTetromino, TetrominoShape } from '../tetris/tetrominos';
 import { createStage } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
 
-const Wrapper = styled.div`
-    width: 40%;
+const TetrisBlock = styled.div`
     display: flex;
-    margin: 100px auto;
     padding: 16px;
     border: 10px solid #343A40;
     border-radius: 6px;
@@ -42,7 +40,7 @@ const StartButton = styled(Button)`
     margin: 10%;
 `;
 
-function TetrisContainer() {
+function TetrisPracticeContainer() {
     const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState(false);
     const [delay, setDelay] = useState<number | null>(null);
@@ -191,7 +189,7 @@ function TetrisContainer() {
     }, [level]);
 
     return (
-        <Wrapper
+        <TetrisBlock
             onKeyUp={onKeyUp}
             onKeyDown={onKeyDown}
         >
@@ -226,8 +224,8 @@ function TetrisContainer() {
                     </StartButton>
                 </ButtonGroup>
             </Side>
-        </Wrapper>
+        </TetrisBlock>
     );
 }
 
-export default TetrisContainer;
+export default TetrisPracticeContainer;
