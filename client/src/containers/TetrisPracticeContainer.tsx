@@ -280,6 +280,7 @@ function TetrisPracticeContainer() {
             <TetrisStage
                 stage={stage}
                 gameOver={gameOver}
+                size={20}
             />
             <Side>
                 <TetrisNext

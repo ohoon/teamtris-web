@@ -4,11 +4,11 @@ import TetrisStageCell from './TetrisStageCell';
 import { STAGE_WIDTH, STAGE_HEIGHT } from '../tetris/stage';
 import { Stage } from '../tetris/stage';
 
-const StageBlock = styled.div`
+const StageBlock = styled.div<{ size: number }>`
     display: grid;
     grid-template-rows: repeat(
         ${STAGE_HEIGHT},
-        calc(20vw / ${STAGE_WIDTH})
+        calc(${props => props.size}vw / ${STAGE_WIDTH})
     );
     grid-template-columns: repeat(
         ${STAGE_WIDTH},
@@ -16,7 +16,7 @@ const StageBlock = styled.div`
     );
     grid-gap: 1px;
     width: 100%;
-    max-width: 20vw;
+    max-width: ${props => props.size}vw;
     margin: auto;
     background: #111;
 `;
@@ -24,11 +24,14 @@ const StageBlock = styled.div`
 interface TetrisStageProps {
     stage: Stage;
     gameOver: boolean;
+    size: number;
 }
 
-function TetrisStage({ stage, gameOver }: TetrisStageProps) {
+function TetrisStage({ stage, gameOver, size }: TetrisStageProps) {
     return (
-        <StageBlock>
+        <StageBlock
+            size={size}
+        >
             {stage.map(row =>
                 row.map((cell, x) =>
                     <TetrisStageCell

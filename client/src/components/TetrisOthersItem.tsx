@@ -21,6 +21,7 @@ function TetrisOthersItem({ username, nickname, stage, gameOver }: TetrisOthersI
             <TetrisStage
                 stage={stage}
                 gameOver={gameOver}
+                size={10}
             />
         </Wrapper>
     );
