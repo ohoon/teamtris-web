@@ -17,7 +17,7 @@
 * 소켓을 이용한 room, userlist, chat 기능 구현 [95%]
 * 테트리스 대기 화면 UI 구성 [80%]
 * ~테트리스 연습모드(solo) 구현~ [2021-01-28]
-* 테트리스 개인전(single) 구현 [30%]
+* 테트리스 개인전(single) 구현 [40%]
 * 테트리스 팀전(doubles) 구현
 * 포인트 및 랭킹 시스템 구현
 
@@ -269,3 +269,12 @@
 **Changed**
 * 연습모드 UI 스타일링 특정 요소를 page에서 다루도록 수정
 * 기존 Player 타입의 이름을 WaitingPlayer으로 바꾸고, master 속성을 삭제 및 isReady isMaster 속성 추가
+
+### [2021-02-02]
+ 
+**Added**
+* 테트리스 stage 크기를 유동적으로 조절하기 위해 size prop option을 추가
+* game page에서 다른 player들의 stage를 확인할 수 있게끔 구현
+
+**Changed**
+* useStage hook에 있던 updateState와 sweepRow 함수를 컨테이너로 가져옴
