@@ -11,8 +11,8 @@ import useCursor from '../tetris/hooks/useCursor';
 import useInteval from '../tetris/hooks/useInterval';
 import useQueue from '../tetris/hooks/useQueue';
 import useStatus from '../tetris/hooks/useStatus';
-import { randomTetromino, TetrominoShape } from '../tetris/tetrominos';
-import { createStage } from '../tetris/stage';
+import { randomTetromino, TetrominoShape, TETROMINOS } from '../tetris/tetrominos';
+import { createStage, Stage } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
 
 const TetrisBlock = styled.div`
@@ -68,7 +68,82 @@ function TetrisPracticeContainer() {
 
     const [cursor, updateCursorPos, rotateCursor, resetCursor] = useCursor();
     const [queue, pushQueue, popQueue, resetQueue] = useQueue<TetrominoShape>();
-    const [stage, setStage, lineCleared] = useStage(cursor, resetCursor, pushQueue, popQueue, endGame);
+    const [lineCleared, setLineCleared] = useState(0);
+
+    const sweepRows = (prev: Stage) => {
+        const newStage: Stage = [];
+        let cleared = 0;
+        
+        prev.forEach(row => {
+            if (!row.find(cell => cell[0] === 0)) {
+                newStage.unshift(new Array(prev[0].length).fill([0, 'not blocked']));
+                cleared += 1;
+            } else {
+                newStage.push(row);
+            }
+        });
+
+        setLineCleared(cleared);
+
+        return newStage;
+    };
+
+    const updateStage = useCallback((prev: Stage): Stage => {
+        setLineCleared(0);
+
+        const newStage: Stage = prev.map(row =>
+            row.map(cell =>
+                (cell[1] === 'not blocked' ?
+                    [0, 'not blocked'] :
+                    cell
+                )
+            )
+        );
+
+        let outlineY = 0;
+        if (cursor.tetromino !== TETROMINOS[0].shape) {
+            while (!checkCollision(cursor, newStage, {
+                x: 0,
+                y: outlineY + 1
+            })) {
+                outlineY += 1;
+            }
+        }
+
+        cursor.tetromino.forEach((row, y) =>
+            row.forEach((type, x) => {
+                if (type !== 0) {
+                    if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
+                        endGame();
+                    }
+
+                    newStage[y + cursor.pos.y + outlineY][x + cursor.pos.x] = [
+                        `${type}`,
+                        'not blocked',
+                        true
+                    ];
+
+                    newStage[y + cursor.pos.y][x + cursor.pos.x] = [
+                        type,
+                        cursor.collided ?
+                            'blocked' :
+                            'not blocked'
+                    ];
+                }
+            })
+        );
+
+        if (cursor.collided) {
+            resetCursor(popQueue() || undefined);
+            pushQueue(randomTetromino().shape);
+
+            return sweepRows(newStage);
+        }
+
+        return newStage;
+    }, [cursor, resetCursor, pushQueue, popQueue, endGame]);
+
+    const [stage, setStage] = useStage(updateStage);
     const [score, rows, level, resetStatus] = useStatus(lineCleared);
 
     const initQueue = () => {
