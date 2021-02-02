@@ -2,6 +2,7 @@ import { Server } from 'http';
 import { Server as socketIO, Socket } from 'socket.io';
 import { ConnectedUser, ConnectedUsers, WaitingPlayer } from './users';
 import { Rooms } from './rooms';
+import { Stage } from '../../../client/src/tetris/stage';
 import { Chat } from './chats';
 import { CreateRoomInputs } from '../../../client/src/socket/rooms';
 
@@ -135,6 +136,29 @@ export default function createSocketIoServer(server: Server) {
                     const meIndex = players.indexOf(me);
                     rooms[roomIndex].players[meIndex].isReady = !rooms[roomIndex].players[meIndex].isReady;
                     io.in(`room${room.id}`).emit('update room', rooms[roomIndex]);
+                }
+            }
+        });
+
+        socket.on('tetris is loaded', (stage: Stage) => {
+            const currentRoomId = socket.currentRoomId;
+            const room = rooms.find(room => room.id === currentRoomId);
+            
+            if (currentRoomId && room) {
+                const players = room.players;
+                const me = players.find(player => player.socketId === socket.id);
+                
+                if (me) {
+                    const player = {
+                        socketId: me.socketId,
+                        _id: me._id,
+                        username: me.username,
+                        nickname: me.nickname,
+                        stage: stage,
+                        gameOver: false
+                    };
+
+                    socket.to(`room${room.id}`).emit('other player is loaded', player);
                 }
             }
         });

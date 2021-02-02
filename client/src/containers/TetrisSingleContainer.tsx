@@ -1,6 +1,7 @@
 import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
+import socket from '../socket';
 import TetrisHold from '../components/TetrisHold';
 import TetrisHelp from '../components/TetrisHelp';
 import TetrisStage from '../components/TetrisStage';
@@ -18,6 +19,8 @@ import { checkCollision } from '../tetris/cursor';
 const TetrisBlock = styled.div`
     width: 100%;
     max-width: 38vw;
+    height: 100%;
+    max-height: 76vw;
     display: flex;
     margin: 16px;
     padding: 16px;
@@ -265,6 +268,10 @@ function TetrisSingleContainer() {
     useEffect(() => {
         dropSpeed.current = 1000 / level + 200;
     }, [level]);
+
+    useEffect(() => {
+        socket.emit('tetris is loaded', createStage());
+    }, []);
 
     return (
         <TetrisBlock

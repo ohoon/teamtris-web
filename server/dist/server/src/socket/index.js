@@ -101,6 +101,25 @@ function createSocketIoServer(server) {
                 }
             }
         });
+        socket.on('tetris is loaded', (stage) => {
+            const currentRoomId = socket.currentRoomId;
+            const room = rooms.find(room => room.id === currentRoomId);
+            if (currentRoomId && room) {
+                const players = room.players;
+                const me = players.find(player => player.socketId === socket.id);
+                if (me) {
+                    const player = {
+                        socketId: me.socketId,
+                        _id: me._id,
+                        username: me.username,
+                        nickname: me.nickname,
+                        stage: stage,
+                        gameOver: false
+                    };
+                    socket.to(`room${room.id}`).emit('other player is loaded', player);
+                }
+            }
+        });
         socket.on('send chat', (chat, target) => {
             io.in(target).emit('receive chat', chat);
         });

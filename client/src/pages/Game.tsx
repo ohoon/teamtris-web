@@ -9,7 +9,7 @@ import TetrisSingleContainer from '../containers/TetrisSingleContainer';
 const Wrapper = styled.div`
     width: 100%;
     display: flex;
-    margin: 100px auto;
+    margin: 60px auto;
 `;
 
 const Side = styled.div`
