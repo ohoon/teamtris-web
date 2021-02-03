@@ -13,7 +13,7 @@ import useInteval from '../tetris/hooks/useInterval';
 import useQueue from '../tetris/hooks/useQueue';
 import useStatus from '../tetris/hooks/useStatus';
 import { randomTetromino, TetrominoShape, TETROMINOS } from '../tetris/tetrominos';
-import { createStage, Stage } from '../tetris/stage';
+import { createStage, Stage, STAGE_WIDTH } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
 
 const TetrisBlock = styled.div`
@@ -52,26 +52,14 @@ function TetrisSingleContainer() {
     const [delay, setDelay] = useState<number | null>(null);
     const dropSpeed = useRef(1000);
 
-    const startGame = () => {
-        setStage(createStage());
-        resetCursor();
-        initQueue();
-        resetStatus();
-
-        setHold(null);
-        setGameOver(false);
-
-        setDelay(dropSpeed.current);
-    };
+    const [cursor, updateCursorPos, rotateCursor, resetCursor] = useCursor();
+    const [queue, pushQueue, popQueue, resetQueue] = useQueue<TetrominoShape>();
+    const [lineCleared, setLineCleared] = useState(0);
 
     const endGame = useCallback(() => {
         setGameOver(true);
         setDelay(null);
     }, []);
-
-    const [cursor, updateCursorPos, rotateCursor, resetCursor] = useCursor();
-    const [queue, pushQueue, popQueue, resetQueue] = useQueue<TetrominoShape>();
-    const [lineCleared, setLineCleared] = useState(0);
 
     const sweepRows = (prev: Stage) => {
         const newStage: Stage = [];
@@ -87,6 +75,7 @@ function TetrisSingleContainer() {
         });
 
         setLineCleared(cleared);
+        socket.emit('tetromino is collided', newStage);
 
         return newStage;
     };
@@ -150,13 +139,25 @@ function TetrisSingleContainer() {
     const [score, rows, level, resetStatus] = useStatus(lineCleared);
     const [garbage, setGarbage] = useState(0);
 
-    const initQueue = () => {
+    const initQueue = useCallback(() => {
         resetQueue();
 
         for (let i = 0; i < 3; i++) {
             pushQueue(randomTetromino().shape);
         }
-    };
+    }, [resetQueue, pushQueue]);
+
+    const startGame = useCallback(() => {
+        setStage(createStage());
+        resetCursor();
+        initQueue();
+        resetStatus();
+
+        setHold(null);
+        setGameOver(false);
+
+        setDelay(dropSpeed.current);
+    }, [setStage, initQueue, resetCursor, resetStatus]);
 
     const moveCursor = (X: number) => {
         if (!checkCollision(cursor, stage, {
@@ -228,7 +229,24 @@ function TetrisSingleContainer() {
             resetCursor(popQueue() || undefined);
             pushQueue(randomTetromino().shape);
         }
-    }
+    };
+
+    const attackedByGarbage = useCallback((prev: number): number => {
+        const height = Math.floor(prev / 10);
+        const garbageLines = Array.from(
+            Array(height),
+            () => {
+                const array = new Array(STAGE_WIDTH).fill(['G', 'blocked']);
+                array[Math.floor(Math.random() * STAGE_WIDTH)] = [0, 'not blocked'];
+
+                return array;
+            }
+        );
+
+        setStage(stage.slice(height).concat(garbageLines));
+
+        return prev % 10;
+    }, [stage, setStage]);
 
     const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
         const { key } = e;
@@ -265,10 +283,33 @@ function TetrisSingleContainer() {
     };
 
     useInteval(drop, delay);
+    
+    useEffect(() => {
+        socket.on('start game', () => {
+            startGame();
+        });
+    }, [startGame]);
 
     useEffect(() => {
         dropSpeed.current = 1000 / level + 200;
     }, [level]);
+
+    useEffect(() => {
+        if (lineCleared > 0) {
+            const garbage = Math.pow(2, lineCleared - 1) * level;
+            socket.emit('garbage attack', garbage);
+        }
+    }, [lineCleared, level]);
+
+    useEffect(() => {
+        socket.on('someone attack you', (garbage: number) => {
+            setGarbage(prev => attackedByGarbage(prev + garbage));
+        });
+
+        return () => {
+            socket.removeListener('someone attack you');
+        }
+    }, [attackedByGarbage]);
 
     useEffect(() => {
         socket.emit('tetris is loaded', createStage());

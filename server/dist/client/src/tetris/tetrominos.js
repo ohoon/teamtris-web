@@ -8,6 +8,12 @@ exports.TETROMINOS = {
         ],
         color: '0, 0, 0'
     },
+    'G': {
+        shape: [
+            ['G']
+        ],
+        color: '100, 100, 100'
+    },
     'I': {
         shape: [
             [0, 0, 0, 0],

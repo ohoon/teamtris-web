@@ -1,4 +1,4 @@
-import { WaitingPlayers } from './users';
+import { Players, WaitingPlayers } from './users';
 
 export interface Room {
     id: number;
@@ -12,3 +12,10 @@ export interface Room {
 }
 
 export type Rooms = Room[];
+
+export interface Game {
+    roomId: number;
+    players: Players;
+}
+
+export type Games = Game[];

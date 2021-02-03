@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Player, Players } from '../../../server/src/socket/users';
+import { Game } from '../../../server/src/socket/rooms';
+import { Players } from '../../../server/src/socket/users';
 import TetrisOthersList from '../components/TetrisOthersList';
 import socket from '../socket';
 
@@ -7,12 +8,13 @@ function TetrisOthersContainer() {
     const [players, setPlayers] = useState<Players>([]);
 
     useEffect(() => {
-        socket.on('other player is loaded', (player: Player) => {
-            setPlayers(players => players.concat(player));
+        socket.on('update game', (game: Game) => {
+            const otherPlayers = game.players.filter(player => player.socketId !== socket.id);
+            setPlayers(otherPlayers);
         });
 
         return () => {
-            socket.removeListener('other player is loaded');
+            socket.removeListener('update game');
         };
     }, []);
 
