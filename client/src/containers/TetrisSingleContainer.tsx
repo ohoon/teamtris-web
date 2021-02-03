@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import socket from '../socket';
 import TetrisHold from '../components/TetrisHold';
-import TetrisHelp from '../components/TetrisHelp';
+import TetrisGarbageBar from '../components/TetrisGarbageBar';
 import TetrisStage from '../components/TetrisStage';
 import TetrisNext from '../components/TetrisNext';
 import TetrisStatus from '../components/TetrisStatus';
@@ -148,6 +148,7 @@ function TetrisSingleContainer() {
 
     const [stage, setStage] = useStage(updateStage);
     const [score, rows, level, resetStatus] = useStatus(lineCleared);
+    const [garbage, setGarbage] = useState(0);
 
     const initQueue = () => {
         resetQueue();
@@ -282,7 +283,9 @@ function TetrisSingleContainer() {
                 <TetrisHold
                     tetromino={hold}
                 />
-                <TetrisHelp />
+                <TetrisGarbageBar
+                    garbage={garbage}
+                />
             </Side>
             <TetrisStage
                 stage={stage}
