@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 import TetrisStageCell from './TetrisStageCell';
+import TetrisOverlay from './TetrisOverlay';
 import { STAGE_WIDTH, STAGE_HEIGHT } from '../tetris/stage';
 import { Stage } from '../tetris/stage';
 
@@ -15,6 +16,7 @@ const StageBlock = styled.div<{ size: number }>`
         1fr
     );
     grid-gap: 1px;
+    position: relative;
     width: 100%;
     max-width: ${props => props.size}vw;
     margin: auto;
@@ -42,6 +44,9 @@ function TetrisStage({ stage, gameOver, size }: TetrisStageProps) {
                     />
                 )
             )}
+            <TetrisOverlay
+                text={gameOver ? "GAME OVER" : ""}
+            />
         </StageBlock>
     );
 }
