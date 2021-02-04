@@ -206,6 +206,23 @@ export default function createSocketIoServer(server: Server) {
             }
         });
 
+        socket.on('player is game over', () => {
+            const currentRoomId = socket.currentRoomId;
+            const game = games.find(game => game.roomId === currentRoomId);
+            
+            if (currentRoomId && game) {
+                const gameIndex = games.indexOf(game);
+                const players = game.players;
+                const me = players.find(player => player.socketId === socket.id);
+                
+                if (me) {
+                    const meIndex = players.indexOf(me);
+                    games[gameIndex].players[meIndex].gameOver = true;
+                    socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
+                }
+            }
+        });
+
         socket.on('send chat', (chat: Chat, target: string) => {
             io.in(target).emit('receive chat', chat);
         });

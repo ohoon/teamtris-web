@@ -106,6 +106,7 @@ function TetrisSingleContainer() {
             row.forEach((type, x) => {
                 if (type !== 0) {
                     if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
+                        socket.emit('player is game over');
                         endGame();
                     }
 
