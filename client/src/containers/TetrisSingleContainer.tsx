@@ -108,6 +108,7 @@ function TetrisSingleContainer() {
                     if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
                         socket.emit('player is game over');
                         endGame();
+                        return;
                     }
 
                     newStage[y + cursor.pos.y + outlineY][x + cursor.pos.x] = [
