@@ -9,9 +9,10 @@ import TetrisNext from '../components/TetrisNext';
 import TetrisStatus from '../components/TetrisStatus';
 import useStage from '../tetris/hooks/useStage';
 import useCursor from '../tetris/hooks/useCursor';
-import useInteval from '../tetris/hooks/useInterval';
+import useInterval from '../tetris/hooks/useInterval';
 import useQueue from '../tetris/hooks/useQueue';
 import useStatus from '../tetris/hooks/useStatus';
+import useCountDown from '../tetris/hooks/useCountDown';
 import { randomTetromino, TetrominoShape, TETROMINOS } from '../tetris/tetrominos';
 import { createStage, Stage, STAGE_WIDTH } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
@@ -49,6 +50,7 @@ const StartButton = styled(Button)`
 function TetrisSingleContainer() {
     const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState(false);
+    const [overlay, setOverlay] = useState<string>('Waiting...');
     const [delay, setDelay] = useState<number | null>(null);
     const dropSpeed = useRef(1000);
 
@@ -160,6 +162,21 @@ function TetrisSingleContainer() {
 
         setDelay(dropSpeed.current);
     }, [setStage, initQueue, resetCursor, resetStatus]);
+
+    const countDown = useCountDown(3);
+
+    const startCount = useCallback(() => {
+        const id = setInterval(() => {
+            const num = countDown.next().value;
+            if (num) {
+                setOverlay(num.toString());
+            } else {
+                clearInterval(id);
+                setOverlay('');
+                startGame();
+            }
+        }, 1500);
+    }, [countDown, startGame]);
 
     const moveCursor = (X: number) => {
         if (!checkCollision(cursor, stage, {
@@ -284,13 +301,13 @@ function TetrisSingleContainer() {
         }
     };
 
-    useInteval(drop, delay);
+    useInterval(drop, delay);
     
     useEffect(() => {
         socket.on('start game', () => {
-            startGame();
+            startCount();
         });
-    }, [startGame]);
+    }, [startCount]);
 
     useEffect(() => {
         dropSpeed.current = 1000 / level + 200;
@@ -334,6 +351,7 @@ function TetrisSingleContainer() {
                 stage={stage}
                 gameOver={gameOver}
                 size={20}
+                overlay={overlay}
             />
             <Side>
                 <TetrisNext
