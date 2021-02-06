@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import TetrisHold from '../components/TetrisHold';
@@ -226,35 +226,44 @@ function TetrisPracticeContainer() {
         }
     }
 
-    const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
+    const onKeyUp = (e: any) => {
         const { key } = e;
 
         if (!gameOver) {
             if (key === 'ArrowDown') {
+                e.preventDefault();
                 setDelay(dropSpeed.current);
             } else if (key === ' ') {
+                e.preventDefault();
                 setDelay(dropSpeed.current);
             } else if (key === 'Shift') {
+                e.preventDefault();
                 setDelay(dropSpeed.current);
             }
         }
     };
 
-    const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const onKeyDown = (e: any) => {
         const { key } = e;
         
         if (!gameOver) {
             if (key === 'ArrowLeft') {
+                e.preventDefault();
                 moveCursor(-1);
             } else if (key === 'ArrowRight') {
+                e.preventDefault();
                 moveCursor(1);
             } else if (key === 'ArrowUp') {
+                e.preventDefault();
                 rotateCursor(stage, 1);
             } else if (key === 'ArrowDown') {
+                e.preventDefault();
                 dropCursor();
             } else if (key === ' ') {
+                e.preventDefault();
                 hardDropCursor();
             } else if (key === 'Shift') {
+                e.preventDefault();
                 holdCursor();
             }
         }
@@ -266,11 +275,18 @@ function TetrisPracticeContainer() {
         dropSpeed.current = 1000 / level + 200;
     }, [level]);
 
+    useEffect(() => {
+        window.addEventListener('keyup', onKeyUp);
+        window.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            window.removeEventListener('keyup', onKeyUp);
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    });
+
     return (
-        <TetrisBlock
-            onKeyUp={onKeyUp}
-            onKeyDown={onKeyDown}
-        >
+        <TetrisBlock>
             <Side>
                 <TetrisHold
                     tetromino={hold}
@@ -296,7 +312,6 @@ function TetrisPracticeContainer() {
                         variant="info"
                         size="lg"
                         onClick={startGame}
-                        onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => gameOver || e.preventDefault()}
                         block
                     >
                         시작

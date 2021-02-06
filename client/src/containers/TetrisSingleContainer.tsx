@@ -1,6 +1,5 @@
-import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
 import socket from '../socket';
 import TetrisHold from '../components/TetrisHold';
 import TetrisGarbageBar from '../components/TetrisGarbageBar';
@@ -33,18 +32,6 @@ const TetrisBlock = styled.div`
 const Side = styled.div`
     display: flex;
     flex-direction: column;
-`;
-
-const ButtonGroup = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const StartButton = styled(Button)`
-    height: 100%;
-    margin: 10%;
 `;
 
 function TetrisSingleContainer() {
@@ -267,35 +254,44 @@ function TetrisSingleContainer() {
         return prev % 10;
     }, [stage, setStage]);
 
-    const onKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
-        const { key } = e;
+    const onKeyUp = (e: any) => {
+        const { key, target } = e;
 
-        if (!gameOver) {
+        if (!gameOver && target.tagName !== 'INPUT') {
             if (key === 'ArrowDown') {
+                e.preventDefault();
                 setDelay(dropSpeed.current);
             } else if (key === ' ') {
+                e.preventDefault();
                 setDelay(dropSpeed.current);
             } else if (key === 'Shift') {
+                e.preventDefault();
                 setDelay(dropSpeed.current);
             }
         }
     };
 
-    const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-        const { key } = e;
+    const onKeyDown = (e: any) => {
+        const { key, target } = e;
         
-        if (!gameOver) {
+        if (!gameOver && target.tagName !== 'INPUT') {
             if (key === 'ArrowLeft') {
+                e.preventDefault();
                 moveCursor(-1);
             } else if (key === 'ArrowRight') {
+                e.preventDefault();
                 moveCursor(1);
             } else if (key === 'ArrowUp') {
+                e.preventDefault();
                 rotateCursor(stage, 1);
             } else if (key === 'ArrowDown') {
+                e.preventDefault();
                 dropCursor();
             } else if (key === ' ') {
+                e.preventDefault();
                 hardDropCursor();
             } else if (key === 'Shift') {
+                e.preventDefault();
                 holdCursor();
             }
         }
@@ -331,6 +327,16 @@ function TetrisSingleContainer() {
     }, [attackedByGarbage]);
 
     useEffect(() => {
+        window.addEventListener('keyup', onKeyUp);
+        window.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            window.removeEventListener('keyup', onKeyUp);
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    });
+
+    useEffect(() => {
         socket.emit('tetris is loaded', createStage());
     }, []);
 
@@ -362,17 +368,6 @@ function TetrisSingleContainer() {
                     rows={rows}
                     level={level}
                 />
-                <ButtonGroup>
-                    <StartButton
-                        variant="info"
-                        size="lg"
-                        onClick={startGame}
-                        onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => gameOver || e.preventDefault()}
-                        block
-                    >
-                        시작
-                    </StartButton>
-                </ButtonGroup>
             </Side>
         </TetrisBlock>
     );
