@@ -5,7 +5,10 @@ import { Players } from '../../../server/src/socket/users';
 import TetrisOthersItem from './TetrisOthersItem';
 
 const Wrapper = styled.div`
-    padding: 0 5% 5% 5%;
+    min-height: 37vw;
+    padding: 2%;
+    border: 3px solid #E8E8E8;
+    background: #EEEEEE;
 `;
 
 interface TetrisOthersListProps {

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Player } from '../../../server/src/socket/users';
+import { createStage } from '../tetris/stage';
 import TetrisStage from './TetrisStage';
 
 const Wrapper = styled.div`
@@ -14,7 +15,7 @@ interface TetrisOthersItemProps extends Player {
 
 }
 
-function TetrisOthersItem({ username, nickname, stage, gameOver, grade }: TetrisOthersItemProps) {
+function TetrisOthersItem({ username, nickname, stage = createStage(), gameOver = false, grade }: TetrisOthersItemProps) {
     return (
         <Wrapper>
             <strong>
