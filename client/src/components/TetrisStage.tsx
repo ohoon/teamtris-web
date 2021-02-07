@@ -46,7 +46,7 @@ function TetrisStage({ stage, gameOver, size, overlay }: TetrisStageProps) {
                 )
             )}
             <TetrisOverlay
-                text={gameOver ? "GAME OVER" : overlay || ""}
+                text={overlay || ""}
                 size={size / 8}
             />
         </StageBlock>

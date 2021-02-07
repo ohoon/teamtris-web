@@ -45,7 +45,7 @@ const StartButton = styled(Button)`
 
 function TetrisPracticeContainer() {
     const [hold, setHold] = useState<TetrominoShape | null>(null);
-    const [gameOver, setGameOver] = useState(false);
+    const [gameOver, setGameOver] = useState<boolean>();
     const [delay, setDelay] = useState<number | null>(null);
     const dropSpeed = useRef(1000);
 
@@ -229,7 +229,7 @@ function TetrisPracticeContainer() {
     const onKeyUp = (e: any) => {
         const { key } = e;
 
-        if (!gameOver) {
+        if (gameOver === false) {
             if (key === 'ArrowDown') {
                 e.preventDefault();
                 setDelay(dropSpeed.current);
@@ -246,7 +246,7 @@ function TetrisPracticeContainer() {
     const onKeyDown = (e: any) => {
         const { key } = e;
         
-        if (!gameOver) {
+        if (gameOver === false) {
             if (key === 'ArrowLeft') {
                 e.preventDefault();
                 moveCursor(-1);
@@ -295,8 +295,9 @@ function TetrisPracticeContainer() {
             </Side>
             <TetrisStage
                 stage={stage}
-                gameOver={gameOver}
+                gameOver={gameOver || false}
                 size={20}
+                overlay={gameOver ? "GAME OVER" : ""}
             />
             <Side>
                 <TetrisNext

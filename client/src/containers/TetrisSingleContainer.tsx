@@ -36,7 +36,7 @@ const Side = styled.div`
 
 function TetrisSingleContainer() {
     const [hold, setHold] = useState<TetrominoShape | null>(null);
-    const [gameOver, setGameOver] = useState(false);
+    const [gameOver, setGameOver] = useState<boolean>();
     const [overlay, setOverlay] = useState<string>('Waiting...');
     const [delay, setDelay] = useState<number | null>(null);
     const dropSpeed = useRef(1000);
@@ -257,7 +257,7 @@ function TetrisSingleContainer() {
     const onKeyUp = (e: any) => {
         const { key, target } = e;
 
-        if (!gameOver && target.tagName !== 'INPUT') {
+        if (gameOver === false && target.tagName !== 'INPUT') {
             if (key === 'ArrowDown') {
                 e.preventDefault();
                 setDelay(dropSpeed.current);
@@ -274,7 +274,7 @@ function TetrisSingleContainer() {
     const onKeyDown = (e: any) => {
         const { key, target } = e;
         
-        if (!gameOver && target.tagName !== 'INPUT') {
+        if (gameOver === false && target.tagName !== 'INPUT') {
             if (key === 'ArrowLeft') {
                 e.preventDefault();
                 moveCursor(-1);
@@ -355,7 +355,7 @@ function TetrisSingleContainer() {
             </Side>
             <TetrisStage
                 stage={stage}
-                gameOver={gameOver}
+                gameOver={gameOver || false}
                 size={20}
                 overlay={overlay}
             />
