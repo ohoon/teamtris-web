@@ -121,7 +121,12 @@ export default function createSocketIoServer(server: Server) {
                 if (!players.find(player => player.isReady === false)) {
                     const game = {
                         roomId: room.id,
-                        players: []
+                        players: players.map(player => ({
+                            socketId: player.socketId,
+                            _id: player._id,
+                            username: player.username,
+                            nickname: player.nickname
+                        }))
                     };
 
                     games.push(game);
@@ -149,29 +154,20 @@ export default function createSocketIoServer(server: Server) {
 
         socket.on('tetris is loaded', (stage: Stage) => {
             const currentRoomId = socket.currentRoomId;
-            const room = rooms.find(room => room.id === currentRoomId);
             const game = games.find(game => game.roomId === currentRoomId);
             
-            if (currentRoomId && room && game) {
-                const roomIndex = rooms.indexOf(room);
+            if (currentRoomId && game) {
                 const gameIndex = games.indexOf(game);
-                const players = room.players;
+                const players = game.players;
                 const me = players.find(player => player.socketId === socket.id);
                 
                 if (me) {
-                    const player = {
-                        socketId: me.socketId,
-                        _id: me._id,
-                        username: me.username,
-                        nickname: me.nickname,
-                        stage: stage,
-                        gameOver: false
-                    };
-
-                    games[gameIndex].players.push(player);
+                    const meIndex = players.indexOf(me);
+                    games[gameIndex].players[meIndex].stage = stage;
+                    games[gameIndex].players[meIndex].gameOver = false;
                     socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
 
-                    if (games[gameIndex].players.length === rooms[roomIndex].players.length) {
+                    if (!games[gameIndex].players.find(player => player.stage === undefined || player.gameOver === undefined)) {
                         io.in(`room${game.roomId}`).emit('start game');
                     }
                 }

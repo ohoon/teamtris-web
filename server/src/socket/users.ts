@@ -17,8 +17,8 @@ export interface WaitingPlayer extends ConnectedUser {
 export type WaitingPlayers = WaitingPlayer[];
 
 export interface Player extends ConnectedUser {
-    stage: Stage;
-    gameOver: boolean;
+    stage?: Stage;
+    gameOver?: boolean;
     grade?: number;
 }
 
