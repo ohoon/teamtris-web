@@ -156,17 +156,24 @@ function createSocketIoServer(server) {
                 io.to(target.socketId).emit('someone attack you', garbage);
             }
         });
-        socket.on('player is game over', () => {
+        socket.on('end game', () => {
             const currentRoomId = socket.currentRoomId;
             const game = games.find(game => game.roomId === currentRoomId);
             if (currentRoomId && game) {
                 const gameIndex = games.indexOf(game);
                 const players = game.players;
+                const alivePlayers = players.filter(player => player.gameOver !== true);
+                const grade = alivePlayers.length + 1;
                 const me = players.find(player => player.socketId === socket.id);
                 if (me) {
                     const meIndex = players.indexOf(me);
                     games[gameIndex].players[meIndex].gameOver = true;
+                    games[gameIndex].players[meIndex].grade = grade;
                     socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
+                    socket.emit('send game result', grade);
+                }
+                if (alivePlayers.length == 1) {
+                    io.to(alivePlayers[0].socketId).emit('you are won');
                 }
             }
         });

@@ -95,7 +95,7 @@ function TetrisSingleContainer() {
             row.forEach((type, x) => {
                 if (type !== 0) {
                     if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
-                        socket.emit('player is game over');
+                        socket.emit('end game');
                         endGame();
                         return;
                     }
@@ -303,6 +303,10 @@ function TetrisSingleContainer() {
         socket.on('start game', () => {
             startCount();
         });
+
+        return () => {
+            socket.removeListener('start game');
+        }
     }, [startCount]);
 
     useEffect(() => {
@@ -327,6 +331,29 @@ function TetrisSingleContainer() {
     }, [attackedByGarbage]);
 
     useEffect(() => {
+        socket.on('you are won', () => {
+            socket.emit('end game');
+            endGame();
+        });
+        
+        return () => {
+            socket.removeListener('you are won');
+        };
+    }, [endGame]);
+
+    useEffect(() => {
+        socket.emit('tetris is loaded', createStage());
+
+        socket.on('send game result', (grade: number) => {
+            setOverlay(`${grade}등`);
+        });
+
+        return () => {
+            socket.removeListener('send game result');
+        };
+    }, []);
+
+    useEffect(() => {
         window.addEventListener('keyup', onKeyUp);
         window.addEventListener('keydown', onKeyDown);
 
@@ -335,10 +362,6 @@ function TetrisSingleContainer() {
             window.removeEventListener('keydown', onKeyDown);
         };
     });
-
-    useEffect(() => {
-        socket.emit('tetris is loaded', createStage());
-    }, []);
 
     return (
         <TetrisBlock

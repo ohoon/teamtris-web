@@ -14,7 +14,7 @@ interface TetrisOthersItemProps extends Player {
 
 }
 
-function TetrisOthersItem({ username, nickname, stage, gameOver }: TetrisOthersItemProps) {
+function TetrisOthersItem({ username, nickname, stage, gameOver, grade }: TetrisOthersItemProps) {
     return (
         <Wrapper>
             <strong>
@@ -24,6 +24,7 @@ function TetrisOthersItem({ username, nickname, stage, gameOver }: TetrisOthersI
                 stage={stage}
                 gameOver={gameOver}
                 size={8}
+                overlay={grade ? `${grade}등` : ""}
             />
         </Wrapper>
     );

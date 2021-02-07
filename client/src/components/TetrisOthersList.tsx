@@ -37,6 +37,7 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
                             nickname={player.nickname}
                             stage={player.stage}
                             gameOver={player.gameOver}
+                            grade={player.grade}
                         />
                     </Col>
                 )}
