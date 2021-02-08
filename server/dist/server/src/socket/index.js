@@ -49,6 +49,7 @@ function createSocketIoServer(server) {
                     socket.join(`room${room.id}`);
                     socket.emit('enter room', rooms[roomIndex]);
                     socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);
+                    io.in('channel').emit('update roomlist', rooms);
                 }
             }
         });

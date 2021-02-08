@@ -75,7 +75,8 @@ export default function createSocketIoServer(server: Server) {
                     socket.leave('channel');
                     socket.join(`room${room.id}`);
                     socket.emit('enter room', rooms[roomIndex]);
-                    socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);    
+                    socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);
+                    io.in('channel').emit('update roomlist', rooms);  
                 }
             }
         });
