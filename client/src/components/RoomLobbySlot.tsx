@@ -17,8 +17,13 @@ const RoomLobbySlotBlock = styled.div`
     }
 `;
 
-interface RoomLobbySlotProps extends WaitingPlayer {
-
+interface RoomLobbySlotProps {
+    socketId: string;
+    _id: string;
+    username: string;
+    nickname: string;
+    isReady: boolean;
+    isMaster: boolean;
 }
 
 function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster }: RoomLobbySlotProps) {

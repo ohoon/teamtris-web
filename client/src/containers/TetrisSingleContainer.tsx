@@ -55,17 +55,18 @@ function TetrisSingleContainer() {
     }, []);
 
     const sweepRows = (prev: Stage) => {
-        const newStage: Stage = [];
         let cleared = 0;
         
-        prev.forEach(row => {
+        const newStage = prev.reduce<Stage>((stage, row) => {
             if (!row.find(cell => cell[0] === 0)) {
-                newStage.unshift(new Array(prev[0].length).fill([0, 'not blocked']));
+                stage.unshift(new Array(prev[0].length).fill([0, 'not blocked']));
                 cleared += 1;
-            } else {
-                newStage.push(row);
+                return stage;
             }
-        });
+
+            stage.push(row);
+            return stage;
+        }, []);
 
         setLineCleared(cleared);
         socket.emit('tetromino is collided', newStage);

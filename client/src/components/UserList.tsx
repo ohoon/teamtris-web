@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ConnectedUsers } from '../../../server/src/socket/users';
+import { ConnectedUser } from '../../../server/src/socket/users';
 import UserItem from './UserItem';
 
 const UserListBlock = styled.div`
@@ -28,7 +28,7 @@ const UserListBlock = styled.div`
 `;
 
 interface UserListProps {
-    users: ConnectedUsers;
+    users: ConnectedUser;
 }
 
 function UserList({ users }: UserListProps) {
@@ -37,15 +37,15 @@ function UserList({ users }: UserListProps) {
             <div
                 className="head"
             >
-                현재 접속자 목록 ({users.length}명)
+                현재 접속자 목록 ({Object.keys(users).length}명)
             </div>
             <ul
                 className="body"
             >
-                {users.map((user, index) =>
+                {Object.entries(users).map(([socketId, user], index) =>
                     <UserItem
                         key={index + 1}
-                        socketId={user.socketId}
+                        socketId={socketId}
                         _id={user._id}
                         username={user.username}
                         nickname={user.nickname}

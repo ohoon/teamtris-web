@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
-import { Players } from '../../../server/src/socket/users';
+import { Player } from '../../../server/src/socket/users';
 import TetrisOthersItem from './TetrisOthersItem';
 
 const Wrapper = styled.div`
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `;
 
 interface TetrisOthersListProps {
-    players: Players;
+    players: Player;
 }
 
 function TetrisOthersList({ players }: TetrisOthersListProps) {
@@ -24,7 +24,7 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
                 sm={2}
                 xs={2}
             >
-                {players.map((player, index) =>
+                {Object.entries(players).map(([socketId, player], index) =>
                     <Col
                         key={index + 1}
                         lg={3}
@@ -34,8 +34,8 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
                     >
                         <TetrisOthersItem
                             key={index}
+                            socketId={socketId}
                             _id={player._id}
-                            socketId={player.socketId}
                             username={player.username}
                             nickname={player.nickname}
                             stage={player.stage}

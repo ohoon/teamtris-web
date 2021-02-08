@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Room } from '../../../server/src/socket/rooms';
+import { WaitingPlayer } from '../../../server/src/socket/users';
 import RoomLobbySlot from './RoomLobbySlot';
 
 const RoomLobbyBlock = styled.div`
@@ -40,7 +40,15 @@ const LeaveRoomButton = styled(Button)`
     margin-left: 2px;
 `;
 
-interface RoomLobbyProps extends Room {
+interface RoomLobbyProps {
+    roomId: number;
+    title: string;
+    password: string;
+    players: WaitingPlayer;
+    current: number;
+    max: 2 | 4 | 8;
+    mode: 'single' | 'double';
+    isStart: boolean;
     isReady: boolean;
     isMaster: boolean;
     onStartGame: () => void;
@@ -48,13 +56,13 @@ interface RoomLobbyProps extends Room {
     onLeaveRoom: () => void;
 }
 
-function RoomLobby({ id, title, players, current, max, mode, isReady, isMaster, onStartGame, onReady, onLeaveRoom }: RoomLobbyProps) {
+function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onReady, onLeaveRoom }: RoomLobbyProps) {
     return (
         <RoomLobbyBlock>
             <div
                 className="head"
             >
-                [{id}] {title} {mode} 참여자 {current}/{max}
+                [{roomId}] {title} {mode} 참여자 {current}/{max}
             </div>
             <div
                 className="body"
@@ -65,7 +73,7 @@ function RoomLobby({ id, title, players, current, max, mode, isReady, isMaster, 
                     sm={2}
                     xs={2}
                 >
-                    {players.map((player, index) =>
+                    {Object.entries(players).map(([socketId, player], index) =>
                         <Col
                             key={index + 1}
                             lg={3}
@@ -74,7 +82,7 @@ function RoomLobby({ id, title, players, current, max, mode, isReady, isMaster, 
                             xs={6}
                         >
                             <RoomLobbySlot
-                                socketId={player.socketId}
+                                socketId={socketId}
                                 _id={player._id}
                                 username={player.username}
                                 nickname={player.nickname}

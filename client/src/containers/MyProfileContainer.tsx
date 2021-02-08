@@ -15,12 +15,12 @@ const LogInButtonBlock = styled.div`
 `;
 
 function MyProfileContainer() {
-    const { data } = useSelector((state: RootState) => state.users.me);
+    const me = useSelector((state: RootState) => state.users.me.data);
 
     const history = useHistory();
     const goToLogin = () => history.push('/login');
 
-    if (!data) {
+    if (!me) {
         return (
             <LogInButtonBlock>
                 <p>
@@ -37,9 +37,9 @@ function MyProfileContainer() {
 
     return (
         <MyProfile
-            _id={data._id}
-            username={data.username}
-            nickname={data.nickname}
+            _id={me._id}
+            username={me.username}
+            nickname={me.nickname}
         />
     );
 }

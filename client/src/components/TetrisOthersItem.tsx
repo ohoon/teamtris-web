@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Player } from '../../../server/src/socket/users';
-import { createStage } from '../tetris/stage';
+import { createStage, Stage } from '../tetris/stage';
 import TetrisStage from './TetrisStage';
 
 const Wrapper = styled.div`
@@ -11,8 +10,14 @@ const Wrapper = styled.div`
     padding: 5%;
 `;
 
-interface TetrisOthersItemProps extends Player {
-
+interface TetrisOthersItemProps {
+    socketId: string;
+    _id: string;
+    username: string;
+    nickname: string;
+    stage?: Stage;
+    gameOver?: boolean;
+    grade?: number;
 }
 
 function TetrisOthersItem({ username, nickname, stage = createStage(), gameOver = false, grade }: TetrisOthersItemProps) {

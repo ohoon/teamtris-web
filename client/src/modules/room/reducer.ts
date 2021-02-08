@@ -8,10 +8,13 @@ const reducer = createReducer<RoomState, RoomAction>(initialState, {
     [SET_ROOM]: (state, action) => (
         action.payload
     ),
-    [START_GAME]: (state): RoomState => ({
-        ...state!,
-        isStart: true
-    })
+    [START_GAME]: (state): RoomState => (
+        state &&
+        ({
+            ...state,
+            isStart: true
+        })
+    )
 });
 
 export default reducer;

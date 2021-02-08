@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Rooms } from '../../../server/src/socket/rooms';
+import { Room } from '../../../server/src/socket/rooms';
 import RoomItem from '../components/RoomItem';
 
 const RoomListBlock = styled.div`
@@ -39,7 +39,7 @@ const CreateRoomButton = styled(Button)`
 `;
 
 interface RoomListProps {
-    rooms: Rooms;
+    rooms: Room;
     onJoinRoom: (roomId: number) => void;
     onCreateRoom: () => void;
     goToPractice: () => void;
@@ -51,7 +51,7 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
             <div
                 className="head"
             >
-                방 목록 ({rooms.length}개)
+                방 목록 ({Object.keys(rooms).length}개)
             </div>
             <div
                 className="body"
@@ -62,7 +62,7 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
                     sm={1}
                     xs={1}
                 >
-                    {rooms.map((room, index) =>
+                    {Object.entries(rooms).map(([roomId, room], index) =>
                         <Col
                             key={index + 1}
                             lg={6}
@@ -71,7 +71,7 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
                             xs={12}
                         >
                             <RoomItem
-                                id={room.id}
+                                roomId={parseInt(roomId)}
                                 title={room.title}
                                 password={room.password}
                                 players={room.players}

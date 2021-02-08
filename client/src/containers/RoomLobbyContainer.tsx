@@ -5,7 +5,7 @@ import { RootState } from '../modules';
 import { setRoom, startGame } from '../modules/room';
 import socket from '../socket';
 import RoomLobby from '../components/RoomLobby';
-import { Room } from '../../../server/src/socket/rooms';
+import { CurrentRoom } from '../socket/rooms';
 
 function RoomLobbyContainer() {
     const room = useSelector((state: RootState) => state.room)!;
@@ -27,7 +27,7 @@ function RoomLobbyContainer() {
     };
 
     useEffect(() => {
-        socket.on('update room', (room: Room) => {
+        socket.on('update room', (room: CurrentRoom) => {
             dispatch(setRoom(room));
         });
 
@@ -40,10 +40,11 @@ function RoomLobbyContainer() {
             socket.removeListener('update room');
             socket.removeListener('create game');
         }
-    }, [dispatch, history])
-    return (    
+    }, [dispatch, history]);
+
+    return (
         <RoomLobby
-            id={room.id}
+            roomId={room.roomId}
             title={room.title}
             password={room.password}
             players={room.players}
@@ -51,8 +52,8 @@ function RoomLobbyContainer() {
             max={room.max}
             mode={room.mode}
             isStart={room.isStart}
-            isReady={room.players.find(player => player.socketId === socket.id)!.isReady}
-            isMaster={room.players.find(player => player.socketId === socket.id)!.isMaster}
+            isReady={socket.id in room.players ? room.players[socket.id].isReady : false}
+            isMaster={socket.id in room.players ? room.players[socket.id].isMaster : false}
             onStartGame={onStartGame}
             onReady={onReady}
             onLeaveRoom={onLeaveRoom}

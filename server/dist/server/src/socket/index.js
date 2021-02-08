@@ -7,21 +7,25 @@ function createSocketIoServer(server) {
             origin: 'http://localhost:5000'
         }
     });
-    let users = [];
-    let rooms = [];
-    let games = [];
+    let users = {};
+    let rooms = {};
+    let games = {};
     let roomRef = 1;
     io.on('connection', (socket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
-        socket.on('join channel', (user) => {
-            user && users.push(Object.assign(Object.assign({}, user), { socketId: socket.id }));
+        socket.on('join channel', (_user) => {
+            if (_user) {
+                const user = {
+                    [socket.id]: _user
+                };
+                Object.assign(users, user);
+            }
             socket.join('channel');
             io.in('channel').emit('update userlist', users);
         });
         socket.on('leave channel', () => {
-            const user = users.find(user => user.socketId === socket.id);
-            if (user) {
-                users.splice(users.indexOf(user), 1);
+            if (socket.id in users) {
+                delete users[socket.id];
                 io.in('channel').emit('update userlist', users);
             }
         });
@@ -29,149 +33,138 @@ function createSocketIoServer(server) {
             socket.emit('update roomlist', rooms);
         });
         socket.on('request room', (input, player) => {
-            const room = Object.assign(Object.assign({}, input), { id: roomRef++, title: input.title || '테트리스 같이 해요', players: [player], current: 1, isStart: false });
-            rooms.push(room);
-            socket.currentRoomId = room.id;
+            const roomId = roomRef++;
+            const room = {
+                [roomId]: Object.assign(Object.assign({}, input), { title: input.title || '테트리스 같이 해요', players: player, current: 1, isStart: false })
+            };
+            Object.assign(rooms, room);
+            socket.currentRoomId = roomId;
             socket.leave('channel');
-            socket.join(`room${room.id}`);
-            socket.emit('create room', room);
+            socket.join(`room${roomId}`);
+            socket.emit('create room', Object.assign(Object.assign({}, room[roomId]), { roomId: roomId }));
             io.in('channel').emit('update roomlist', rooms);
         });
         socket.on('join room', (roomId, player) => {
-            const room = rooms.find(room => room.id === roomId);
-            if (room) {
-                const roomIndex = rooms.indexOf(room);
-                if (rooms[roomIndex].current < rooms[roomIndex].max) {
-                    rooms[roomIndex].players.push(player);
-                    rooms[roomIndex].current = rooms[roomIndex].players.length;
-                    socket.currentRoomId = room.id;
+            if (roomId in rooms) {
+                const room = rooms[roomId];
+                if (room.current < room.max) {
+                    Object.assign(room.players, player);
+                    room.current = Object.keys(room.players).length;
+                    socket.currentRoomId = roomId;
                     socket.leave('channel');
-                    socket.join(`room${room.id}`);
-                    socket.emit('enter room', rooms[roomIndex]);
-                    socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);
+                    socket.join(`room${roomId}`);
+                    socket.emit('enter room', Object.assign(Object.assign({}, room), { roomId: roomId }));
+                    socket.to(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     io.in('channel').emit('update roomlist', rooms);
                 }
             }
         });
         socket.on('leave room', () => {
-            const currentRoomId = socket.currentRoomId;
-            const room = rooms.find(room => room.id === currentRoomId);
-            if (currentRoomId && room) {
-                const roomIndex = rooms.indexOf(room);
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in rooms) {
+                const room = rooms[roomId];
                 const players = room.players;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    if (players.length > 1) {
+                if (socket.id in players) {
+                    const me = players[socket.id];
+                    const otherId = Object.keys(players).find(socketId => socketId !== socket.id);
+                    if (otherId) {
                         if (me.isMaster) {
-                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isMaster = true;
-                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isReady = true;
+                            players[otherId].isMaster = true;
+                            players[otherId].isReady = true;
                         }
-                        rooms[roomIndex].players.splice(players.indexOf(me), 1);
-                        rooms[roomIndex].current = rooms[roomIndex].players.length;
-                        socket.broadcast.emit('update room', rooms[roomIndex]);
+                        delete players[socket.id];
+                        room.current = Object.keys(players).length;
+                        socket.to(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     }
                     else {
-                        rooms.splice(roomIndex, 1);
+                        delete rooms[roomId];
                     }
                     socket.currentRoomId = null;
-                    socket.leave(`room${room.id}`);
+                    socket.leave(`room${roomId}`);
                     io.in('channel').emit('update roomlist', rooms);
                 }
             }
         });
         socket.on('request game', () => {
-            const currentRoomId = socket.currentRoomId;
-            const room = rooms.find(room => room.id === currentRoomId);
-            if (currentRoomId && room) {
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in rooms) {
+                const room = rooms[roomId];
                 const players = room.players;
-                if (!players.find(player => player.isReady === false)) {
+                if (!Object.values(players).find(player => player.isReady === false)) {
                     const game = {
-                        roomId: room.id,
-                        players: players.map(player => ({
-                            socketId: player.socketId,
-                            _id: player._id,
-                            username: player.username,
-                            nickname: player.nickname
-                        }))
+                        [roomId]: Object.entries(players).reduce((res, [socketId, player]) => (Object.assign(Object.assign({}, res), { [socketId]: {
+                                _id: player._id,
+                                username: player.username,
+                                nickname: player.nickname
+                            } })), {})
                     };
-                    games.push(game);
-                    io.in(`room${room.id}`).emit('create game');
+                    Object.assign(games, game);
+                    io.in(`room${roomId}`).emit('create game');
                 }
             }
         });
         socket.on('toggle ready', () => {
-            const currentRoomId = socket.currentRoomId;
-            const room = rooms.find(room => room.id === currentRoomId);
-            if (currentRoomId && room) {
-                const roomIndex = rooms.indexOf(room);
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in rooms) {
+                const room = rooms[roomId];
                 const players = room.players;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    const meIndex = players.indexOf(me);
-                    rooms[roomIndex].players[meIndex].isReady = !rooms[roomIndex].players[meIndex].isReady;
-                    io.in(`room${room.id}`).emit('update room', rooms[roomIndex]);
+                if (socket.id in players) {
+                    const me = players[socket.id];
+                    me.isReady = !me.isReady;
+                    io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                 }
             }
         });
         socket.on('tetris is loaded', (stage) => {
-            const currentRoomId = socket.currentRoomId;
-            const game = games.find(game => game.roomId === currentRoomId);
-            if (currentRoomId && game) {
-                const gameIndex = games.indexOf(game);
-                const players = game.players;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    const meIndex = players.indexOf(me);
-                    games[gameIndex].players[meIndex].stage = stage;
-                    games[gameIndex].players[meIndex].gameOver = false;
-                    socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
-                    if (!games[gameIndex].players.find(player => player.stage === undefined || player.gameOver === undefined)) {
-                        io.in(`room${game.roomId}`).emit('start game');
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in games) {
+                const game = games[roomId];
+                if (socket.id in game) {
+                    const me = game[socket.id];
+                    me.stage = stage;
+                    me.gameOver = false;
+                    socket.to(`room${roomId}`).emit('update game', game);
+                    if (!Object.values(game).find(player => player.stage === undefined || player.gameOver === undefined)) {
+                        io.in(`room${roomId}`).emit('start game');
                     }
                 }
             }
         });
         socket.on('tetromino is collided', (stage) => {
-            const currentRoomId = socket.currentRoomId;
-            const game = games.find(game => game.roomId === currentRoomId);
-            if (currentRoomId && game) {
-                const gameIndex = games.indexOf(game);
-                const players = game.players;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    const meIndex = players.indexOf(me);
-                    games[gameIndex].players[meIndex].stage = stage;
-                    socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in games) {
+                const game = games[roomId];
+                if (socket.id in game) {
+                    const me = game[socket.id];
+                    me.stage = stage;
+                    socket.to(`room${roomId}`).emit('update game', game);
                 }
             }
         });
         socket.on('garbage attack', (garbage) => {
-            const currentRoomId = socket.currentRoomId;
-            const game = games.find(game => game.roomId === currentRoomId);
-            if (currentRoomId && game) {
-                const otherPlayers = game.players.filter(player => player.socketId !== socket.id);
-                const target = otherPlayers[Math.floor(Math.random() * otherPlayers.length)];
-                io.to(target.socketId).emit('someone attack you', garbage);
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in games) {
+                const game = games[roomId];
+                const others = Object.keys(game).filter(socketId => socketId !== socket.id);
+                const target = others[Math.floor(Math.random() * others.length)];
+                io.to(target).emit('someone attack you', garbage);
             }
         });
         socket.on('end game', () => {
-            const currentRoomId = socket.currentRoomId;
-            const game = games.find(game => game.roomId === currentRoomId);
-            if (currentRoomId && game) {
-                const gameIndex = games.indexOf(game);
-                const players = game.players;
-                const alivePlayers = players.filter(player => player.socketId !== socket.id && player.gameOver === false);
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in games) {
+                const game = games[roomId];
+                const alivePlayers = Object.entries(game).filter(([socketId, player]) => socketId !== socket.id && player.gameOver === false);
                 const grade = alivePlayers.length + 1;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    const meIndex = players.indexOf(me);
-                    games[gameIndex].players[meIndex].gameOver = true;
-                    games[gameIndex].players[meIndex].grade = grade;
-                    socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
+                if (socket.id in game) {
+                    const me = game[socket.id];
+                    me.gameOver = true;
+                    me.grade = grade;
+                    socket.to(`room${roomId}`).emit('update game', game);
                     socket.emit('send game result', grade);
                 }
                 if (alivePlayers.length == 1) {
-                    io.to(alivePlayers[0].socketId).emit('you are won');
+                    io.to(alivePlayers[0][0]).emit('you are won');
                 }
             }
         });
@@ -179,50 +172,46 @@ function createSocketIoServer(server) {
             io.in(target).emit('receive chat', chat);
         });
         socket.on('disconnect', () => {
-            const user = users.find(user => user.socketId === socket.id);
-            if (user) {
-                users.splice(users.indexOf(user), 1);
+            if (socket.id in users) {
+                delete users[socket.id];
                 socket.to('channel').emit('update userlist', users);
             }
-            const currentRoomId = socket.currentRoomId;
-            const room = rooms.find(room => room.id === currentRoomId);
-            const game = games.find(game => game.roomId === currentRoomId);
-            if (currentRoomId && game) {
-                const gameIndex = games.indexOf(game);
-                const players = game.players;
-                const alivePlayers = players.filter(player => player.socketId !== socket.id && player.gameOver === false);
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in games) {
+                const game = games[roomId];
+                const alivePlayers = Object.entries(game).filter(([socketId, player]) => socketId !== socket.id && player.gameOver === false);
                 const grade = alivePlayers.length + 1;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    const meIndex = players.indexOf(me);
-                    games[gameIndex].players[meIndex].gameOver = true;
-                    games[gameIndex].players[meIndex].grade = grade;
-                    socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
+                if (socket.id in game) {
+                    const me = game[socket.id];
+                    me.gameOver = true;
+                    me.grade = grade;
+                    socket.to(`room${roomId}`).emit('update game', game);
                     socket.emit('send game result', grade);
                 }
                 if (alivePlayers.length == 1) {
-                    io.to(alivePlayers[0].socketId).emit('you are won');
+                    io.to(alivePlayers[0][0]).emit('you are won');
                 }
             }
-            if (currentRoomId && room) {
-                const roomIndex = rooms.indexOf(room);
+            if (roomId && roomId in rooms) {
+                const room = rooms[roomId];
                 const players = room.players;
-                const me = players.find(player => player.socketId === socket.id);
-                if (me) {
-                    if (players.length > 1) {
+                if (socket.id in players) {
+                    const me = players[socket.id];
+                    const otherId = Object.keys(players).find(socketId => socketId !== socket.id);
+                    if (otherId) {
                         if (me.isMaster) {
-                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isMaster = true;
-                            rooms[roomIndex].players[players.findIndex(player => player !== me)].isReady = true;
+                            players[otherId].isMaster = true;
+                            players[otherId].isReady = true;
                         }
-                        rooms[roomIndex].players.splice(players.indexOf(me), 1);
-                        rooms[roomIndex].current = rooms[roomIndex].players.length;
-                        socket.to(`room${room.id}`).emit('update room', rooms[roomIndex]);
+                        delete players[socket.id];
+                        room.current = Object.keys(players).length;
+                        socket.to(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     }
                     else {
-                        rooms.splice(roomIndex, 1);
+                        delete rooms[roomId];
                     }
                     socket.currentRoomId = null;
-                    socket.leave(`room${room.id}`);
+                    socket.leave(`room${roomId}`);
                     socket.to('channel').emit('update roomlist', rooms);
                 }
             }

@@ -24,12 +24,13 @@ function DialogContainer() {
 
     const onCreateRoom = (input: CreateRoomInputs) => {
         const player = me && {
-            socketId: socket.id,
-            _id: me._id,
-            username: me.username,
-            nickname: me.nickname,
-            isReady: true,
-            isMaster: true
+            [socket.id]: {
+                _id: me._id,
+                username: me.username,
+                nickname: me.nickname,
+                isReady: true,
+                isMaster: true
+            }
         };
 
         socket.emit('request room', input, player);

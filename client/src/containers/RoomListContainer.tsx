@@ -4,9 +4,10 @@ import { useHistory } from 'react-router';
 import socket from '../socket';
 import { showDialog } from '../modules/dialog';
 import RoomList from '../components/RoomList';
-import { Room, Rooms } from '../../../server/src/socket/rooms';
+import { Room } from '../../../server/src/socket/rooms';
 import { setRoom } from '../modules/room';
 import { RootState } from '../modules';
+import { CurrentRoom } from '../socket/rooms';
 
 function RoomListContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);
@@ -14,7 +15,7 @@ function RoomListContainer() {
 
     const history = useHistory();
 
-    const [rooms, setRooms] = useState<Rooms>([]);
+    const [roomlist, setRoomList] = useState<Room>({});
 
     const onJoinRoom = (roomId: number) => {
         if (!me) {
@@ -23,12 +24,13 @@ function RoomListContainer() {
         }
 
         const player = {
-            socketId: socket.id,
-            _id: me._id,
-            username: me.username,
-            nickname: me.nickname,
-            isReady: false,
-            isMaster: false
+            [socket.id]: {
+                _id: me._id,
+                username: me.username,
+                nickname: me.nickname,
+                isReady: false,
+                isMaster: false
+            }
         };
 
         socket.emit('join room', roomId, player);
@@ -48,15 +50,15 @@ function RoomListContainer() {
     };
 
     useEffect(() => {
-        socket.on('update roomlist', (rooms: Rooms) => {
-            setRooms(rooms);
+        socket.on('update roomlist', (rooms: Room) => {
+            setRoomList(rooms);
         });
 
-        socket.on('enter room', (room: Room) => {
+        socket.on('enter room', (room: CurrentRoom) => {
             dispatch(setRoom(room));
         });
 
-        socket.on('create room', (room: Room) => {
+        socket.on('create room', (room: CurrentRoom) => {
             dispatch(setRoom(room));
         });
 
@@ -71,7 +73,7 @@ function RoomListContainer() {
     
     return (
         <RoomList
-            rooms={rooms}
+            rooms={roomlist}
             onJoinRoom={onJoinRoom}
             onCreateRoom={onCreateRoom}
             goToPractice={goToPractice}

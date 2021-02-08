@@ -41,7 +41,7 @@ function ChatBoxContainer() {
         };
         
         if (me && input) {
-            socket.emit('send chat', chat, room ? `room${room.id}` : 'channel');
+            socket.emit('send chat', chat, room ? `room${room.roomId}` : 'channel');
         }
         
         setInput('');

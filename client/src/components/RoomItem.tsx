@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Room } from '../../../server/src/socket/rooms';
+import { WaitingPlayer } from '../../../server/src/socket/users';
 
 const RoomItemBlock = styled.div`
     display: flex;
@@ -17,11 +17,19 @@ const RoomItemBlock = styled.div`
     }
 `;
 
-interface RoomItemProps extends Room {
+interface RoomItemProps {
+    roomId: number;
+    title: string;
+    password: string;
+    players: WaitingPlayer;
+    current: number;
+    max: 2 | 4 | 8;
+    mode: 'single' | 'double';
+    isStart: boolean;
     onJoinRoom: (roomId: number) => void;
 }
 
-function RoomItem({ id, title, password, current, max, mode, onJoinRoom }: RoomItemProps) {
+function RoomItem({ roomId, title, password, current, max, mode, onJoinRoom }: RoomItemProps) {
     const handleJoinRoom = () => {
         if (current >= max) {
             return alert('정원이 초과되었습니다.');
@@ -31,14 +39,14 @@ function RoomItem({ id, title, password, current, max, mode, onJoinRoom }: RoomI
             return alert('비밀번호가 일치하지 않습니다.');
         }
 
-        onJoinRoom(id);
+        onJoinRoom(roomId);
     };
 
     return (
         <RoomItemBlock
             onClick={handleJoinRoom}
         >
-            [{id}]
+            [{roomId}]
             [{mode}]
             {title}
             {password && '(private)'}

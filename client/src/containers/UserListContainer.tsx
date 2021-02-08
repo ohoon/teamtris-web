@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
-import { ConnectedUsers } from '../../../server/src/socket/users';
+import { ConnectedUser } from '../../../server/src/socket/users';
 import UserList from '../components/UserList';
 
 function UserListContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);
 
-    const [users, setUsers] = useState<ConnectedUsers>([]);
+    const [users, setUsers] = useState<ConnectedUser>({});
 
     useEffect(() => {
         const user = me && {
@@ -25,7 +25,7 @@ function UserListContainer() {
     }, [me]);
 
     useEffect(() => {
-        socket.on('update userlist', (users: ConnectedUsers) => {
+        socket.on('update userlist', (users: ConnectedUser) => {
             setUsers(users);
         });
 

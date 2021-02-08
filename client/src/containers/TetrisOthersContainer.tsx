@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Game } from '../../../server/src/socket/rooms';
-import { Players } from '../../../server/src/socket/users';
+import { Player } from '../../../server/src/socket/users';
 import TetrisOthersList from '../components/TetrisOthersList';
 import socket from '../socket';
 
 function TetrisOthersContainer() {
-    const [players, setPlayers] = useState<Players>([]);
+    const [players, setPlayers] = useState<Player>({});
 
     useEffect(() => {
         socket.on('update game', (game: Game) => {
-            const otherPlayers = game.players.filter(player => player.socketId !== socket.id);
-            setPlayers(otherPlayers);
+            const others = {};
+
+            Object.entries(game).forEach(([socketId, player]) => {
+                if (socketId !== socket.id) {
+                    Object.assign(others, { [socketId]: player });
+                }
+            });
+
+            setPlayers(others);
         });
 
         return () => {
