@@ -25,7 +25,10 @@ export default function createSocketIoServer(server: Server) {
     io.on('connection', (socket: CustomSocket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
         socket.on('join channel', (user: ConnectedUser | null) => {
-            user && users.push(user);
+            user && users.push({
+                ...user,
+                socketId: socket.id
+            });
             socket.join('channel');
             io.in('channel').emit('update userlist', users);
         });
