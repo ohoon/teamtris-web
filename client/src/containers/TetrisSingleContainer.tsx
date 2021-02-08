@@ -15,6 +15,8 @@ import useCountDown from '../tetris/hooks/useCountDown';
 import { randomTetromino, TetrominoShape, TETROMINOS } from '../tetris/tetrominos';
 import { createStage, Stage, STAGE_WIDTH } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
+import { useDispatch } from 'react-redux';
+import { setRoom } from '../modules/room';
 
 const TetrisBlock = styled.div`
     width: 100%;
@@ -35,6 +37,8 @@ const Side = styled.div`
 `;
 
 function TetrisSingleContainer() {
+    const dispatch = useDispatch();
+
     const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState<boolean>();
     const [overlay, setOverlay] = useState<string>('Waiting...');
@@ -344,6 +348,14 @@ function TetrisSingleContainer() {
     useEffect(() => {
         socket.emit('tetris is loaded', createStage());
 
+        return () => {
+            dispatch(setRoom(null));
+            socket.emit('end game');
+            socket.emit('leave room');
+        };
+    }, [dispatch]);
+
+    useEffect(() => {
         socket.on('send game result', (grade: number) => {
             setOverlay(`${grade}등`);
         });
@@ -351,7 +363,7 @@ function TetrisSingleContainer() {
         return () => {
             socket.removeListener('send game result');
         };
-    }, []);
+    });
 
     useEffect(() => {
         window.addEventListener('keyup', onKeyUp);

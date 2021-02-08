@@ -5,6 +5,7 @@ import { RootState } from '../modules';
 import TetrisOthersContainer from '../containers/TetrisOthersContainer';
 import ChatsContainer from '../containers/ChatsContainer';
 import TetrisSingleContainer from '../containers/TetrisSingleContainer';
+import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -21,8 +22,10 @@ const Side = styled.div`
 
 function Game() {
     const room = useSelector((state: RootState) => state.room);
+    const history = useHistory();
     
     if (!room || !room.isStart) {
+        history.push('/');
         return null;
     }
 

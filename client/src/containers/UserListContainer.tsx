@@ -12,7 +12,6 @@ function UserListContainer() {
 
     useEffect(() => {
         const user = me && {
-            socketId: socket.id,
             _id: me._id,
             username: me.username,
             nickname: me.nickname
