@@ -96,12 +96,12 @@ function TetrisSingleContainer() {
         }
 
         cursor.tetromino.forEach((row, y) =>
-            row.forEach((type, x) => {
+            row.some((type, x) => {
                 if (type !== 0) {
                     if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
                         socket.emit('end game');
                         endGame();
-                        return;
+                        return true;
                     }
 
                     newStage[y + cursor.pos.y + outlineY][x + cursor.pos.x] = [
@@ -117,6 +117,8 @@ function TetrisSingleContainer() {
                             'not blocked'
                     ];
                 }
+
+                return false;
             })
         );
 

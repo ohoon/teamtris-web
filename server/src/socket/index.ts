@@ -213,7 +213,7 @@ export default function createSocketIoServer(server: Server) {
             if (currentRoomId && game) {
                 const gameIndex = games.indexOf(game);
                 const players = game.players;
-                const alivePlayers = players.filter(player => player.gameOver !== true);
+                const alivePlayers = players.filter(player => player.socketId !== socket.id && player.gameOver === false);
                 const grade = alivePlayers.length + 1;
                 const me = players.find(player => player.socketId === socket.id);
                 

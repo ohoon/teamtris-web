@@ -14,7 +14,7 @@ function createSocketIoServer(server) {
     io.on('connection', (socket) => {
         console.log(`연결된 socket ID: ${socket.id}`);
         socket.on('join channel', (user) => {
-            user && users.push(user);
+            user && users.push(Object.assign(Object.assign({}, user), { socketId: socket.id }));
             socket.join('channel');
             io.in('channel').emit('update userlist', users);
         });
@@ -160,7 +160,7 @@ function createSocketIoServer(server) {
             if (currentRoomId && game) {
                 const gameIndex = games.indexOf(game);
                 const players = game.players;
-                const alivePlayers = players.filter(player => player.gameOver !== true);
+                const alivePlayers = players.filter(player => player.socketId !== socket.id && player.gameOver === false);
                 const grade = alivePlayers.length + 1;
                 const me = players.find(player => player.socketId === socket.id);
                 if (me) {
@@ -184,9 +184,27 @@ function createSocketIoServer(server) {
                 users.splice(users.indexOf(user), 1);
                 socket.to('channel').emit('update userlist', users);
             }
-            const curretnRoomId = socket.currentRoomId;
-            const room = rooms.find(room => room.id === curretnRoomId);
-            if (curretnRoomId && room) {
+            const currentRoomId = socket.currentRoomId;
+            const room = rooms.find(room => room.id === currentRoomId);
+            const game = games.find(game => game.roomId === currentRoomId);
+            if (currentRoomId && game) {
+                const gameIndex = games.indexOf(game);
+                const players = game.players;
+                const alivePlayers = players.filter(player => player.socketId !== socket.id && player.gameOver === false);
+                const grade = alivePlayers.length + 1;
+                const me = players.find(player => player.socketId === socket.id);
+                if (me) {
+                    const meIndex = players.indexOf(me);
+                    games[gameIndex].players[meIndex].gameOver = true;
+                    games[gameIndex].players[meIndex].grade = grade;
+                    socket.to(`room${game.roomId}`).emit('update game', games[gameIndex]);
+                    socket.emit('send game result', grade);
+                }
+                if (alivePlayers.length == 1) {
+                    io.to(alivePlayers[0].socketId).emit('you are won');
+                }
+            }
+            if (currentRoomId && room) {
                 const roomIndex = rooms.indexOf(room);
                 const players = room.players;
                 const me = players.find(player => player.socketId === socket.id);
