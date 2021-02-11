@@ -11,6 +11,7 @@ const Wrapper = styled.div`
     position: absolute;
     left: 40%;
     top: 25%;
+    z-index: 100;
 `;
 
 function DialogContainer() {

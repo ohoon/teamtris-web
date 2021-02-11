@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import Dialog from './pages/partial/Dialog';
 import Navigation from './pages/partial/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -10,6 +11,7 @@ import Game from './pages/Game';
 function App() {
   return (
     <>
+      <Dialog />
       <Navigation />
       <Switch>
         <Route

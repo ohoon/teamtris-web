@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import DialogContainer from '../containers/DialogContainer';
 import RoomLobbyContainer from '../containers/RoomLobbyContainer';
 import UserListContainer from '../containers/UserListContainer';
 import RoomListContainer from '../containers/RoomListContainer';
@@ -69,7 +68,6 @@ function Home() {
                     <ChatsContainer />
                 </Col>
             </Row>
-            <DialogContainer />
         </Wrapper>
     );
 }
