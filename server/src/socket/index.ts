@@ -210,7 +210,7 @@ export default function createSocketIoServer(server: Server) {
             }
         });
 
-        socket.on('end game', () => {
+        socket.on('retire game', () => {
             const roomId = socket.currentRoomId;
             
             if (roomId && roomId in games) {
@@ -224,7 +224,7 @@ export default function createSocketIoServer(server: Server) {
                     me.gameOver = true;
                     me.grade = grade;
                     socket.to(`room${roomId}`).emit('update game', game);
-                    socket.emit('send game result', grade);
+                    socket.emit('send grade', grade);
                 }
 
                 if (alivePlayers.length == 1) {

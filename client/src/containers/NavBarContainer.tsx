@@ -16,7 +16,7 @@ function NavBarContainer() {
     }, [dispatch]);
 
     const leaveRoom = () => {
-        socket.emit('end game');
+        socket.emit('retire game');
         socket.emit('leave room');
         dispatch(setRoom(null));
     };

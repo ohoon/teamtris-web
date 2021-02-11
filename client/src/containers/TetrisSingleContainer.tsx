@@ -65,7 +65,7 @@ function TetrisSingleContainer() {
     const [queue, pushQueue, popQueue, resetQueue] = useQueue<TetrominoShape>();
     const [lineCleared, setLineCleared] = useState(0);
 
-    const endGame = useCallback(() => {
+    const retireGame = useCallback(() => {
         setGameOver(true);
         setDelay(null);
     }, []);
@@ -116,8 +116,8 @@ function TetrisSingleContainer() {
             row.some((type, x) => {
                 if (type !== 0) {
                     if (cursor.pos.y < 1 && newStage[y + cursor.pos.y][x + cursor.pos.x][1] === 'blocked') {
-                        socket.emit('end game');
-                        endGame();
+                        socket.emit('retire game');
+                        retireGame();
                         return true;
                     }
 
@@ -147,7 +147,7 @@ function TetrisSingleContainer() {
         }
 
         return newStage;
-    }, [cursor, resetCursor, pushQueue, popQueue, endGame]);
+    }, [cursor, resetCursor, pushQueue, popQueue, retireGame]);
 
     const [stage, setStage] = useStage(updateStage);
     const [score, rows, level, resetStatus] = useStatus(lineCleared);
@@ -321,7 +321,7 @@ function TetrisSingleContainer() {
     };
 
     const onLeaveRoom = () => {
-        socket.emit('end game');
+        socket.emit('retire game');
         socket.emit('leave room');
         dispatch(setRoom(null));
 
@@ -363,30 +363,30 @@ function TetrisSingleContainer() {
 
     useEffect(() => {
         socket.on('you are won', () => {
-            socket.emit('end game');
-            endGame();
+            socket.emit('retire game');
+            retireGame();
         });
         
         return () => {
             socket.removeListener('you are won');
         };
-    }, [endGame]);
+    }, [retireGame]);
 
     useEffect(() => {        
         socket.emit('tetris is loaded', createStage());
 
         return () => {
-            socket.emit('end game');
+            socket.emit('retire game');
         };
     }, []);
 
     useEffect(() => {
-        socket.on('send game result', (grade: number) => {
+        socket.on('send grade', (grade: number) => {
             setOverlay(`${grade}등`);
         });
 
         return () => {
-            socket.removeListener('send game result');
+            socket.removeListener('send grade');
         };
     });
 

@@ -152,7 +152,7 @@ function createSocketIoServer(server) {
                 io.to(target).emit('someone attack you', garbage);
             }
         });
-        socket.on('end game', () => {
+        socket.on('retire game', () => {
             const roomId = socket.currentRoomId;
             if (roomId && roomId in games) {
                 const game = games[roomId];
@@ -163,7 +163,7 @@ function createSocketIoServer(server) {
                     me.gameOver = true;
                     me.grade = grade;
                     socket.to(`room${roomId}`).emit('update game', game);
-                    socket.emit('send game result', grade);
+                    socket.emit('send grade', grade);
                 }
                 if (alivePlayers.length == 1) {
                     io.to(alivePlayers[0][0]).emit('you are won');
