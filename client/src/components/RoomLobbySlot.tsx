@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { WaitingPlayer } from '../../../server/src/socket/users';
 
 const RoomLobbySlotBlock = styled.div`
     padding: 16px;
