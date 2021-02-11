@@ -99,6 +99,7 @@ function createSocketIoServer(server) {
                             } })), {})
                     };
                     room.isStart = true;
+                    Object.values(players).forEach(player => player.isMaster ? null : player.isReady = !player.isReady);
                     io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     Object.assign(games, game);
                     io.in(`room${roomId}`).emit('create game');
@@ -154,7 +155,8 @@ function createSocketIoServer(server) {
         });
         socket.on('retire game', () => {
             const roomId = socket.currentRoomId;
-            if (roomId && roomId in games) {
+            if (roomId && roomId in rooms && roomId in games) {
+                const room = rooms[roomId];
                 const game = games[roomId];
                 const alivePlayers = Object.entries(game).filter(([socketId, player]) => socketId !== socket.id && player.gameOver === false);
                 const grade = alivePlayers.length + 1;
@@ -167,6 +169,25 @@ function createSocketIoServer(server) {
                 }
                 if (alivePlayers.length == 1) {
                     io.to(alivePlayers[0][0]).emit('you are won');
+                }
+                if (alivePlayers.length == 0) {
+                    room.isStart = false;
+                    io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
+                    io.in(`room${roomId}`).emit('end game', game);
+                }
+            }
+        });
+        socket.on('leave game', () => {
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in games) {
+                const game = games[roomId];
+                if (socket.id in game) {
+                    if (Object.keys(game).length > 1) {
+                        delete game[socket.id];
+                    }
+                    else {
+                        delete games[roomId];
+                    }
                 }
             }
         });

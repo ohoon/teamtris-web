@@ -24,7 +24,7 @@ function Game() {
     const room = useSelector((state: RootState) => state.room);
     const history = useHistory();
     
-    if (!room || !room.isStart) {
+    if (!room) {
         history.push('/');
         return null;
     }

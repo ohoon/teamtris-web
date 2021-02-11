@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Navbar, Nav, NavDropdown, NavLink } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
 import { Me } from '../api/users';
 
 const NavigationBar = styled(Navbar)`
@@ -14,20 +13,17 @@ const Logo = styled(Navbar.Brand)`
 
 interface NavBarProps {
     me: Me | null;
-    leaveRoom: () => void;
+    redirect: (where: string) => void;
     logout: () => void;
 }
 
-function NavBar({ me, leaveRoom, logout }: NavBarProps) {
-    const history = useHistory();
+function NavBar({ me, redirect, logout }: NavBarProps) {
     const goToHome = () => {
-        leaveRoom();
-        history.push('/');
+        redirect('/');
     };
 
     const goToLogin = () => {
-        leaveRoom();
-        history.push('/login');
+        redirect('/login');
     };
 
     return (

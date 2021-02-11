@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import socket from '../socket';
 import TetrisHold from '../components/TetrisHold';
 import TetrisGarbageBar from '../components/TetrisGarbageBar';
@@ -18,7 +18,10 @@ import useCountDown from '../tetris/hooks/useCountDown';
 import { randomTetromino, TetrominoShape, TETROMINOS } from '../tetris/tetrominos';
 import { createStage, Stage, STAGE_WIDTH } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
+import { RootState } from '../modules';
 import { setRoom } from '../modules/room';
+import { hideAllDialog } from '../modules/dialog';
+import { CurrentRoom } from '../socket/rooms';
 
 const TetrisBlock = styled.div`
     width: 100%;
@@ -45,12 +48,13 @@ const ButtonGroup = styled.div`
     align-items: center;
 `;
 
-const LeaveRoomButton = styled(Button)`
+const LeaveGameButton = styled(Button)`
     height: 100%;
     margin: 10%;
 `;
 
 function TetrisSingleContainer() {
+    const room = useSelector((state: RootState) => state.room);
     const dispatch = useDispatch();
 
     const history = useHistory();
@@ -320,11 +324,15 @@ function TetrisSingleContainer() {
         }
     };
 
-    const onLeaveRoom = () => {
-        socket.emit('retire game');
-        socket.emit('leave room');
-        dispatch(setRoom(null));
-
+    const onLeaveGame = () => {
+        if (room && room.isStart) {
+            socket.emit('retire game');
+            socket.emit('leave room');
+            dispatch(setRoom(null));
+        }
+        
+        socket.emit('leave game');
+        dispatch(hideAllDialog());
         history.push('/');
     };
 
@@ -372,12 +380,19 @@ function TetrisSingleContainer() {
         };
     }, [retireGame]);
 
+    useEffect(() => {
+        socket.on('update room', (room: CurrentRoom) => {
+            dispatch(setRoom(room));
+        });
+        
+        return () => {
+            socket.removeListener('update room');
+            socket.removeListener('end game');
+        }
+    }, [dispatch]);
+
     useEffect(() => {        
         socket.emit('tetris is loaded', createStage());
-
-        return () => {
-            socket.emit('retire game');
-        };
     }, []);
 
     useEffect(() => {
@@ -429,14 +444,14 @@ function TetrisSingleContainer() {
                     level={level}
                 />
                 <ButtonGroup>
-                    <LeaveRoomButton
+                    <LeaveGameButton
                         variant="info"
                         size="lg"
-                        onClick={onLeaveRoom}
+                        onClick={onLeaveGame}
                         block
                     >
                         나가기
-                    </LeaveRoomButton>
+                    </LeaveGameButton>
                 </ButtonGroup>
             </Side>
         </TetrisBlock>

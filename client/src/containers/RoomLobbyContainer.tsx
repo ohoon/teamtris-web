@@ -31,15 +31,20 @@ function RoomLobbyContainer() {
             dispatch(setRoom(room));
         });
 
+        return () => {
+            socket.removeListener('update room');
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
         socket.on('create game', () => {
             history.push('/game');
         });
 
         return () => {
-            socket.removeListener('update room');
             socket.removeListener('create game');
         }
-    }, [dispatch, history]);
+    }, [history]);
 
     return (
         <RoomLobby

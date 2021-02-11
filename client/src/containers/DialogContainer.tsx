@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
 import CreateRoomDialog from '../components/CreateRoomDialog';
-import { hideDialog } from '../modules/dialog';
+import GameResultDialog from '../components/GameResultDialog';
+import { hideDialog, showDialog } from '../modules/dialog';
 import { CreateRoomInputs } from '../socket/rooms';
+import { Player } from '../../../server/src/socket/users';
 
 const Wrapper = styled.div`
     position: absolute;
@@ -15,9 +17,11 @@ const Wrapper = styled.div`
 `;
 
 function DialogContainer() {
-    const { createRoom } = useSelector((state: RootState) => state.dialog);
+    const { createRoom, gameResult } = useSelector((state: RootState) => state.dialog);
     const me = useSelector((state: RootState) => state.users.me.data);
     const dispatch = useDispatch();
+
+    const [players, setPlayers] = useState<Player>({});
 
     const onClose = (name: string) => {
         dispatch(hideDialog(name));
@@ -37,12 +41,29 @@ function DialogContainer() {
         socket.emit('request room', input, player);
     };
 
+    useEffect(() => {
+        socket.on('end game', (players: Player) => {
+            setPlayers(players);
+            dispatch(showDialog('gameResult'));
+        });
+        
+        return () => {
+            socket.removeListener('end game');
+        }
+    }, [dispatch]);
+
     return (
         <Wrapper>
             {createRoom &&
                 <CreateRoomDialog
                     onClose={onClose}
                     onSubmit={onCreateRoom}
+                />
+            }
+            {gameResult &&
+                <GameResultDialog
+                    onClose={onClose}
+                    players={players}
                 />
             }
         </Wrapper>
