@@ -14,13 +14,21 @@ const Logo = styled(Navbar.Brand)`
 
 interface NavBarProps {
     me: Me | null;
+    leaveRoom: () => void;
     logout: () => void;
 }
 
-function NavBar({ me, logout }: NavBarProps) {
+function NavBar({ me, leaveRoom, logout }: NavBarProps) {
     const history = useHistory();
-    const goToHome = () => history.push('/');
-    const goToLogin = () => history.push('/login');
+    const goToHome = () => {
+        leaveRoom();
+        history.push('/');
+    };
+
+    const goToLogin = () => {
+        leaveRoom();
+        history.push('/login');
+    };
 
     return (
         <NavigationBar

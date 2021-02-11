@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { RootState } from '../modules';
-import { setRoom, startGame } from '../modules/room';
+import { setRoom } from '../modules/room';
 import socket from '../socket';
 import RoomLobby from '../components/RoomLobby';
 import { CurrentRoom } from '../socket/rooms';
@@ -32,7 +32,6 @@ function RoomLobbyContainer() {
         });
 
         socket.on('create game', () => {
-            dispatch(startGame());
             history.push('/game');
         });
 

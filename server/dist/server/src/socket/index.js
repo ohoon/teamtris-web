@@ -98,6 +98,8 @@ function createSocketIoServer(server) {
                                 nickname: player.nickname
                             } })), {})
                     };
+                    room.isStart = true;
+                    io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     Object.assign(games, game);
                     io.in(`room${roomId}`).emit('create game');
                 }

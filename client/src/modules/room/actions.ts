@@ -8,7 +8,3 @@ export const START_GAME = 'room/START_GAME';
 export const setRoom = createAction(
     SET_ROOM
 )<CurrentRoom | null>();
-
-export const startGame = createAction(
-    START_GAME
-)<void>();

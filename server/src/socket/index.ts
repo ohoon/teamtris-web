@@ -137,6 +137,9 @@ export default function createSocketIoServer(server: Server) {
                             }
                         }), {})
                     };
+                    
+                    room.isStart = true;
+                    io.in(`room${roomId}`).emit('update room', { ...room, roomId: roomId });
 
                     Object.assign(games, game);
                     io.in(`room${roomId}`).emit('create game');

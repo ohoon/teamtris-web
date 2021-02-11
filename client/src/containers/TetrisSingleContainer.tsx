@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import socket from '../socket';
 import TetrisHold from '../components/TetrisHold';
 import TetrisGarbageBar from '../components/TetrisGarbageBar';
@@ -15,7 +18,6 @@ import useCountDown from '../tetris/hooks/useCountDown';
 import { randomTetromino, TetrominoShape, TETROMINOS } from '../tetris/tetrominos';
 import { createStage, Stage, STAGE_WIDTH } from '../tetris/stage';
 import { checkCollision } from '../tetris/cursor';
-import { useDispatch } from 'react-redux';
 import { setRoom } from '../modules/room';
 
 const TetrisBlock = styled.div`
@@ -36,8 +38,22 @@ const Side = styled.div`
     flex-direction: column;
 `;
 
+const ButtonGroup = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const LeaveRoomButton = styled(Button)`
+    height: 100%;
+    margin: 10%;
+`;
+
 function TetrisSingleContainer() {
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     const [hold, setHold] = useState<TetrominoShape | null>(null);
     const [gameOver, setGameOver] = useState<boolean>();
@@ -304,8 +320,16 @@ function TetrisSingleContainer() {
         }
     };
 
+    const onLeaveRoom = () => {
+        socket.emit('end game');
+        socket.emit('leave room');
+        dispatch(setRoom(null));
+
+        history.push('/');
+    };
+
     useInterval(drop, delay);
-    
+
     useEffect(() => {
         socket.on('start game', () => {
             startCount();
@@ -348,15 +372,13 @@ function TetrisSingleContainer() {
         };
     }, [endGame]);
 
-    useEffect(() => {
+    useEffect(() => {        
         socket.emit('tetris is loaded', createStage());
 
         return () => {
-            dispatch(setRoom(null));
             socket.emit('end game');
-            socket.emit('leave room');
         };
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         socket.on('send game result', (grade: number) => {
@@ -406,6 +428,16 @@ function TetrisSingleContainer() {
                     rows={rows}
                     level={level}
                 />
+                <ButtonGroup>
+                    <LeaveRoomButton
+                        variant="info"
+                        size="lg"
+                        onClick={onLeaveRoom}
+                        block
+                    >
+                        나가기
+                    </LeaveRoomButton>
+                </ButtonGroup>
             </Side>
         </TetrisBlock>
     );

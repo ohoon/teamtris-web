@@ -14,18 +14,24 @@ function NavBarContainer() {
     useEffect(() => {
         dispatch(getMeThunk());
     }, [dispatch]);
+
+    const leaveRoom = () => {
+        socket.emit('end game');
+        socket.emit('leave room');
+        dispatch(setRoom(null));
+    };
     
     const logout = () => {
         localStorage.removeItem('ACCESS_TOKEN');
         axios.defaults.headers.authorization = null;
         dispatch(initMe());
-        dispatch(setRoom(null));
-        socket.emit('leave room');
+        leaveRoom();
     };
 
     return (
         <NavBar
             me={me}
+            leaveRoom={leaveRoom}
             logout={logout}
         />
     );
