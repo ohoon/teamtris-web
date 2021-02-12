@@ -126,7 +126,7 @@ export default function createSocketIoServer(server: Server) {
                 const room = rooms[roomId];
                 const players = room.players;
                 
-                if (!Object.values(players).find(player => player.isReady === false)) {
+                if (Object.keys(players).length > 1 && !Object.values(players).find(player => player.isReady === false)) {
                     const game = {
                         [roomId]: Object.entries(players).reduce((res, [socketId, player]) => ({
                             ...res,

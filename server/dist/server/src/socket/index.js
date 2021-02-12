@@ -90,7 +90,7 @@ function createSocketIoServer(server) {
             if (roomId && roomId in rooms) {
                 const room = rooms[roomId];
                 const players = room.players;
-                if (!Object.values(players).find(player => player.isReady === false)) {
+                if (Object.keys(players).length > 1 && !Object.values(players).find(player => player.isReady === false)) {
                     const game = {
                         [roomId]: Object.entries(players).reduce((res, [socketId, player]) => (Object.assign(Object.assign({}, res), { [socketId]: {
                                 _id: player._id,

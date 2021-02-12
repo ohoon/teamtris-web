@@ -14,6 +14,14 @@ function RoomLobbyContainer() {
     const history = useHistory();
 
     const onStartGame = () => {
+        if (Object.keys(room.players).length === 1) {
+            return alert('혼자서는 시작할 수 없습니다.');
+        }
+        
+        if(Object.values(room.players).find(player => player.isReady === false)) {
+            return alert('준비가 되지 않은 사용자가 있습니다.');
+        }
+
         socket.emit('request game');
     };
 
