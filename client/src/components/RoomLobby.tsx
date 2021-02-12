@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Row, Col, Button } from 'react-bootstrap';
 import { WaitingPlayer } from '../../../server/src/socket/users';
 import RoomLobbySlot from './RoomLobbySlot';
+import RoomLobbyEmptySlot from './RoomLobbyEmptySlot';
 
 const RoomLobbyBlock = styled.div`
     .head {
@@ -85,10 +86,21 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                                 socketId={socketId}
                                 _id={player._id}
                                 username={player.username}
-                                nickname={player.nickname}
+                                nickname={player.nickname}  
                                 isReady={player.isReady}
                                 isMaster={player.isMaster}
                             />
+                        </Col>
+                    )}
+                    {Array(max - Object.keys(players).length).fill('empty').map((_, index) =>                     
+                        <Col
+                            key={index + 1}
+                            lg={3}
+                            md={3}
+                            sm={6}
+                            xs={6}
+                        >
+                            <RoomLobbyEmptySlot />
                         </Col>
                     )}
                 </Row>
