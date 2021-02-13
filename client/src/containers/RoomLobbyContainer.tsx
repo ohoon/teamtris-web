@@ -25,10 +25,10 @@ function RoomLobbyContainer() {
         socket.emit('request game');
     };
 
-    const onReady = () => {
+    const onToggleReady = () => {
         socket.emit('toggle ready');
     };
-
+    
     const onLeaveRoom = () => {
         socket.emit('leave room');
         dispatch(setRoom(null));
@@ -67,7 +67,7 @@ function RoomLobbyContainer() {
             isReady={socket.id in room.players ? room.players[socket.id].isReady : false}
             isMaster={socket.id in room.players ? room.players[socket.id].isMaster : false}
             onStartGame={onStartGame}
-            onReady={onReady}
+            onToggleReady={onToggleReady}
             onLeaveRoom={onLeaveRoom}
         />
     );

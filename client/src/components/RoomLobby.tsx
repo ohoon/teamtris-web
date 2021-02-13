@@ -53,11 +53,11 @@ interface RoomLobbyProps {
     isReady: boolean;
     isMaster: boolean;
     onStartGame: () => void;
-    onReady: () => void;
+    onToggleReady: () => void;
     onLeaveRoom: () => void;
 }
 
-function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onReady, onLeaveRoom }: RoomLobbyProps) {
+function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onToggleReady, onLeaveRoom }: RoomLobbyProps) {
     return (
         <RoomLobbyBlock>
             <div
@@ -119,7 +119,7 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                     <ReadyButton
                         variant="dark"
                         size="sm"
-                        onClick={onReady}
+                        onClick={onToggleReady}
                     >
                         {isReady ?
                             "준비 취소":
