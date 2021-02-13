@@ -3,6 +3,7 @@ import * as actions from './actions';
 
 export type DialogState = {
     createRoom: boolean;
+    editRoom: boolean;
     gameResult: boolean;
 };
 

@@ -1,6 +1,6 @@
 import { WaitingPlayer } from '../../../server/src/socket/users';
 
-export interface CreateRoomInputs {
+export interface RoomInputs {
     title: string;
     password: string;
     max: 2 | 4 | 8;

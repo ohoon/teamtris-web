@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { RoomInputs } from '../socket/rooms';
+import { CurrentRoom, RoomInputs } from '../socket/rooms';
 
 const DialogBlock = styled.div`
     border: 3px solid #E8E8E8;
@@ -38,22 +38,23 @@ const CloseButton = styled.div`
     }
 `;
 
-const CreateButton = styled(Button)`
+const EditButton = styled(Button)`
     margin: 16px auto;
     margin-bottom: 0;
 `;
 
-interface CreateRoomDialogProps {
+interface EditRoomDialogProps {
+    room: CurrentRoom;
     onClose: (name: string) => void;
     onSubmit: (input: RoomInputs) => void;
 }
 
-function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
+function EditRoomDialog({ room, onClose, onSubmit }: EditRoomDialogProps) {
     const [input, setInput] = useState<RoomInputs>({
-        title: '',
-        password: '',
-        max: 8,
-        mode: 'single'
+        title: room.title,
+        password: room.password,
+        max: room.max,
+        mode: room.mode
     });
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +65,7 @@ function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
     };
 
     const handleClose = () => {
-        onClose('createRoom');
+        onClose('editRoom');
     };
 
     const handleSubmit = (e: FormEvent) => {
@@ -78,7 +79,7 @@ function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
             <div
                 className="head"
             >
-                방 만들기
+                방 설정 변경
                 <CloseButton
                     onClick={handleClose}
                 />
@@ -180,13 +181,13 @@ function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
                     as={Row}
                 >
                     <Col>
-                        <CreateButton
+                        <EditButton
                             type="submit"
                             size="lg"
                             block
                         >
-                            생성
-                        </CreateButton>
+                            수정
+                        </EditButton>
                     </Col>
                 </Form.Group>
             </Form>
@@ -194,4 +195,4 @@ function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
     );
 }
 
-export default CreateRoomDialog;
+export default EditRoomDialog;

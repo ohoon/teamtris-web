@@ -4,6 +4,7 @@ import { DialogAction, DialogState } from './types';
 
 const initialState = {
     createRoom: false,
+    editRoom: false,
     gameResult: false
 };
 

@@ -4,7 +4,7 @@ import { ConnectedUser, WaitingPlayer } from './users';
 import { Game, Room } from './rooms';
 import { Stage } from '../../../client/src/tetris/stage';
 import { Chat } from './chats';
-import { CreateRoomInputs } from '../../../client/src/socket/rooms';
+import { RoomInputs } from '../../../client/src/socket/rooms';
 
 interface CustomSocket extends Socket {
     currentRoomId: number | null;
@@ -49,7 +49,7 @@ export default function createSocketIoServer(server: Server) {
             socket.emit('update roomlist', rooms);
         });
 
-        socket.on('request room', (input: CreateRoomInputs, player: WaitingPlayer) => {
+        socket.on('request room', (input: RoomInputs, player: WaitingPlayer) => {
             const roomId = roomRef++;
 
             const room = {
@@ -68,6 +68,23 @@ export default function createSocketIoServer(server: Server) {
             socket.join(`room${roomId}`);
             socket.emit('create room', { ...room[roomId], roomId: roomId });
             io.in('channel').emit('update roomlist', rooms);
+        });
+
+        socket.on('edit room', (input: RoomInputs, roomId: number) => {
+            if (roomId in rooms) {
+                const room = {
+                    [roomId]: {
+                        ...rooms[roomId],
+                        ...input
+                    }
+                };
+
+                if (rooms[roomId].current <= input.max) {
+                    Object.assign(rooms, room);
+                    io.in(`room${roomId}`).emit('update room', { ...rooms[roomId], roomId: roomId });
+                    io.in('channel').emit('update roomlist', rooms);
+                }
+            }
         });
 
         socket.on('join room', (roomId: number, player: WaitingPlayer) => {

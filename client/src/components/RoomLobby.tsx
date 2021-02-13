@@ -37,6 +37,10 @@ const ReadyButton = styled(Button)`
     
 `;
 
+const EditRoomButton = styled(Button)`
+    margin-left: 2px;
+`;
+
 const LeaveRoomButton = styled(Button)`
     margin-left: 2px;
 `;
@@ -55,10 +59,11 @@ interface RoomLobbyProps {
     onStartGame: () => void;
     onToggleReady: () => void;
     onKickPlayer: (socketId: string) => void;
+    onEditRoom: () => void;
     onLeaveRoom: () => void;
 }
 
-function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onToggleReady, onKickPlayer, onLeaveRoom }: RoomLobbyProps) {
+function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onToggleReady, onKickPlayer, onEditRoom, onLeaveRoom }: RoomLobbyProps) {
     return (
         <RoomLobbyBlock>
             <div
@@ -111,13 +116,22 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                 className="menu"
             >
                 {isMaster ?
-                    <StartGameButton
-                        variant="dark"
-                        size="sm"
-                        onClick={onStartGame}
-                    >
-                        시작
-                    </StartGameButton> :
+                    <>
+                        <StartGameButton
+                            variant="dark"
+                            size="sm"
+                            onClick={onStartGame}
+                        >
+                            시작
+                        </StartGameButton>
+                        <EditRoomButton
+                            variant="dark"
+                            size="sm"
+                            onClick={onEditRoom}
+                        >
+                            방 설정
+                        </EditRoomButton>
+                    </> :
                     <ReadyButton
                         variant="dark"
                         size="sm"

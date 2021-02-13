@@ -6,6 +6,7 @@ import { setRoom } from '../modules/room';
 import socket from '../socket';
 import { CurrentRoom } from '../socket/rooms';
 import RoomLobby from '../components/RoomLobby';
+import { showDialog } from '../modules/dialog';
 
 function RoomLobbyContainer() {
     const room = useSelector((state: RootState) => state.room)!;
@@ -31,7 +32,11 @@ function RoomLobbyContainer() {
 
     const onKickPlayer = (socketId: string) => {
         socket.emit('kick player', socketId);
-    }
+    };
+
+    const onEditRoom = () => {
+        dispatch(showDialog('editRoom'));
+    };
 
     const onLeaveRoom = () => {
         socket.emit('leave room');
@@ -80,6 +85,7 @@ function RoomLobbyContainer() {
             onStartGame={onStartGame}
             onToggleReady={onToggleReady}
             onKickPlayer={onKickPlayer}
+            onEditRoom={onEditRoom}
             onLeaveRoom={onLeaveRoom}
         />
     );

@@ -44,6 +44,18 @@ function createSocketIoServer(server) {
             socket.emit('create room', Object.assign(Object.assign({}, room[roomId]), { roomId: roomId }));
             io.in('channel').emit('update roomlist', rooms);
         });
+        socket.on('edit room', (input, roomId) => {
+            if (roomId in rooms) {
+                const room = {
+                    [roomId]: Object.assign(Object.assign({}, rooms[roomId]), input)
+                };
+                if (rooms[roomId].current <= input.max) {
+                    Object.assign(rooms, room);
+                    io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, rooms[roomId]), { roomId: roomId }));
+                    io.in('channel').emit('update roomlist', rooms);
+                }
+            }
+        });
         socket.on('join room', (roomId, player) => {
             if (roomId in rooms) {
                 const room = rooms[roomId];
