@@ -4,8 +4,8 @@ import { useHistory } from 'react-router';
 import { RootState } from '../modules';
 import { setRoom } from '../modules/room';
 import socket from '../socket';
-import RoomLobby from '../components/RoomLobby';
 import { CurrentRoom } from '../socket/rooms';
+import RoomLobby from '../components/RoomLobby';
 
 function RoomLobbyContainer() {
     const room = useSelector((state: RootState) => state.room)!;
@@ -28,7 +28,11 @@ function RoomLobbyContainer() {
     const onToggleReady = () => {
         socket.emit('toggle ready');
     };
-    
+
+    const onKickPlayer = (socketId: string) => {
+        socket.emit('kick player', socketId);
+    }
+
     const onLeaveRoom = () => {
         socket.emit('leave room');
         dispatch(setRoom(null));
@@ -39,8 +43,15 @@ function RoomLobbyContainer() {
             dispatch(setRoom(room));
         });
 
+        socket.on('you are kicked', () => {
+            alert('방장에 의하여 강제퇴장되었습니다.');
+            socket.emit('leave room');
+            dispatch(setRoom(null));
+        });
+
         return () => {
             socket.removeListener('update room');
+            socket.removeListener('you are kicked');
         }
     }, [dispatch]);
 
@@ -68,6 +79,7 @@ function RoomLobbyContainer() {
             isMaster={socket.id in room.players ? room.players[socket.id].isMaster : false}
             onStartGame={onStartGame}
             onToggleReady={onToggleReady}
+            onKickPlayer={onKickPlayer}
             onLeaveRoom={onLeaveRoom}
         />
     );

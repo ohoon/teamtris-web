@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import socket from '../socket';
 
 const RoomLobbySlotBlock = styled.div`
     height: 11.5rem;
@@ -24,9 +25,10 @@ interface RoomLobbySlotProps {
     nickname: string;
     isReady: boolean;
     isMaster: boolean;
+    onKickPlayer: (socketId: string) => void;
 }
 
-function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster }: RoomLobbySlotProps) {
+function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, onKickPlayer }: RoomLobbySlotProps) {
     return (
         <RoomLobbySlotBlock>
             <img
@@ -37,6 +39,14 @@ function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster }: Room
             <strong>
                 {isMaster ? "방장" : isReady && "준비 완료"}
             </strong>
+            {!isMaster && socket.id !== socketId ?            
+                <span
+                    onClick={() => onKickPlayer(socketId)}
+                >
+                    x
+                </span> :
+                null
+            }
             <br />
             <strong>
                 {nickname || username}

@@ -54,10 +54,11 @@ interface RoomLobbyProps {
     isMaster: boolean;
     onStartGame: () => void;
     onToggleReady: () => void;
+    onKickPlayer: (socketId: string) => void;
     onLeaveRoom: () => void;
 }
 
-function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onToggleReady, onLeaveRoom }: RoomLobbyProps) {
+function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onToggleReady, onKickPlayer, onLeaveRoom }: RoomLobbyProps) {
     return (
         <RoomLobbyBlock>
             <div
@@ -89,6 +90,7 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                                 nickname={player.nickname}  
                                 isReady={player.isReady}
                                 isMaster={player.isMaster}
+                                onKickPlayer={onKickPlayer}
                             />
                         </Col>
                     )}

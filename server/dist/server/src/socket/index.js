@@ -118,6 +118,9 @@ function createSocketIoServer(server) {
                 }
             }
         });
+        socket.on('kick player', (socketId) => {
+            io.to(socketId).emit('you are kicked');
+        });
         socket.on('tetris is loaded', (stage) => {
             const roomId = socket.currentRoomId;
             if (roomId && roomId in games) {

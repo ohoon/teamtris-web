@@ -164,6 +164,10 @@ export default function createSocketIoServer(server: Server) {
             }
         });
 
+        socket.on('kick player', (socketId) => {
+            io.to(socketId).emit('you are kicked');
+        });
+
         socket.on('tetris is loaded', (stage: Stage) => {
             const roomId = socket.currentRoomId;
             
