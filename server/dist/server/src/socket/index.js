@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const socket_io_1 = require("socket.io");
+const rooms_1 = require("../../../client/src/socket/rooms");
 function createSocketIoServer(server) {
     const io = new socket_io_1.Server(server, {
         cors: {
@@ -34,6 +35,9 @@ function createSocketIoServer(server) {
         });
         socket.on('request room', (input, player) => {
             const roomId = roomRef++;
+            if (input.mode === 'double') {
+                player[socket.id].team = 'A';
+            }
             const room = {
                 [roomId]: Object.assign(Object.assign({}, input), { title: input.title || '테트리스 같이 해요', players: player, current: 1, isStart: false })
             };
@@ -59,15 +63,46 @@ function createSocketIoServer(server) {
         socket.on('join room', (roomId, player) => {
             if (roomId in rooms) {
                 const room = rooms[roomId];
+                const players = room.players;
                 if (room.current < room.max) {
-                    Object.assign(room.players, player);
-                    room.current = Object.keys(room.players).length;
+                    if (room.mode === 'double') {
+                        const teams = Object.keys(rooms_1.TEAM);
+                        teams.some(team => {
+                            if (Object.values(players).filter(player => player.team === team).length < 2) {
+                                player[socket.id].team = team;
+                                return true;
+                            }
+                        });
+                    }
+                    Object.assign(players, player);
+                    room.current = Object.keys(players).length;
                     socket.currentRoomId = roomId;
                     socket.leave('channel');
                     socket.join(`room${roomId}`);
                     socket.emit('enter room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     socket.to(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     io.in('channel').emit('update roomlist', rooms);
+                }
+            }
+        });
+        socket.on('change team', () => {
+            const roomId = socket.currentRoomId;
+            if (roomId && roomId in rooms) {
+                const room = rooms[roomId];
+                const players = room.players;
+                if (socket.id in players) {
+                    const me = players[socket.id];
+                    if (me.team) {
+                        const teams = Object.keys(rooms_1.TEAM);
+                        for (let i = 1; i < teams.length; i++) {
+                            const myTeam = teams[(teams.indexOf(me.team) + i) % teams.length];
+                            if (Object.values(players).filter(player => player.team === myTeam).length < 2) {
+                                me.team = myTeam;
+                                break;
+                            }
+                        }
+                    }
+                    io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                 }
             }
         });

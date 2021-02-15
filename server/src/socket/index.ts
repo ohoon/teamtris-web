@@ -2,9 +2,9 @@ import { Server } from 'http';
 import { Server as socketIO, Socket } from 'socket.io';
 import { ConnectedUser, WaitingPlayer } from './users';
 import { Game, Room } from './rooms';
-import { Stage } from '../../../client/src/tetris/stage';
 import { Chat } from './chats';
-import { RoomInputs } from '../../../client/src/socket/rooms';
+import { Stage } from '../../../client/src/tetris/stage';
+import { RoomInputs, TEAM } from '../../../client/src/socket/rooms';
 
 interface CustomSocket extends Socket {
     currentRoomId: number | null;
@@ -52,6 +52,10 @@ export default function createSocketIoServer(server: Server) {
         socket.on('request room', (input: RoomInputs, player: WaitingPlayer) => {
             const roomId = roomRef++;
 
+            if (input.mode === 'double') {
+                player[socket.id].team = 'A';
+            }
+
             const room = {
                 [roomId]: {
                     ...input,
@@ -90,16 +94,56 @@ export default function createSocketIoServer(server: Server) {
         socket.on('join room', (roomId: number, player: WaitingPlayer) => {
             if (roomId in rooms) {
                 const room = rooms[roomId];
+                const players = room.players;
 
                 if (room.current < room.max) {
-                    Object.assign(room.players, player);
-                    room.current = Object.keys(room.players).length;
+                    if (room.mode === 'double') {
+                        const teams = Object.keys(TEAM);
+
+                        teams.some(team => {
+                            if (Object.values(players).filter(player => player.team === team).length < 2) {
+                                player[socket.id].team = team;
+                                return true;
+                            }
+                        });
+                    }
+
+                    Object.assign(players, player);
+                    room.current = Object.keys(players).length;
                     socket.currentRoomId = roomId;
                     socket.leave('channel');
                     socket.join(`room${roomId}`);
                     socket.emit('enter room', { ...room, roomId: roomId });
                     socket.to(`room${roomId}`).emit('update room', { ...room, roomId: roomId });
                     io.in('channel').emit('update roomlist', rooms);  
+                }
+            }
+        });
+
+        socket.on('change team', () => {
+            const roomId = socket.currentRoomId;
+
+            if (roomId && roomId in rooms) {
+                const room = rooms[roomId];
+                const players = room.players;
+
+                if (socket.id in players) {
+                    const me = players[socket.id];
+                    
+                    if (me.team) {
+                        const teams = Object.keys(TEAM);
+
+                        for (let i = 1; i < teams.length; i++) {
+                            const myTeam: string = teams[(teams.indexOf(me.team) + i) % teams.length];
+                            
+                            if (Object.values(players).filter(player => player.team === myTeam).length < 2) {
+                                me.team = myTeam;
+                                break;
+                            }
+                        }
+                    }
+
+                    io.in(`room${roomId}`).emit('update room', { ...room, roomId: roomId });
                 }
             }
         });

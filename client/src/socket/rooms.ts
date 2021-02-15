@@ -17,3 +17,24 @@ export interface CurrentRoom {
     mode: 'single' | 'double';
     isStart: boolean;
 }
+
+type Team = {
+    [team: string]: {
+        color: string;
+    };
+};
+
+export const TEAM: Team = {
+    'A': {
+        color: '#AAC6C6'
+    },
+    'B': {
+        color: '#AA8A8A'
+    },
+    'C': {
+        color: '#AA90DF'
+    },
+    'D': {
+        color: '#AA981A'
+    }
+};

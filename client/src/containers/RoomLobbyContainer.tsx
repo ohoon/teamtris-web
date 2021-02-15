@@ -30,6 +30,10 @@ function RoomLobbyContainer() {
         socket.emit('toggle ready');
     };
 
+    const onChangeTeam = () => {
+        socket.emit('change team');
+    };
+
     const onKickPlayer = (socketId: string) => {
         socket.emit('kick player', socketId);
     };
@@ -84,6 +88,7 @@ function RoomLobbyContainer() {
             isMaster={socket.id in room.players ? room.players[socket.id].isMaster : false}
             onStartGame={onStartGame}
             onToggleReady={onToggleReady}
+            onChangeTeam={onChangeTeam}
             onKickPlayer={onKickPlayer}
             onEditRoom={onEditRoom}
             onLeaveRoom={onLeaveRoom}

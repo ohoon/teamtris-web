@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import socket from '../socket';
+import { TEAM } from '../socket/rooms';
 
-const RoomLobbySlotBlock = styled.div`
+const RoomLobbySlotBlock = styled.div<{ team?: string }>`
     height: 11.5rem;
     padding: 16px;
     border: 3px solid #E8E8E8;
     border-radius: 16px;
-    background: #D3D7DB;
+    background: ${props => props.team ? TEAM[props.team].color : '#D3D7DB'};
     font-size: 16px;
     text-align: left;
 
@@ -25,12 +26,16 @@ interface RoomLobbySlotProps {
     nickname: string;
     isReady: boolean;
     isMaster: boolean;
-    onKickPlayer: (socketId: string) => void;
+    team?: string;
+    onChangeTeam?: () => void;
+    onKickPlayer?: (socketId: string) => void;
 }
 
-function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, onKickPlayer }: RoomLobbySlotProps) {
+function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, team, onChangeTeam, onKickPlayer }: RoomLobbySlotProps) {
     return (
-        <RoomLobbySlotBlock>
+        <RoomLobbySlotBlock
+            team={team}
+        >
             <img
                 className="profile-image"
                 src="male.png"
@@ -39,7 +44,7 @@ function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, onKick
             <strong>
                 {isMaster ? "방장" : isReady && "준비 완료"}
             </strong>
-            {!isMaster && socket.id !== socketId ?            
+            {onKickPlayer && !isMaster && socket.id !== socketId ?            
                 <span
                     onClick={() => onKickPlayer(socketId)}
                 >
@@ -51,6 +56,13 @@ function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, onKick
             <strong>
                 {nickname || username}
             </strong>
+            {team &&
+                <span
+                    onClick={socket.id === socketId ? onChangeTeam : undefined}
+                >
+                    {team}
+                </span>
+            }
         </RoomLobbySlotBlock>
     );
 }

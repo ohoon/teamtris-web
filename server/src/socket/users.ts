@@ -15,6 +15,7 @@ export interface WaitingPlayer {
         nickname: string;
         isReady: boolean;
         isMaster: boolean;
+        team?: string;
     };
 }
 
