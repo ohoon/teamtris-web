@@ -5,6 +5,7 @@ import { RootState } from '../modules';
 import TetrisOthersContainer from '../containers/TetrisOthersContainer';
 import ChatsContainer from '../containers/ChatsContainer';
 import TetrisSingleContainer from '../containers/TetrisSingleContainer';
+import TetrisDoubleContainer from '../containers/TetrisDoubleContainer';
 import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`
@@ -35,7 +36,10 @@ function Game() {
                 <TetrisOthersContainer />
                 <ChatsContainer />
             </Side>
-            <TetrisSingleContainer />
+            {room.mode === 'single' ?
+                <TetrisSingleContainer /> :
+                <TetrisDoubleContainer />
+            }
         </Wrapper>
     );
 }
