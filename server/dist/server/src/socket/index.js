@@ -178,6 +178,9 @@ function createSocketIoServer(server) {
                     const me = game[socket.id];
                     me.stage = stage;
                     me.gameOver = false;
+                    if (me.team) {
+                        socket.currentTeam = me.team;
+                    }
                     socket.to(`room${roomId}`).emit('update game', game);
                     if (!Object.values(game).find(player => player.stage === undefined || player.gameOver === undefined)) {
                         io.in(`room${roomId}`).emit('start game');
@@ -198,15 +201,19 @@ function createSocketIoServer(server) {
         });
         socket.on('garbage attack', (garbage) => {
             const roomId = socket.currentRoomId;
+            const team = socket.currentTeam;
             if (roomId && roomId in games) {
                 const game = games[roomId];
-                const others = Object.keys(game).filter(socketId => socketId !== socket.id);
+                const others = Object.keys(game).filter(socketId => (!team || team !== game[socketId].team) &&
+                    !game[socketId].gameOver &&
+                    socketId !== socket.id);
                 const target = others[Math.floor(Math.random() * others.length)];
                 io.to(target).emit('someone attack you', garbage);
             }
         });
         socket.on('retire game', () => {
             const roomId = socket.currentRoomId;
+            const team = socket.currentTeam;
             if (roomId && roomId in rooms && roomId in games) {
                 const room = rooms[roomId];
                 const game = games[roomId];
@@ -216,13 +223,39 @@ function createSocketIoServer(server) {
                     const me = game[socket.id];
                     me.gameOver = true;
                     me.grade = grade;
+                    if (team) {
+                        socket.currentTeam = undefined;
+                    }
                     socket.to(`room${roomId}`).emit('update game', game);
                     socket.emit('send grade', grade);
                 }
-                if (alivePlayers.length == 1) {
-                    io.to(alivePlayers[0][0]).emit('you are won');
+                if (alivePlayers.length == 2 && room.mode === 'double' && alivePlayers[0][1].team === alivePlayers[1][1].team) {
+                    const winners = [alivePlayers[0][0], alivePlayers[1][0]];
+                    winners.forEach(winner => {
+                        io.to(winner).emit('you are won');
+                    });
                 }
-                if (alivePlayers.length == 0) {
+                if (alivePlayers.length == 1) {
+                    const winner = alivePlayers[0][0];
+                    io.to(winner).emit('you are won');
+                }
+            }
+        });
+        socket.on('win a game', () => {
+            const roomId = socket.currentRoomId;
+            const team = socket.currentTeam;
+            if (roomId && roomId in rooms && roomId in games) {
+                const room = rooms[roomId];
+                const game = games[roomId];
+                if (socket.id in game) {
+                    const me = game[socket.id];
+                    me.gameOver = true;
+                    me.grade = 1;
+                    if (team) {
+                        socket.currentTeam = undefined;
+                    }
+                    socket.to(`room${roomId}`).emit('update game', game);
+                    socket.emit('send grade', 1);
                     room.isStart = false;
                     io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
                     io.in(`room${roomId}`).emit('end game', game);
@@ -271,8 +304,6 @@ function createSocketIoServer(server) {
                         delete rooms[roomId];
                         delete games[roomId];
                     }
-                    socket.currentRoomId = undefined;
-                    socket.leave(`room${roomId}`);
                     socket.to('channel').emit('update roomlist', rooms);
                 }
             }

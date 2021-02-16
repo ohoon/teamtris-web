@@ -24,6 +24,7 @@ export interface Player {
         _id: string;
         username: string;
         nickname: string;
+        team?: string;
         stage?: Stage;
         gameOver?: boolean;
         grade?: number;

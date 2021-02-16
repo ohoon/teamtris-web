@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '../socket';
+import { TEAM, CurrentRoom } from '../socket/rooms';
 import TetrisHold from '../components/TetrisHold';
 import TetrisGarbageBar from '../components/TetrisGarbageBar';
 import TetrisStage from '../components/TetrisStage';
@@ -21,9 +22,8 @@ import { checkCollision } from '../tetris/cursor';
 import { RootState } from '../modules';
 import { setRoom } from '../modules/room';
 import { hideAllDialog } from '../modules/dialog';
-import { CurrentRoom } from '../socket/rooms';
 
-const TetrisBlock = styled.div`
+const TetrisBlock = styled.div<{ team?: string }>`
     width: 100%;
     max-width: 38vw;
     height: 100%;
@@ -33,7 +33,7 @@ const TetrisBlock = styled.div`
     padding: 16px;
     border: 10px solid #343A40;
     border-radius: 6px;
-    background: #909090;
+    background: ${props => props.team ? TEAM[props.team].color : '#909090'};
 `;
 
 const Side = styled.div`
@@ -370,7 +370,7 @@ function TetrisContainer() {
 
     useEffect(() => {
         socket.on('you are won', () => {
-            socket.emit('retire game');
+            socket.emit('win a game');
             retireGame();
         });
         
@@ -416,6 +416,7 @@ function TetrisContainer() {
 
     return (
         <TetrisBlock
+            team={room!.players[socket.id].team}
             onKeyUp={onKeyUp}
             onKeyDown={onKeyDown}
         >

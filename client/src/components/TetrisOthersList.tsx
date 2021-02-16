@@ -38,6 +38,7 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
                             _id={player._id}
                             username={player.username}
                             nickname={player.nickname}
+                            team={player.team}
                             stage={player.stage}
                             gameOver={player.gameOver}
                             grade={player.grade}

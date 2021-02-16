@@ -79,10 +79,11 @@ function DialogContainer() {
                     onSubmit={onEditRoom}
                 />
             }
-            {gameResult &&
+            {gameResult && room &&
                 <GameResultDialog
-                    onClose={onClose}
                     players={players}
+                    mode={room.mode}
+                    onClose={onClose}
                 />
             }
         </Wrapper>
