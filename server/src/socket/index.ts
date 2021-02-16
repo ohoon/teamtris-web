@@ -7,7 +7,7 @@ import { Stage } from '../../../client/src/tetris/stage';
 import { RoomInputs, TEAM } from '../../../client/src/socket/rooms';
 
 interface CustomSocket extends Socket {
-    currentRoomId: number | null;
+    currentRoomId?: number;
 }
 
 export default function createSocketIoServer(server: Server) {
@@ -171,9 +171,10 @@ export default function createSocketIoServer(server: Server) {
                         socket.to(`room${roomId}`).emit('update room', { ...room, roomId: roomId });
                     } else {
                         delete rooms[roomId];
+                        delete games[roomId];
                     }
                     
-                    socket.currentRoomId = null;
+                    socket.currentRoomId = undefined;
                     socket.leave(`room${roomId}`);
                     io.in('channel').emit('update roomlist', rooms);
                 }
@@ -306,22 +307,6 @@ export default function createSocketIoServer(server: Server) {
             }
         });
 
-        socket.on('leave game', () => {
-            const roomId = socket.currentRoomId;
-            
-            if (roomId && roomId in games) {
-                const game = games[roomId];
-                
-                if (socket.id in game) {
-                    if (Object.keys(game).length > 1) {
-                        delete game[socket.id];
-                    } else {
-                        delete games[roomId];
-                    }
-                }
-            }
-        });
-
         socket.on('send chat', (chat: Chat, target: string) => {
             io.in(target).emit('receive chat', chat);
         });
@@ -341,11 +326,10 @@ export default function createSocketIoServer(server: Server) {
                 
                 if (socket.id in game) {
                     const me = game[socket.id];
-
+                    
                     me.gameOver = true;
                     me.grade = grade;
                     socket.to(`room${roomId}`).emit('update game', game);
-                    socket.emit('send game result', grade);
                 }
 
                 if (alivePlayers.length == 1) {
@@ -373,9 +357,10 @@ export default function createSocketIoServer(server: Server) {
                         socket.to(`room${roomId}`).emit('update room', { ...room, roomId: roomId });
                     } else {
                         delete rooms[roomId];
+                        delete games[roomId];
                     }
                     
-                    socket.currentRoomId = null;
+                    socket.currentRoomId = undefined;
                     socket.leave(`room${roomId}`);
                     socket.to('channel').emit('update roomlist', rooms);
                 }

@@ -125,8 +125,9 @@ function createSocketIoServer(server) {
                     }
                     else {
                         delete rooms[roomId];
+                        delete games[roomId];
                     }
-                    socket.currentRoomId = null;
+                    socket.currentRoomId = undefined;
                     socket.leave(`room${roomId}`);
                     io.in('channel').emit('update roomlist', rooms);
                 }
@@ -142,7 +143,8 @@ function createSocketIoServer(server) {
                         [roomId]: Object.entries(players).reduce((res, [socketId, player]) => (Object.assign(Object.assign({}, res), { [socketId]: {
                                 _id: player._id,
                                 username: player.username,
-                                nickname: player.nickname
+                                nickname: player.nickname,
+                                team: player.team
                             } })), {})
                     };
                     room.isStart = true;
@@ -227,20 +229,6 @@ function createSocketIoServer(server) {
                 }
             }
         });
-        socket.on('leave game', () => {
-            const roomId = socket.currentRoomId;
-            if (roomId && roomId in games) {
-                const game = games[roomId];
-                if (socket.id in game) {
-                    if (Object.keys(game).length > 1) {
-                        delete game[socket.id];
-                    }
-                    else {
-                        delete games[roomId];
-                    }
-                }
-            }
-        });
         socket.on('send chat', (chat, target) => {
             io.in(target).emit('receive chat', chat);
         });
@@ -259,7 +247,6 @@ function createSocketIoServer(server) {
                     me.gameOver = true;
                     me.grade = grade;
                     socket.to(`room${roomId}`).emit('update game', game);
-                    socket.emit('send game result', grade);
                 }
                 if (alivePlayers.length == 1) {
                     io.to(alivePlayers[0][0]).emit('you are won');
@@ -282,8 +269,9 @@ function createSocketIoServer(server) {
                     }
                     else {
                         delete rooms[roomId];
+                        delete games[roomId];
                     }
-                    socket.currentRoomId = null;
+                    socket.currentRoomId = undefined;
                     socket.leave(`room${roomId}`);
                     socket.to('channel').emit('update roomlist', rooms);
                 }

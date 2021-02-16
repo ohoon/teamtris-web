@@ -331,7 +331,6 @@ function TetrisSingleContainer() {
             dispatch(setRoom(null));
         }
         
-        socket.emit('leave game');
         dispatch(hideAllDialog());
         history.push('/');
     };

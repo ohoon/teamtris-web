@@ -331,7 +331,6 @@ function TetrisDoublesContainer() {
             dispatch(setRoom(null));
         }
         
-        socket.emit('leave game');
         dispatch(hideAllDialog());
         history.push('/');
     };
@@ -366,7 +365,7 @@ function TetrisDoublesContainer() {
 
         return () => {
             socket.removeListener('someone attack you');
-        }
+        };
     }, [attackedByGarbage]);
 
     useEffect(() => {
