@@ -53,7 +53,7 @@ const LeaveGameButton = styled(Button)`
     margin: 10%;
 `;
 
-function TetrisSingleContainer() {
+function TetrisContainer() {
     const room = useSelector((state: RootState) => state.room);
     const dispatch = useDispatch();
 
@@ -457,4 +457,4 @@ function TetrisSingleContainer() {
     );
 }
 
-export default TetrisSingleContainer;
+export default TetrisContainer;

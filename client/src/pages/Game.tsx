@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import TetrisOthersContainer from '../containers/TetrisOthersContainer';
 import ChatsContainer from '../containers/ChatsContainer';
-import TetrisSingleContainer from '../containers/TetrisSingleContainer';
-import TetrisDoubleContainer from '../containers/TetrisDoubleContainer';
+import TetrisContainer from '../containers/TetrisContainer';
 import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`
@@ -36,10 +35,7 @@ function Game() {
                 <TetrisOthersContainer />
                 <ChatsContainer />
             </Side>
-            {room.mode === 'single' ?
-                <TetrisSingleContainer /> :
-                <TetrisDoubleContainer />
-            }
+            <TetrisContainer />
         </Wrapper>
     );
 }
