@@ -40,6 +40,10 @@ function MyProfileContainer() {
             _id={me._id}
             username={me.username}
             nickname={me.nickname}
+            level={me.level}
+            exp={me.exp}
+            win={me.win}
+            lose={me.lose}
         />
     );
 }

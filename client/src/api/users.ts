@@ -21,10 +21,13 @@ export interface User {
     _id: string;
     username: string;
     nickname: string;
+    level: number;
+    win: number;
+    lose: number;
 }
 
 export interface Me extends User {
-
+    exp: number;
 }
 
 export async function getMe() {
