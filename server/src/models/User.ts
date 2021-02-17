@@ -6,6 +6,10 @@ export interface User {
     password: string;
     nickname: string;
     email: string;
+    level: number;
+    exp: number;
+    win: number;
+    lose: number;
 }
 
 export interface UserDocument extends User, Document {
@@ -46,6 +50,26 @@ const UserSchema = new Schema<UserDocument, UserModel>({
         type: String,
         match: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/,
         trim: true
+    },
+    level: {
+        type: Number,
+        default: 1,
+        min: 1
+    },
+    exp: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    win: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    lose: {
+        type: Number,
+        default: 0,
+        min: 0
     }
 }, {
     toObject: {

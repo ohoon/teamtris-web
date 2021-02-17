@@ -31,6 +31,26 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         match: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/,
         trim: true
+    },
+    level: {
+        type: Number,
+        default: 1,
+        min: 1
+    },
+    exp: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    win: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    lose: {
+        type: Number,
+        default: 0,
+        min: 0
     }
 }, {
     toObject: {
