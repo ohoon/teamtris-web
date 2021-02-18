@@ -6,6 +6,7 @@ import cors from 'cors';
 import indexRouter from './api/index';
 import usersRouter from './api/users';
 import authRouter from './api/auth';
+import gameRouter from './api/game';
 
 import mongoose from 'mongoose';
 
@@ -36,5 +37,6 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/game', gameRouter);
 
 export default app;

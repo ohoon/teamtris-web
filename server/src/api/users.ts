@@ -17,15 +17,15 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /* SHOW me. */
 router.get('/me',
-isLoggedIn,
-async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const user = await UserModel.findById(req.body.decoded._id).exec();
-    res.json(success(user));
-  } catch (err) {
-    res.json(error(err));
+  isLoggedIn,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await UserModel.findById(req.body.decoded._id).exec();
+      res.json(success(user));
+    } catch (err) {
+      res.json(error(err));
+    }
   }
-}
 );
 
 export default router;

@@ -10,6 +10,7 @@ const cors_1 = __importDefault(require("cors"));
 const index_1 = __importDefault(require("./api/index"));
 const users_1 = __importDefault(require("./api/users"));
 const auth_1 = __importDefault(require("./api/auth"));
+const game_1 = __importDefault(require("./api/game"));
 const mongoose_1 = __importDefault(require("mongoose"));
 mongoose_1.default.set('useNewUrlParser', true);
 mongoose_1.default.set('useFindAndModify', false);
@@ -32,5 +33,6 @@ app.use(cors_1.default());
 app.use('/', index_1.default);
 app.use('/users', users_1.default);
 app.use('/auth', auth_1.default);
+app.use('/game', game_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map
