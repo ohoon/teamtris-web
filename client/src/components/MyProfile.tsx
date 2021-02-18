@@ -74,7 +74,7 @@ function MyProfile({ username, nickname, level, exp, win, lose }: MyProfileProps
                 </UserInfo>
             </MyProfileBlock>
             <LevelBar
-                now={exp}
+                now={(exp / (1000 * Math.pow(2, level - 1))) * 100}
                 animated
             />
             <LevelBarLabel>
