@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '../socket';
 import { RoomInputs } from '../socket/rooms';
+import { applyResult } from '../api/game';
 import { RootState } from '../modules';
 import { hideDialog, showDialog } from '../modules/dialog';
 import CreateRoomDialog from '../components/CreateRoomDialog';
@@ -53,6 +54,10 @@ function DialogContainer() {
         }
     };
 
+    const onApplyResult = () => {
+        applyResult(100 * (Object.keys(players).length / players[socket.id].grade!));
+    };
+
     useEffect(() => {
         socket.on('end game', (players: Player) => {
             setPlayers(players);
@@ -83,6 +88,7 @@ function DialogContainer() {
                 <GameResultDialog
                     players={players}
                     mode={room.mode}
+                    onApplyResult={onApplyResult}
                     onClose={onClose}
                 />
             }

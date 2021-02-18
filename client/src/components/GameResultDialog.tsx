@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 import { Player } from '../../../server/src/socket/users';
@@ -41,13 +41,19 @@ const CloseButton = styled.div`
 interface GameResultDialogProps {
     players: Player;
     mode: 'single' | 'double';
+    onApplyResult: () => void;
     onClose: (name: string) => void;
 }
 
-function GameResultDialog({ players, mode, onClose }: GameResultDialogProps) {
+function GameResultDialog({ players, mode, onApplyResult, onClose }: GameResultDialogProps) {
     const handleClose = () => {
         onClose('gameResult');
     };
+
+    useEffect(() => {
+        onApplyResult();
+    // eslint-disable-next-line
+    }, []);
 
     return (
         <DialogBlock>
