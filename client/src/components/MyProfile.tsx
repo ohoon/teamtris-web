@@ -49,7 +49,7 @@ interface MyProfileProps extends Me {
 
 function MyProfile({ username, nickname, level, exp, win, lose }: MyProfileProps) {
     const total = win + lose;
-    const winningRate = total > 0 ? win / total : 0;
+    const winningRate = Math.round((total > 0 ? win / total : 0) * 100);
     return (
         <Wrapper>
             <MyProfileBlock>

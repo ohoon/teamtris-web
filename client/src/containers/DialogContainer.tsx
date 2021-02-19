@@ -55,7 +55,7 @@ function DialogContainer() {
     };
 
     const onApplyResult = () => {
-        applyResult(100 * (Object.keys(players).length / players[socket.id].grade!));
+        applyResult(players[socket.id].grade! === 1, 100 * (Object.keys(players).length / players[socket.id].grade!));
     };
 
     useEffect(() => {
