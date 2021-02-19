@@ -21,12 +21,24 @@ const router = express_1.default.Router();
 router.put('/', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const pre = yield User_1.default.findById(req.body.decoded._id).exec();
-        const exp = pre.exp + req.body.exp;
-        const maxExp = 1000 * Math.pow(2, pre.level - 1);
-        const post = yield User_1.default.findByIdAndUpdate(req.body.decoded._id, {
-            level: pre.level + Math.floor(exp / maxExp),
-            exp: exp % maxExp
-        }).exec();
+        const payload = {
+            win: pre.win,
+            lose: pre.lose,
+            level: pre.level,
+            exp: pre.exp + req.body.exp
+        };
+        if (req.body.isWin) {
+            payload.win += 1;
+        }
+        else {
+            payload.lose += 1;
+        }
+        let maxExp = 1000 * Math.pow(2, payload.level - 1);
+        while (payload.exp >= maxExp) {
+            payload.level += 1;
+            payload.exp -= maxExp;
+        }
+        const post = yield User_1.default.findByIdAndUpdate(req.body.decoded._id, payload).exec();
         res.json(jsonUtil_1.success(post));
     }
     catch (err) {

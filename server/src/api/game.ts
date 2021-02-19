@@ -12,13 +12,27 @@ router.put('/',
     try {
       const pre = await UserModel.findById(req.body.decoded._id).exec();
 
-      const exp = pre!.exp + req.body.exp;
-      const maxExp = 1000 * Math.pow(2, pre!.level - 1);
+      const payload = {
+        win: pre!.win,
+        lose: pre!.lose,
+        level: pre!.level,
+        exp: pre!.exp + req.body.exp
+      };
+      
+      if (req.body.isWin) {
+        payload.win += 1;
+      } else {
+        payload.lose += 1;
+      }
 
-      const post = await UserModel.findByIdAndUpdate(req.body.decoded._id, {
-        level: pre!.level + Math.floor(exp / maxExp),
-        exp: exp % maxExp
-      }).exec()
+      let maxExp = 1000 * Math.pow(2, payload.level - 1);
+
+      while (payload.exp >= maxExp) {
+        payload.level += 1;
+        payload.exp -= maxExp;
+      }
+      
+      const post = await UserModel.findByIdAndUpdate(req.body.decoded._id, payload).exec()
       
       res.json(success(post));
     } catch (err) {
