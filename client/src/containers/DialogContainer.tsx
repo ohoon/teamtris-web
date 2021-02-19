@@ -6,6 +6,7 @@ import { RoomInputs } from '../socket/rooms';
 import { applyResult } from '../api/game';
 import { RootState } from '../modules';
 import { hideDialog, showDialog } from '../modules/dialog';
+import { getMeThunk } from '../modules/users';
 import CreateRoomDialog from '../components/CreateRoomDialog';
 import EditRoomDialog from '../components/EditRoomDialog';
 import GameResultDialog from '../components/GameResultDialog';
@@ -54,8 +55,9 @@ function DialogContainer() {
         }
     };
 
-    const onApplyResult = () => {
-        applyResult(players[socket.id].grade! === 1, 100 * (Object.keys(players).length / players[socket.id].grade!));
+    const onApplyResult = async () => {
+        await applyResult(players[socket.id].grade! === 1, 100 * (Object.keys(players).length / players[socket.id].grade!));
+        dispatch(getMeThunk());
     };
 
     useEffect(() => {
