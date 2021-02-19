@@ -12,9 +12,12 @@ router.put('/',
     try {
       const pre = await UserModel.findById(req.body.decoded._id).exec();
 
+      const exp = pre!.exp + req.body.exp;
+      const maxExp = 1000 * Math.pow(2, pre!.level - 1);
+
       const post = await UserModel.findByIdAndUpdate(req.body.decoded._id, {
-        level: pre!.level + Math.floor((pre!.exp + req.body.exp) / (1000 * Math.pow(2, pre!.level - 1))),
-        exp: (pre!.exp + req.body.exp) % (1000 * Math.pow(2, pre!.level - 1))
+        level: pre!.level + Math.floor(exp / maxExp),
+        exp: exp % maxExp
       }).exec()
       
       res.json(success(post));
