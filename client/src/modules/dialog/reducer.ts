@@ -11,11 +11,11 @@ const initialState = {
 
 const reducer = createReducer<DialogState, DialogAction>(initialState, {
     [SHOW_DIALOG]: (state, action) => ({
-        ...state,
+        ...initialState,
         [action.payload]: true
     }),
     [HIDE_DIALOG]: (state, action) => ({
-        ...state,
+        ...initialState,
         [action.payload]: false
     }),
     [HIDE_ALL_DIALOG]: () => initialState
