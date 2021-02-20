@@ -26,6 +26,14 @@ export interface User {
     lose: number;
 }
 
+export async function getUsers() {
+    const response = await axios.get<any>(
+        'http://localhost:5005/users/'
+    );
+
+    return response.data;
+}
+
 export interface Me extends User {
     exp: number;
 }

@@ -5,7 +5,8 @@ import { DialogAction, DialogState } from './types';
 const initialState = {
     createRoom: false,
     editRoom: false,
-    gameResult: false
+    gameResult: false,
+    ranking: false
 };
 
 const reducer = createReducer<DialogState, DialogAction>(initialState, {

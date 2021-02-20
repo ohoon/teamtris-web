@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ProgressBar } from 'react-bootstrap';
+import { Button, ProgressBar } from 'react-bootstrap';
 import { Me } from '../api/users';
 
 const Wrapper = styled.div`
@@ -21,12 +21,17 @@ const MyProfileBlock = styled.div`
 `;
 
 const UserInfo = styled.div`
-    margin-left: 10px;
+    width: 100%;
+    margin: 0 10px 0 10px;
 
     .name {
         font-weight: bold;
         font-size: 16px;
     }
+`;
+
+const RankingButton = styled(Button)`
+    float: right;
 `;
 
 const LevelBar = styled(ProgressBar)`
@@ -44,10 +49,10 @@ const LevelBarLabel = styled.div`
 `;
 
 interface MyProfileProps extends Me {
-
+    onRanking: () => void;
 }
 
-function MyProfile({ username, nickname, level, exp, win, lose }: MyProfileProps) {
+function MyProfile({ username, nickname, level, exp, win, lose, onRanking }: MyProfileProps) {
     const total = win + lose;
     const winningRate = Math.round((total > 0 ? win / total : 0) * 100);
     return (
@@ -67,6 +72,13 @@ function MyProfile({ username, nickname, level, exp, win, lose }: MyProfileProps
                         {nickname ||
                             username
                         }
+                        <RankingButton
+                            variant="dark"
+                            size="sm"
+                            onClick={onRanking}
+                        >
+                            랭킹
+                        </RankingButton>
                     </p>
                     <p>
                         승률: {winningRate}% ({win}승 {lose}패)

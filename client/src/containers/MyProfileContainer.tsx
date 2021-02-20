@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../modules';
 import MyProfile from '../components/MyProfile';
+import { showDialog } from '../modules/dialog';
 
 const LogInButtonBlock = styled.div`
     height: 100%;
@@ -16,9 +17,12 @@ const LogInButtonBlock = styled.div`
 
 function MyProfileContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);
+    const dispatch = useDispatch();
 
     const history = useHistory();
     const goToLogin = () => history.push('/login');
+
+    const onRanking = () => dispatch(showDialog('ranking'));
 
     if (!me) {
         return (
@@ -44,6 +48,7 @@ function MyProfileContainer() {
             exp={me.exp}
             win={me.win}
             lose={me.lose}
+            onRanking={onRanking}
         />
     );
 }

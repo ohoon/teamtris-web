@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '../socket';
 import { RoomInputs } from '../socket/rooms';
+import { User, getUsers } from '../api/users';
 import { applyResult } from '../api/game';
 import { RootState } from '../modules';
 import { hideDialog, showDialog } from '../modules/dialog';
@@ -10,6 +11,7 @@ import { getMeThunk } from '../modules/users';
 import CreateRoomDialog from '../components/CreateRoomDialog';
 import EditRoomDialog from '../components/EditRoomDialog';
 import GameResultDialog from '../components/GameResultDialog';
+import RankingDialog from '../components/RankingDialog';
 import { Player } from '../../../server/src/socket/users';
 
 const Wrapper = styled.div`
@@ -20,12 +22,13 @@ const Wrapper = styled.div`
 `;
 
 function DialogContainer() {
-    const { createRoom, editRoom, gameResult } = useSelector((state: RootState) => state.dialog);
+    const { createRoom, editRoom, gameResult, ranking } = useSelector((state: RootState) => state.dialog);
     const me = useSelector((state: RootState) => state.users.me.data);
     const room = useSelector((state: RootState) => state.room);
     const dispatch = useDispatch();
 
     const [players, setPlayers] = useState<Player>({});
+    const [users, setUsers] = useState<User[]>([]);
 
     const onClose = (name: string) => {
         dispatch(hideDialog(name));
@@ -71,6 +74,23 @@ function DialogContainer() {
         }
     }, [dispatch]);
 
+    useEffect(() => {
+        if (ranking) {
+            (async () => {
+                try {
+                    const result = await getUsers();
+                    if (!result.success) {
+                        throw new Error(result.message);
+                    }
+
+                    setUsers(result.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            })();
+        }
+    }, [ranking]);
+
     return (
         <Wrapper>
             {createRoom &&
@@ -91,6 +111,12 @@ function DialogContainer() {
                     players={players}
                     mode={room.mode}
                     onApplyResult={onApplyResult}
+                    onClose={onClose}
+                />
+            }
+            {ranking &&
+                <RankingDialog
+                    users={users}
                     onClose={onClose}
                 />
             }
