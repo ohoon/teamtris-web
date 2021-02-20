@@ -27,6 +27,16 @@ router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         res.json(jsonUtil_1.error(err));
     }
 }));
+/* GET users. */
+router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const users = yield User_1.default.find();
+        res.json(jsonUtil_1.success(users));
+    }
+    catch (err) {
+        res.json(jsonUtil_1.error(err));
+    }
+}));
 /* SHOW me. */
 router.get('/me', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {

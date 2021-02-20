@@ -15,6 +15,16 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+/* GET users. */
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await UserModel.find();
+    res.json(success(users));
+  } catch (err) {
+    res.json(error(err))
+  }
+});
+
 /* SHOW me. */
 router.get('/me',
   isLoggedIn,
