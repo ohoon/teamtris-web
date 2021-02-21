@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Dialog from './pages/partial/Dialog';
 import Navigation from './pages/partial/Navigation';
 import Home from './pages/Home';
+import Auth from './pages/Auth';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Practice from './pages/Practice';
@@ -18,6 +19,10 @@ function App() {
           path="/"
           exact
           component={Home}
+        />
+        <Route
+          path="/auth"
+          component={Auth}
         />
         <Route
           path="/login"

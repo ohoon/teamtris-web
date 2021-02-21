@@ -66,6 +66,15 @@ function LoginForm({ onSubmit }: LoginFormProps) {
                     로그인
                 </Button>
             </Form.Group>
+            <Form.Group>
+                <Button
+                    size="lg"
+                    block
+                    href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/userinfo.profile&access_type=offline&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value&redirect_uri=http%3A//localhost:5000/auth/google&client_id=820046101652-3ulom2bdgjnuumcrrg5j47095hg8e726.apps.googleusercontent.com"
+                >
+                    로그인 with Google
+                </Button>
+            </Form.Group>
             <hr />
             <Link
                 to="/signup"
