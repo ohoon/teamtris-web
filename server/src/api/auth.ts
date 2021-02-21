@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { isLoggedIn } from '../lib/authUtil';
 import { error, success } from '../lib/jsonUtil';
@@ -50,6 +51,35 @@ router.post('/login',
       });
     } catch (err) {
       res.json(error(err));
+    }
+  }
+);
+
+/* Create token with Google. */
+router.post('/login/google',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = {
+      code: req.body.code,
+      client_id: process.env.TEAMTRIS_GOOGLE_CLIENT_ID!,
+      client_secret: process.env.TEAMTRIS_GOOGLE_SECRET!,
+      redirect_uri: 'http://localhost:5000/auth/google',
+      grant_type: 'authorization_code'
+    };
+
+    const result = await axios.post('https://oauth2.googleapis.com/token',
+      payload
+    );
+
+    if (result.status == 200) {
+      const token = result.data.access_token;
+
+      axios.defaults.headers.authorization = `Bearer ${token}`;
+
+      const userInfo = await axios.get(`
+        https://www.googleapis.com/oauth2/v2/userinfo?access_token=${token}
+      `);
+
+      console.info(userInfo.data);
     }
   }
 );

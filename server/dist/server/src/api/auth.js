@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const axios_1 = __importDefault(require("axios"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authUtil_1 = require("../lib/authUtil");
 const jsonUtil_1 = require("../lib/jsonUtil");
@@ -55,6 +56,25 @@ router.post('/login', (req, res, next) => {
     }
     catch (err) {
         res.json(jsonUtil_1.error(err));
+    }
+}));
+/* Create token with Google. */
+router.post('/login/google', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = {
+        code: req.body.code,
+        client_id: process.env.TEAMTRIS_GOOGLE_CLIENT_ID,
+        client_secret: process.env.TEAMTRIS_GOOGLE_SECRET,
+        redirect_uri: 'http://localhost:5000/auth/google',
+        grant_type: 'authorization_code'
+    };
+    const result = yield axios_1.default.post('https://oauth2.googleapis.com/token', payload);
+    if (result.status == 200) {
+        const token = result.data.access_token;
+        axios_1.default.defaults.headers.authorization = `Bearer ${token}`;
+        const userInfo = yield axios_1.default.get(`
+        https://www.googleapis.com/oauth2/v2/userinfo?access_token=${token}
+      `);
+        console.info(userInfo.data);
     }
 }));
 /* Refresh token. */
