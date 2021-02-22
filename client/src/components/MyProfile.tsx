@@ -17,6 +17,9 @@ const MyProfileBlock = styled.div`
     .profile-image {
         width: 100px;
         height: 100px;
+        border: 0px;
+        border-radius: 15%;
+        padding: 3%;
     }
 `;
 
@@ -52,7 +55,7 @@ interface MyProfileProps extends Me {
     onRanking: () => void;
 }
 
-function MyProfile({ username, nickname, level, exp, win, lose, onRanking }: MyProfileProps) {
+function MyProfile({ nickname, profileImage, level, exp, win, lose, onRanking }: MyProfileProps) {
     const total = win + lose;
     const winningRate = Math.round((total > 0 ? win / total : 0) * 100);
     return (
@@ -60,7 +63,7 @@ function MyProfile({ username, nickname, level, exp, win, lose, onRanking }: MyP
             <MyProfileBlock>
                 <img
                     className="profile-image"
-                    src="male.png"
+                    src={profileImage}
                     alt="profileImage"
                 />
                 <UserInfo>
@@ -69,9 +72,7 @@ function MyProfile({ username, nickname, level, exp, win, lose, onRanking }: MyP
                     >
                         [{level}]
                         &nbsp;
-                        {nickname ||
-                            username
-                        }
+                        {nickname}
                         <RankingButton
                             variant="dark"
                             size="sm"

@@ -3,16 +3,16 @@ import { Stage } from '../../../client/src/tetris/stage';
 export interface ConnectedUser {
     [socketId: string]: {
         _id: string;
-        username: string;
         nickname: string;
+        level: number;
     };
 }
 
 export interface WaitingPlayer {
     [socketId: string]: {
         _id: string;
-        username: string;
         nickname: string;
+        profileImage: string;
         isReady: boolean;
         isMaster: boolean;
         team?: string;
@@ -22,7 +22,6 @@ export interface WaitingPlayer {
 export interface Player {
     [socketId: string]: {
         _id: string;
-        username: string;
         nickname: string;
         team?: string;
         stage?: Stage;

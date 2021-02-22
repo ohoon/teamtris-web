@@ -38,8 +38,8 @@ function DialogContainer() {
         const player = me && {
             [socket.id]: {
                 _id: me._id,
-                username: me.username,
                 nickname: me.nickname,
+                profileImage: me.profileImage,
                 isReady: true,
                 isMaster: true
             }

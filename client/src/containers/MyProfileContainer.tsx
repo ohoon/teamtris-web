@@ -42,8 +42,8 @@ function MyProfileContainer() {
     return (
         <MyProfile
             _id={me._id}
-            username={me.username}
             nickname={me.nickname}
+            profileImage={me.profileImage}
             level={me.level}
             exp={me.exp}
             win={me.win}

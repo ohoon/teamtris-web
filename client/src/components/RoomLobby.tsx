@@ -92,8 +92,8 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                             <RoomLobbySlot
                                 socketId={socketId}
                                 _id={player._id}
-                                username={player.username}
-                                nickname={player.nickname}  
+                                nickname={player.nickname}
+                                profileImage={player.profileImage}
                                 isReady={player.isReady}
                                 isMaster={player.isMaster}
                                 team={mode === 'double' ? player.team : undefined}

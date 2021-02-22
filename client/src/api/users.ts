@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export interface User {
     _id: string;
-    username: string;
     nickname: string;
+    profileImage: string;
     level: number;
     win: number;
     lose: number;

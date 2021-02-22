@@ -15,6 +15,9 @@ const RoomLobbySlotBlock = styled.div<{ team?: string }>`
     .profile-image {
         width: 80px;
         height: 80px;
+        border: 0px;
+        border-radius: 15%;
+        padding: 3%;
         margin-bottom: 10px;
     }
 `;
@@ -22,8 +25,8 @@ const RoomLobbySlotBlock = styled.div<{ team?: string }>`
 interface RoomLobbySlotProps {
     socketId: string;
     _id: string;
-    username: string;
     nickname: string;
+    profileImage: string;
     isReady: boolean;
     isMaster: boolean;
     team?: string;
@@ -31,14 +34,14 @@ interface RoomLobbySlotProps {
     onKickPlayer?: (socketId: string) => void;
 }
 
-function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, team, onChangeTeam, onKickPlayer }: RoomLobbySlotProps) {
+function RoomLobbySlot({ socketId, nickname, profileImage, isReady, isMaster, team, onChangeTeam, onKickPlayer }: RoomLobbySlotProps) {
     return (
         <RoomLobbySlotBlock
             team={team}
         >
             <img
                 className="profile-image"
-                src="male.png"
+                src={profileImage}
                 alt="profileImage"
             />
             <strong>
@@ -54,7 +57,7 @@ function RoomLobbySlot({ socketId, username, nickname, isReady, isMaster, team, 
             }
             <br />
             <strong>
-                {nickname || username}
+                {nickname}
             </strong>
             {team &&
                 <span

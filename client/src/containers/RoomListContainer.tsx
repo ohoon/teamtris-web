@@ -26,8 +26,8 @@ function RoomListContainer() {
         const player = {
             [socket.id]: {
                 _id: me._id,
-                username: me.username,
                 nickname: me.nickname,
+                profileImage: me.profileImage,
                 isReady: false,
                 isMaster: false
             }
