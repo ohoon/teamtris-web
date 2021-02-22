@@ -80,7 +80,7 @@ function RankingDialog({ users, onClose }: RankingDialogProps) {
                                 >
                                     [{user.level}]
                                     &nbsp;
-                                    {user.nickname || user.username}
+                                    {user.nickname}
                                 </Col>
                                 <Col
                                     lg={4}

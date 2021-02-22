@@ -36,7 +36,6 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
                             key={index}
                             socketId={socketId}
                             _id={player._id}
-                            username={player.username}
                             nickname={player.nickname}
                             team={player.team}
                             stage={player.stage}

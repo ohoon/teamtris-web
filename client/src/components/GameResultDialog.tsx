@@ -87,7 +87,7 @@ function GameResultDialog({ players, mode, onApplyResult, onClose }: GameResultD
                                 >
                                     [{player.grade}등]
                                     &nbsp;
-                                    {player.nickname || player.username}
+                                    {player.nickname}
                                 </Col>
                         )}
                     </Row> :
@@ -109,7 +109,7 @@ function GameResultDialog({ players, mode, onApplyResult, onClose }: GameResultD
                                 >
                                     [{player.grade}등]
                                     &nbsp;
-                                    {player.nickname || player.username}
+                                    {player.nickname}
                                     &nbsp;
                                     {player.team}
                                 </Col>

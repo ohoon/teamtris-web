@@ -142,7 +142,6 @@ function createSocketIoServer(server) {
                     const game = {
                         [roomId]: Object.entries(players).reduce((res, [socketId, player]) => (Object.assign(Object.assign({}, res), { [socketId]: {
                                 _id: player._id,
-                                username: player.username,
                                 nickname: player.nickname,
                                 team: player.team
                             } })), {})

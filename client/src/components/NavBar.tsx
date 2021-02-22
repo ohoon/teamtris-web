@@ -43,7 +43,7 @@ function NavBar({ me, redirect, logout }: NavBarProps) {
                 {me ?
                     <NavDropdown
                         id="collasible-nav-dropdown"
-                        title={me.nickname || me.username}
+                        title={me.nickname}
 
                     >
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

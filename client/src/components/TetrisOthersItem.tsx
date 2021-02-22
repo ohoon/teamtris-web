@@ -15,7 +15,6 @@ const Wrapper = styled.div<{ team?: string }>`
 interface TetrisOthersItemProps {
     socketId: string;
     _id: string;
-    username: string;
     nickname: string;
     team?: string;
     stage?: Stage;
@@ -23,13 +22,13 @@ interface TetrisOthersItemProps {
     grade?: number;
 }
 
-function TetrisOthersItem({ username, nickname, team, stage = createStage(), gameOver = false, grade }: TetrisOthersItemProps) {
+function TetrisOthersItem({ nickname, team, stage = createStage(), gameOver = false, grade }: TetrisOthersItemProps) {
     return (
         <Wrapper
             team={team}
         >
             <strong>
-                {nickname || username}            
+                {nickname}            
             </strong>
             <TetrisStage
                 stage={stage}

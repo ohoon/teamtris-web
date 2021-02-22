@@ -36,7 +36,7 @@ function ChatBoxContainer() {
     
     const onSubmit = () => {
         const chat = {
-            sender: me ? me.nickname || me.username : null,
+            sender: me ? me.nickname : null,
             message: input
         };
         

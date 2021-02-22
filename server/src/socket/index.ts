@@ -195,7 +195,6 @@ export default function createSocketIoServer(server: Server) {
                             ...res,
                             [socketId]: {
                                 _id: player._id,
-                                username: player.username,
                                 nickname: player.nickname,
                                 team: player.team
                             }
