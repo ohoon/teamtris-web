@@ -15,78 +15,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const authUtil_1 = require("../lib/authUtil");
 const jsonUtil_1 = require("../lib/jsonUtil");
 const User_1 = __importDefault(require("../models/User"));
 const router = express_1.default.Router();
-/* Create token. */
-router.post('/login', (req, res, next) => {
-    let isValid = true;
-    const errors = {};
-    if (!req.body.username) {
-        isValid = false;
-        errors.username = { name: 'ValidationError', message: '아이디를 입력해 주세요.' };
-    }
-    if (!req.body.password) {
-        isValid = false;
-        errors.password = { name: 'ValidationError', message: '비밀번호를 입력해 주세요.' };
-    }
-    if (!isValid)
-        return res.json(jsonUtil_1.error({ errors: errors, _message: '로그인 인증 실패' }));
-    next();
-}, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const user = yield User_1.default.findOne({ username: req.body.username }).select({ username: 1, password: 1, nickname: 1, email: 1 }).exec();
-        if (!user || !user.authenticate(req.body.password)) {
-            return res.json(jsonUtil_1.error(null, '아이디 또는 비밀번호가 일치하지 않습니다.'));
-        }
-        const payload = {
-            _id: user._id,
-            username: user.username,
-            nickname: user.nickname
-        };
-        const options = {
-            expiresIn: 60 * 60 * 24
-        };
-        jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, options, (err, token) => {
-            if (err)
-                return res.json(jsonUtil_1.error(err));
-            res.json(jsonUtil_1.success(token));
-        });
-    }
-    catch (err) {
-        res.json(jsonUtil_1.error(err));
-    }
-}));
 /* Create token with Google. */
 router.post('/login/google', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const payload = {
-        code: req.body.code,
-        client_id: process.env.TEAMTRIS_GOOGLE_CLIENT_ID,
-        client_secret: process.env.TEAMTRIS_GOOGLE_SECRET,
-        redirect_uri: 'http://localhost:5000/auth/google',
-        grant_type: 'authorization_code'
-    };
-    const result = yield axios_1.default.post('https://oauth2.googleapis.com/token', payload);
-    if (result.status == 200) {
-        const token = result.data.access_token;
-        axios_1.default.defaults.headers.authorization = `Bearer ${token}`;
-        const userInfo = yield axios_1.default.get(`
-        https://www.googleapis.com/oauth2/v2/userinfo?access_token=${token}
-      `);
-        console.info(userInfo.data);
-    }
-}));
-/* Refresh token. */
-router.put('/login', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.findById(req.body.decoded._id).exec();
-        if (!user)
-            return res.json(jsonUtil_1.error(null, '존재하지 않는 사용자입니다.'));
+        const getToken = yield axios_1.default.post('https://oauth2.googleapis.com/token', {
+            code: req.body.code,
+            client_id: process.env.TEAMTRIS_GOOGLE_CLIENT_ID,
+            client_secret: process.env.TEAMTRIS_GOOGLE_SECRET,
+            redirect_uri: 'http://localhost:5000/auth/google',
+            grant_type: 'authorization_code'
+        });
+        if (getToken.status != 200) {
+            return res.json(jsonUtil_1.error(null, '로그인 인증 실패'));
+        }
+        const { access_token } = getToken.data;
+        axios_1.default.defaults.headers.authorization = `Bearer ${access_token}`;
+        const getUserInfo = yield axios_1.default.get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${access_token}`);
+        if (getUserInfo.status != 200) {
+            return res.json(jsonUtil_1.error(null, '토큰 인증 실패'));
+        }
+        const { id, name, picture } = getUserInfo.data;
+        const user = yield User_1.default.findOne({ userId: id }).exec();
+        let _id = user ? user._id : undefined;
+        if (!user) {
+            const createUser = yield axios_1.default.post('http://localhost:5005/users', {
+                userId: id,
+                nickname: name,
+                profileImage: picture
+            });
+            if (createUser.status != 200) {
+                return res.json(jsonUtil_1.error(null, '사용자 등록 실패'));
+            }
+            _id = createUser.data.data._id;
+        }
         const payload = {
-            _id: user._id,
-            username: user.username,
-            nickname: user.nickname
+            _id: _id
         };
         const options = {
             expiresIn: 60 * 60 * 24
@@ -94,11 +60,11 @@ router.put('/login', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0
         jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, options, (err, token) => {
             if (err)
                 return res.json(jsonUtil_1.error(err));
-            res.json(jsonUtil_1.success(token));
+            return res.json(jsonUtil_1.success(token));
         });
     }
     catch (err) {
-        res.json(jsonUtil_1.error(err));
+        return res.json(jsonUtil_1.error(err));
     }
 }));
 exports.default = router;
