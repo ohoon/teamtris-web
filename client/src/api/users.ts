@@ -1,22 +1,5 @@
 import axios from 'axios';
 
-export interface SignUpInputs {
-    username: string;
-    password: string;
-    passwordConfirm: string;
-    nickname: string;
-    email: string;
-}
-
-export async function createUser(input: SignUpInputs) {
-    const response = await axios.post<any>(
-        'http://localhost:5005/users',
-        input
-    );
-    
-    return response.data;
-}
-
 export interface User {
     _id: string;
     username: string;

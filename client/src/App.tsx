@@ -5,7 +5,6 @@ import Navigation from './pages/partial/Navigation';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Login from './pages/Login';
-import SignUp from './pages/SignUp';
 import Practice from './pages/Practice';
 import Game from './pages/Game';
 
@@ -27,10 +26,6 @@ function App() {
         <Route
           path="/login"
           component={Login}
-        />
-        <Route
-          path="/signup"
-          component={SignUp}
         />
         <Route
           path="/practice"
