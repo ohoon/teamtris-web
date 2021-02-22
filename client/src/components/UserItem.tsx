@@ -3,16 +3,16 @@ import React from 'react';
 interface UserItemProps {
     socketId: string;
     _id: string;
-    username: string;
     nickname: string;
+    level: number;
 }
 
-function UserItem({ username, nickname }: UserItemProps) {
+function UserItem({ nickname, level }: UserItemProps) {
     return (
         <li>
-            {nickname ||
-                username
-            }
+            [{level}]
+            &nbsp;
+            {nickname}
         </li>
     );
 }

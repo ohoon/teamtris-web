@@ -13,8 +13,8 @@ function UserListContainer() {
     useEffect(() => {
         const user = me && {
             _id: me._id,
-            username: me.username,
-            nickname: me.nickname
+            nickname: me.nickname,
+            level: me.level
         };
             
         socket.emit('join channel', user);

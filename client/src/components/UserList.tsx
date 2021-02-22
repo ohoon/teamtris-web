@@ -47,8 +47,8 @@ function UserList({ users }: UserListProps) {
                         key={index + 1}
                         socketId={socketId}
                         _id={user._id}
-                        username={user.username}
                         nickname={user.nickname}
+                        level={user.level}
                     />
                 )}
             </ul>
