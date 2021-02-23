@@ -6,27 +6,32 @@ import RoomLobbySlot from './RoomLobbySlot';
 import RoomLobbyEmptySlot from './RoomLobbyEmptySlot';
 
 const RoomLobbyBlock = styled.div`
-    .head {
-        padding: 1px 10px 1px 10px;
-        border: 3px solid #E8E8E8;
-        background: #D3D7DB;
-        font-weight: bold;
-        font-size: 12px;
-    }
+height: 100%;
+padding: 8px;
 
-    .body {
-        height: 400px;
-        margin: 0 auto;
-        padding: 10px;
-        border: 3px solid #E8E8E8;
-        background: #EEEEEE;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
+.head {
+    padding: 8px 16px 8px 16px;
+    border: 1px solid #747E87;
+    border-radius: 5px;
+    background: #B2B7C1;
+    font-weight: bold;
+    font-size: 14px;
+}
 
-    .menu {
-        margin: auto;
-    }
+.body {
+    height: 400px;
+    margin: 1% auto;
+    padding: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 13px;
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-end;
+    margin: auto;
+}
 `;
 
 const StartGameButton = styled(Button)`
@@ -80,6 +85,7 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                     md={4}
                     sm={2}
                     xs={2}
+                    noGutters
                 >
                     {Object.entries(players).map(([socketId, player], index) =>
                         <Col

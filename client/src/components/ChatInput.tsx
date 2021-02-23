@@ -1,5 +1,10 @@
 import React, { ChangeEvent, FormEvent } from 'react';
+import styled from 'styled-components';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
+
+const ChatInputBlock = styled.form`
+    padding-left: 8px;
+`;
 
 interface ChatInputProps {
     input: string;
@@ -9,8 +14,6 @@ interface ChatInputProps {
 }
 
 function ChatInput({ input, onChange, onSubmit, disabled }: ChatInputProps) {
-
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value);
     };
@@ -22,7 +25,7 @@ function ChatInput({ input, onChange, onSubmit, disabled }: ChatInputProps) {
     };
 
     return (
-        <form
+        <ChatInputBlock
             onSubmit={handleSubmit}
         >
             <InputGroup>
@@ -42,7 +45,7 @@ function ChatInput({ input, onChange, onSubmit, disabled }: ChatInputProps) {
                     </Button>
                 </InputGroup.Append>
             </InputGroup>
-        </form>
+        </ChatInputBlock>
     );
 }
 

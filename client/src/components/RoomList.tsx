@@ -5,22 +5,25 @@ import { Room } from '../../../server/src/socket/rooms';
 import RoomItem from '../components/RoomItem';
 
 const RoomListBlock = styled.div`
+    height: 100%;
+    padding: 8px;
+
     .head {
-        padding: 1px 10px 1px 10px;
-        border: 3px solid #E8E8E8;
-        background: #D3D7DB;
+        padding: 6px 16px 6px 16px;
+        border: 1px solid #747E87;
+        border-radius: 5px;
+        background: #B2B7C1;
         font-weight: bold;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .body {
         height: 400px;
-        margin: 0 auto;
-        padding: 10px;
-        border: 3px solid #E8E8E8;
-        background: #EEEEEE;
+        margin: 1% auto;
+        padding: 8px;
         overflow-x: hidden;
         overflow-y: auto;
+        font-size: 13px;
     }
     
     .menu {
@@ -61,6 +64,7 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
                     md={2}
                     sm={1}
                     xs={1}
+                    noGutters
                 >
                     {Object.entries(rooms).map(([roomId, room], index) =>
                         <Col

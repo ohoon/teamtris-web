@@ -7,8 +7,8 @@ const LoginMenuBlock = styled.div`
     height: 400px;
     margin: 200px auto;
     padding: 100px 200px;
-    border: 3px solid #E8E8E8;
-    background: #EEEEEE;
+    border-radius: 5px;
+    background: #EEE;
 `;
 
 function LoginForm() {
@@ -25,6 +25,7 @@ function LoginForm() {
         <LoginMenuBlock>
             <Button
                 size="lg"
+                variant="info"
                 block
                 href={url}
             >

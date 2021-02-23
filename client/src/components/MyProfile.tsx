@@ -5,9 +5,9 @@ import { Me } from '../api/users';
 
 const Wrapper = styled.div`
     height: 100%;
-    padding: 16px 10px 16px 10px;
-    border: 3px solid #E8E8E8;
-    background: #EEEEEE;
+    padding: 24px 8px 24px 8px;
+    border-top: 1px solid #D8D8D8;
+    border-right: 1px solid #D8D8D8;
 `;
 
 const MyProfileBlock = styled.div`

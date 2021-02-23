@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 const RoomLobbyEmptySlotBlock = styled.div`
     height: 11.5rem;
-    border: 3px solid #E8E8E8;
+    border: 1px solid #D8D8D8;
     border-radius: 16px;
-    background: #D3D7DB;
+    margin: 4px;
+    background: #D5D9DE;
 `;
 
 function RoomLobbySlot() {

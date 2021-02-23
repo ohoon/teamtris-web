@@ -4,22 +4,20 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { CurrentRoom, RoomInputs } from '../socket/rooms';
 
 const DialogBlock = styled.div`
-    border: 3px solid #E8E8E8;
-    background: white;
+    border: 1px solid #D8D8D8;
 
     .head {
-        padding: 1px 10px 1px 10px;
-        border: 3px solid #E8E8E8;
-        background: #D3D7DB;
+        padding: 3px 12px 3px 12px;
+        border: 1px solid #747E87;
+        background: #B2B7C1;
         font-weight: bold;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .body {
         width: 400px;
         padding: 32px;
-        border: 3px solid #E8E8E8;
-        background: #EEEEEE;
+        background: #EEE;
         overflow-y: auto;
         font-size: 14px;
     }
@@ -79,7 +77,7 @@ function EditRoomDialog({ room, onClose, onSubmit }: EditRoomDialogProps) {
             <div
                 className="head"
             >
-                방 설정 변경
+                방 설정
                 <CloseButton
                     onClick={handleClose}
                 />
@@ -123,7 +121,7 @@ function EditRoomDialog({ room, onClose, onSubmit }: EditRoomDialogProps) {
                     >
                         <Form.Control
                             name="password"
-                            type="password"
+                            type="text"
                             placeholder="입력 시 비공개방으로 전환"
                             value={input.password}
                             onChange={onChange}

@@ -8,14 +8,16 @@ import TetrisContainer from '../containers/TetrisContainer';
 import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`
-    width: 100%;
     display: flex;
+    width: 100%;
     margin: 32px auto;
+    border-radius: 5px;
+    background: #EEE;
 `;
 
 const Side = styled.div`
-    width: 100%;
     display: flex;
+    width: 100%;
     flex-direction: column;
     margin: 16px;
 `;

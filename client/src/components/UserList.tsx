@@ -5,21 +5,22 @@ import UserItem from './UserItem';
 
 const UserListBlock = styled.div`
     height: 100%;
+    padding: 8px;
+    border-right: 1px solid #D8D8D8;
     
     .head {
-        padding: 1px 10px 1px 10px;
-        border: 3px solid #E8E8E8;
-        background: #D3D7DB;
+        padding: 6px 16px 6px 16px;
+        border: 1px solid #747E87;
+        border-radius: 5px;
+        background: #B2B7C1;
         font-weight: bold;
-        font-size: 12px;
+        font-size: 13px;
     }
     
     .body {
-        height: 100%;
-        margin: 0 auto;
+        height: 90%;
+        margin: 1% auto;
         padding: 6px 10px 6px 10px;
-        border: 3px solid #E8E8E8;
-        background: #EEEEEE;
         list-style: none;
         overflow-x: hidden;
         overflow-y: scroll;
@@ -37,7 +38,7 @@ function UserList({ users }: UserListProps) {
             <div
                 className="head"
             >
-                현재 접속자 목록 ({Object.keys(users).length}명)
+                현재 접속자 ({Object.keys(users).length}명)
             </div>
             <ul
                 className="body"

@@ -5,15 +5,16 @@ import { WaitingPlayer } from '../../../server/src/socket/users';
 const RoomItemBlock = styled.div`
     display: flex;
     position: relative;
+    margin: 4px;
     padding: 16px;
-    border: 3px solid #E8E8E8;
-    border-radius: 20px;
-    background: #D3D7DB;
+    border: 1px solid #D8D8D8;
+    border-radius: 16px;
+    background: #D5D9DE;
     font-size: 16px;
     cursor: pointer;
 
     &:hover {
-        background: #B3B7BC;
+        background: #E0E4E8;
     }
 `;
 

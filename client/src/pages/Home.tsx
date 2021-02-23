@@ -10,8 +10,12 @@ import MyProfileContainer from '../containers/MyProfileContainer';
 import ChatsContainer from '../containers/ChatsContainer';
 
 const Wrapper = styled(Container)`
-    min-width: 80%;
+    min-width: 75%;
     margin: 80px auto;
+    padding: 0.8rem;
+    border: 0px;
+    border-radius: 5px;
+    background: #EEE;
 `;
 
 function Home() {

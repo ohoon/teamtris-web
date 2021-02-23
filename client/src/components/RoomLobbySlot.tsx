@@ -5,10 +5,11 @@ import { TEAM } from '../socket/rooms';
 
 const RoomLobbySlotBlock = styled.div<{ team?: string }>`
     height: 11.5rem;
-    padding: 16px;
-    border: 3px solid #E8E8E8;
+    border: 1px solid #D8D8D8;
     border-radius: 16px;
-    background: ${props => props.team ? TEAM[props.team].color : '#D3D7DB'};
+    margin: 4px;
+    padding: 16px;
+    background: ${props => props.team ? TEAM[props.team].color : '#D5D9DE'};
     font-size: 16px;
     text-align: left;
 

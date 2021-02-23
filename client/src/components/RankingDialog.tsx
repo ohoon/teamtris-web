@@ -4,22 +4,20 @@ import { Row, Col } from 'react-bootstrap';
 import { User } from '../api/users';
 
 const DialogBlock = styled.div`
-    border: 3px solid #E8E8E8;
-    background: white;
+    border: 1px solid #D8D8D8;
 
     .head {
-        padding: 1px 10px 1px 10px;
-        border: 3px solid #E8E8E8;
-        background: #D3D7DB;
+        padding: 3px 12px 3px 12px;
+        border: 1px solid #747E87;
+        background: #B2B7C1;
         font-weight: bold;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .body {
         width: 400px;
         padding: 32px;
-        border: 3px solid #E8E8E8;
-        background: #EEEEEE;
+        background: #EEE;
         overflow-y: auto;
         font-size: 14px;
     }
@@ -78,6 +76,8 @@ function RankingDialog({ users, onClose }: RankingDialogProps) {
                                     sm={8}
                                     xs={8}
                                 >
+                                    {index + 1}등
+                                    &nbsp;
                                     [{user.level}]
                                     &nbsp;
                                     {user.nickname}

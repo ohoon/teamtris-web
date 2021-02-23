@@ -7,8 +7,6 @@ import TetrisOthersItem from './TetrisOthersItem';
 const Wrapper = styled.div`
     min-height: 37vw;
     padding: 2%;
-    border: 3px solid #E8E8E8;
-    background: #EEEEEE;
 `;
 
 interface TetrisOthersListProps {
