@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BsX } from 'react-icons/bs';
 import socket from '../socket';
 import { TEAM } from '../socket/rooms';
 
@@ -18,9 +19,39 @@ const RoomLobbySlotBlock = styled.div<{ team?: string }>`
         height: 80px;
         border: 0px;
         border-radius: 15%;
-        padding: 3%;
-        margin-bottom: 10px;
+        margin: 3%;
     }
+`;
+
+const PlayerStatusBlock = styled.div`
+    position: absolute;
+    right: 10%;
+    top: 10%;
+    font-weight: bold;
+`;
+
+const PlayerBlock = styled.div`
+    display: flex;
+    position: relative;
+    left: 5%;
+    top: 3%;
+    font-weight: bold;
+`;
+
+const KickButton = styled.div`
+    margin-left: 3%;
+    cursor: pointer;
+
+    &:hover {
+        color: rgba(0, 0, 0, 0.5);
+    }
+`;
+
+const TeamBlock = styled.div`
+    position: absolute;
+    right: 5%;
+    bottom: 3%;
+    font-weight: bold;
 `;
 
 interface RoomLobbySlotProps {
@@ -45,28 +76,29 @@ function RoomLobbySlot({ socketId, nickname, profileImage, isReady, isMaster, te
                 src={profileImage}
                 alt="profileImage"
             />
-            <strong>
+            <PlayerStatusBlock>
                 {isMaster ? "방장" : isReady && "준비 완료"}
-            </strong>
-            {onKickPlayer && !isMaster && socket.id !== socketId ?            
-                <span
-                    onClick={() => onKickPlayer(socketId)}
-                >
-                    x
-                </span> :
-                null
-            }
-            <br />
-            <strong>
+            </PlayerStatusBlock>
+            <PlayerBlock>
                 {nickname}
-            </strong>
-            {team &&
-                <span
-                    onClick={socket.id === socketId ? onChangeTeam : undefined}
-                >
-                    {team}
-                </span>
-            }
+                {onKickPlayer && !isMaster && socket.id !== socketId ?            
+                    <KickButton
+                        onClick={() => onKickPlayer(socketId)}
+                    >
+                        <BsX />
+                    </KickButton> :
+                    null
+                }
+            </PlayerBlock>
+            <TeamBlock>
+                {team &&
+                    <span
+                        onClick={socket.id === socketId ? onChangeTeam : undefined}
+                    >
+                        {team}
+                    </span>
+                }
+            </TeamBlock>
         </RoomLobbySlotBlock>
     );
 }

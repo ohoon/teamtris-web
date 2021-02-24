@@ -23,6 +23,25 @@ const DialogBlock = styled.div`
     }
 `;
 
+const UserItemBlock = styled.li`
+    display: flex;
+    align-items: center;
+`;
+
+const LevelIcon = styled.div`
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 0 6px 0 32px;
+    background: grey;
+    color: white;
+    font-size: 10px;
+`;
+
 const CloseButton = styled.div`
     width: 12px;
     height: 12px;
@@ -76,11 +95,13 @@ function RankingDialog({ users, onClose }: RankingDialogProps) {
                                     sm={8}
                                     xs={8}
                                 >
-                                    {index + 1}등
-                                    &nbsp;
-                                    [{user.level}]
-                                    &nbsp;
-                                    {user.nickname}
+                                    <UserItemBlock>
+                                        {index + 1}등
+                                        <LevelIcon>
+                                            {user.level}
+                                        </LevelIcon>
+                                        {user.nickname}
+                                    </UserItemBlock>
                                 </Col>
                                 <Col
                                     lg={4}
