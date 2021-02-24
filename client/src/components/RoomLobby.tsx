@@ -6,32 +6,37 @@ import RoomLobbySlot from './RoomLobbySlot';
 import RoomLobbyEmptySlot from './RoomLobbyEmptySlot';
 
 const RoomLobbyBlock = styled.div`
-height: 100%;
-padding: 8px;
-
-.head {
-    padding: 8px 16px 8px 16px;
-    border: 1px solid #747E87;
-    border-radius: 5px;
-    background: #B2B7C1;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.body {
-    height: 400px;
-    margin: 1% auto;
+    height: 100%;
     padding: 8px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    font-size: 13px;
-}
 
-.menu {
-    display: flex;
-    justify-content: flex-end;
-    margin: auto;
-}
+    .head {
+        display: flex;
+        padding: 8px 16px 8px 16px;
+        border: 1px solid #747E87;
+        border-radius: 5px;
+        background: #727F8C;
+        font-weight: bold;
+        font-size: 14px;
+
+        .tail {
+            margin-left: auto;
+        }
+    }
+
+    .body {
+        height: 400px;
+        margin: 1% auto;
+        padding: 8px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        font-size: 13px;
+    }
+
+    .menu {
+        display: flex;
+        justify-content: flex-end;
+        margin: auto;
+    }
 `;
 
 const StartGameButton = styled(Button)`
@@ -75,7 +80,16 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
             <div
                 className="head"
             >
-                [{roomId}] {title} {mode} 참여자 {current}/{max}
+                [{roomId}]
+                &nbsp;
+                {title}
+                <div
+                    className="tail"
+                >
+                    {mode === 'single' ? '개인전' : '팀전'}
+                    &nbsp;
+                    참여자 {current}/{max}
+                </div>
             </div>
             <div
                 className="body"

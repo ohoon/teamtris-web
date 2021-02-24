@@ -9,7 +9,7 @@ const DialogBlock = styled.div`
     .head {
         padding: 3px 12px 3px 12px;
         border: 1px solid #747E87;
-        background: #B2B7C1;
+        background: #727F8C;
         font-weight: bold;
         font-size: 13px;
     }

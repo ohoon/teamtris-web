@@ -12,7 +12,7 @@ const UserListBlock = styled.div`
         padding: 6px 16px 6px 16px;
         border: 1px solid #747E87;
         border-radius: 5px;
-        background: #B2B7C1;
+        background: #727F8C;
         font-weight: bold;
         font-size: 13px;
     }
