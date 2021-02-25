@@ -169,6 +169,7 @@ function EditRoomDialog({ room, onClose, onSubmit }: EditRoomDialogProps) {
                             as="select"
                             value={input.mode}
                             onChange={onChange}
+                            disabled
                         >
                             <option value="single">개인전</option>
                             <option value="double">팀전</option>
