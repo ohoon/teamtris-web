@@ -10,8 +10,8 @@ import { showDialog } from '../modules/dialog';
 const LogInButtonBlock = styled.div`
     height: 100%;
     padding: 32px;
-    border: 3px solid #E8E8E8;
-    background: #EEEEEE;
+    border-top: 1px solid #D8D8D8;
+    border-right: 1px solid #D8D8D8;
     text-align: center;
 `;
 
