@@ -68,11 +68,7 @@ function DialogContainer() {
             setPlayers(players);
             dispatch(showDialog('gameResult'));
         });
-        
-        return () => {
-            socket.removeListener('end game');
-        }
-    }, [dispatch]);
+    });
 
     useEffect(() => {
         if (ranking) {
