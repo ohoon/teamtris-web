@@ -49,9 +49,10 @@ const KickButton = styled.div`
 
 const TeamBlock = styled.div`
     position: absolute;
-    right: 5%;
-    bottom: 3%;
+    right: 10%;
+    bottom: 10%;
     font-weight: bold;
+    cursor: pointer;
 `;
 
 interface RoomLobbySlotProps {
