@@ -40,7 +40,16 @@ router.post('/login/google', (req, res, next) => __awaiter(void 0, void 0, void 
         const { id, name, picture } = getUserInfo.data;
         const user = yield User_1.default.findOne({ userId: id }).exec();
         let _id = user ? user._id : undefined;
-        if (!user) {
+        if (user) {
+            const updateUser = yield axios_1.default.put(`http://localhost:5005/users/${_id}`, {
+                nickname: name,
+                profileImage: picture
+            });
+            if (updateUser.status != 200) {
+                return res.json(jsonUtil_1.error(null, '데이터 갱신 실패'));
+            }
+        }
+        else {
             const createUser = yield axios_1.default.post('http://localhost:5005/users', {
                 userId: id,
                 nickname: name,

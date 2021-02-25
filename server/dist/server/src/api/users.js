@@ -17,10 +17,10 @@ const User_1 = __importDefault(require("../models/User"));
 const authUtil_1 = require("../lib/authUtil");
 const jsonUtil_1 = require("../lib/jsonUtil");
 const router = express_1.default.Router();
-/* CREATE user. */
-router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+/* SHOW me. */
+router.get('/me', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.create(req.body);
+        const user = yield User_1.default.findById(req.body.decoded._id).exec();
         res.json(jsonUtil_1.success(user));
     }
     catch (err) {
@@ -37,10 +37,20 @@ router.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         res.json(jsonUtil_1.error(err));
     }
 }));
-/* SHOW me. */
-router.get('/me', authUtil_1.isLoggedIn, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+/* CREATE user. */
+router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.findById(req.body.decoded._id).exec();
+        const user = yield User_1.default.create(req.body);
+        res.json(jsonUtil_1.success(user));
+    }
+    catch (err) {
+        res.json(jsonUtil_1.error(err));
+    }
+}));
+/* UPDATE user. */
+router.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield User_1.default.findOneAndUpdate({ _id: req.params.id }, req.body);
         res.json(jsonUtil_1.success(user));
     }
     catch (err) {

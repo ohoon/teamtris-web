@@ -3,7 +3,6 @@ import { Schema, Document, Model, model } from 'mongoose';
 export interface User {
     userId: string;
     nickname: string;
-    profileImage: string;
     level: number;
     exp: number;
     win: number;

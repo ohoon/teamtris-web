@@ -41,7 +41,19 @@ router.post('/login/google',
       const user = await UserModel.findOne({ userId: id }).exec();
       let _id = user ? user._id : undefined;
 
-      if (!user) {
+      if (user) {
+        const updateUser = await axios.put(
+          `http://localhost:5005/users/${_id}`,
+          {
+            nickname: name,
+            profileImage: picture
+          }
+        );
+        
+        if (updateUser.status != 200) {
+          return res.json(error(null, '데이터 갱신 실패'));
+        }
+      } else {
         const createUser = await axios.post(
           'http://localhost:5005/users',
           {
