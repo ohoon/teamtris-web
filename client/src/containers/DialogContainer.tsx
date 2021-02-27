@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { Player } from '../../../server/src/socket/users';
 import socket from '../socket';
 import { RoomInputs } from '../socket/rooms';
 import { User, getUsers } from '../api/users';
@@ -12,14 +12,7 @@ import CreateRoomDialog from '../components/CreateRoomDialog';
 import EditRoomDialog from '../components/EditRoomDialog';
 import GameResultDialog from '../components/GameResultDialog';
 import RankingDialog from '../components/RankingDialog';
-import { Player } from '../../../server/src/socket/users';
-
-const Wrapper = styled.div`
-    position: absolute;
-    left: 40%;
-    top: 25%;
-    z-index: 100;
-`;
+import { StyledDialogWrapper } from '../components/styled/StyledDialog';
 
 function DialogContainer() {
     const { createRoom, editRoom, gameResult, ranking } = useSelector((state: RootState) => state.dialog);
@@ -88,7 +81,7 @@ function DialogContainer() {
     }, [ranking]);
 
     return (
-        <Wrapper>
+        <StyledDialogWrapper>
             {createRoom &&
                 <CreateRoomDialog
                     onClose={onClose}
@@ -116,7 +109,7 @@ function DialogContainer() {
                     onClose={onClose}
                 />
             }
-        </Wrapper>
+        </StyledDialogWrapper>
     );
 }
 

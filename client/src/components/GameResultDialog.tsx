@@ -1,40 +1,8 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 import { Player } from '../../../server/src/socket/users';
-
-const DialogBlock = styled.div`
-    border: 1px solid #D8D8D8;
-
-    .head {
-        padding: 3px 12px 3px 12px;
-        border: 1px solid #747E87;
-        background: #727F8C;
-        font-weight: bold;
-        font-size: 13px;
-    }
-
-    .body {
-        width: 400px;
-        padding: 32px;
-        background: #EEE;
-        overflow-y: auto;
-        font-size: 14px;
-    }
-`;
-
-const CloseButton = styled.div`
-    width: 12px;
-    height: 12px;
-    margin-top: 3px;
-    float: right;
-    border-radius: 6px;
-    background: #EE5555;
-
-    &:hover {
-        background: #FF7777;
-    }
-`;
+import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
+import { StyledCloseButton } from './styled/StyledButton';
 
 interface GameResultDialogProps {
     players: Player;
@@ -54,18 +22,14 @@ function GameResultDialog({ players, mode, onApplyResult, onClose }: GameResultD
     }, []);
 
     return (
-        <DialogBlock>
-            <div
-                className="head"
-            >
+        <StyledDialogBox>
+            <StyledDialogHead>
                 게임 결과
-                <CloseButton
+                <StyledCloseButton
                     onClick={handleClose}
                 />
-            </div>
-            <div
-                className="body"
-            >
+            </StyledDialogHead>
+            <StyledDialogBody>
                 {mode === 'single' ?
                     <Row
                         lg={1}
@@ -122,8 +86,8 @@ function GameResultDialog({ players, mode, onApplyResult, onClose }: GameResultD
                         </Col>
                     </Row>
                 }
-            </div>
-        </DialogBlock>
+            </StyledDialogBody>
+        </StyledDialogBox>
     );
 }
 

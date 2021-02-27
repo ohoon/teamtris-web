@@ -1,45 +1,8 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import styled from 'styled-components';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import { RoomInputs } from '../socket/rooms';
-
-const DialogBlock = styled.div`
-    border: 1px solid #D8D8D8;
-
-    .head {
-        padding: 3px 12px 3px 12px;
-        border: 1px solid #747E87;
-        background: #727F8C;
-        font-weight: bold;
-        font-size: 13px;
-    }
-
-    .body {
-        width: 400px;
-        padding: 32px;
-        background: #EEE;
-        overflow-y: auto;
-        font-size: 14px;
-    }
-`;
-
-const CloseButton = styled.div`
-    width: 12px;
-    height: 12px;
-    margin-top: 3px;
-    float: right;
-    border-radius: 6px;
-    background: #EE5555;
-
-    &:hover {
-        background: #FF7777;
-    }
-`;
-
-const CreateButton = styled(Button)`
-    margin: 16px auto;
-    margin-bottom: 0;
-`;
+import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
+import { StyledSubmitButton, StyledCloseButton } from './styled/StyledButton';
 
 interface CreateRoomDialogProps {
     onClose: (name: string) => void;
@@ -72,123 +35,123 @@ function CreateRoomDialog({ onClose, onSubmit }: CreateRoomDialogProps) {
     };
 
     return (
-        <DialogBlock>
-            <div
-                className="head"
-            >
+        <StyledDialogBox>
+            <StyledDialogHead>
                 방 만들기
-                <CloseButton
+                <StyledCloseButton
                     onClick={handleClose}
                 />
-            </div>
-            <Form
-                className="body"
-                onSubmit={handleSubmit}
-            >
-                <Form.Group
-                    as={Row}
+            </StyledDialogHead>
+            <StyledDialogBody>
+                <Form
+                    className="body"
+                    onSubmit={handleSubmit}
                 >
-                    <Form.Label
-                        column
-                        sm="3"
+                    <Form.Group
+                        as={Row}
                     >
-                        방 제목
-                    </Form.Label>
-                    <Col
-                        sm="9"
-                    >
-                        <Form.Control
-                            name="title"
-                            type="text"
-                            placeholder="테트리스 같이 해요"
-                            value={input.title}
-                            onChange={onChange}
-                        />
-                    </Col>
-                </Form.Group>
-                <Form.Group
-                    as={Row}
-                >
-                    <Form.Label
-                        column
-                        sm="3"
-                    >
-                        비밀번호
-                    </Form.Label>
-                    <Col
-                        sm="9"
-                    >
-                        <Form.Control
-                            name="password"
-                            type="text"
-                            placeholder="입력 시 비공개방으로 전환"
-                            value={input.password}
-                            onChange={onChange}
-                        />
-                    </Col>
-                </Form.Group>
-                <Form.Group
-                    as={Row}
-                >
-                    <Form.Label
-                        column
-                        sm="3"
-                    >
-                        인원 수
-                    </Form.Label>
-                    <Col
-                        sm="9"
-                    >
-                        <Form.Control
-                            name="max"
-                            as="select"
-                            value={input.max}
-                            onChange={onChange}
+                        <Form.Label
+                            column
+                            sm="3"
                         >
-                            <option value="2">2</option>
-                            <option value="4">4</option>
-                            <option value="8">8</option>
-                        </Form.Control>
-                    </Col>
-                </Form.Group>
-                <Form.Group
-                    as={Row}
-                >
-                    <Form.Label
-                        column
-                        sm="3"
-                    >
-                        게임 모드
-                    </Form.Label>
-                    <Col
-                        sm="9"
-                    >
-                        <Form.Control
-                            name="mode"
-                            as="select"
-                            value={input.mode}
-                            onChange={onChange}
+                            방 제목
+                        </Form.Label>
+                        <Col
+                            sm="9"
                         >
-                            <option value="single">개인전</option>
-                            <option value="double">팀전</option>
-                        </Form.Control>
-                    </Col>
-                </Form.Group>
-                <Form.Group
-                    as={Row}
-                >
-                    <Col>
-                        <CreateButton
-                            type="submit"
-                            size="lg"
-                            block
+                            <Form.Control
+                                name="title"
+                                type="text"
+                                placeholder="테트리스 같이 해요"
+                                value={input.title}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                    >
+                        <Form.Label
+                            column
+                            sm="3"
                         >
-                            생성
-                        </CreateButton>
-                    </Col>
-                </Form.Group>
-            </Form>
-        </DialogBlock>
+                            비밀번호
+                        </Form.Label>
+                        <Col
+                            sm="9"
+                        >
+                            <Form.Control
+                                name="password"
+                                type="text"
+                                placeholder="입력 시 비공개방으로 전환"
+                                value={input.password}
+                                onChange={onChange}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                    >
+                        <Form.Label
+                            column
+                            sm="3"
+                        >
+                            인원 수
+                        </Form.Label>
+                        <Col
+                            sm="9"
+                        >
+                            <Form.Control
+                                name="max"
+                                as="select"
+                                value={input.max}
+                                onChange={onChange}
+                            >
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="8">8</option>
+                            </Form.Control>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                    >
+                        <Form.Label
+                            column
+                            sm="3"
+                        >
+                            게임 모드
+                        </Form.Label>
+                        <Col
+                            sm="9"
+                        >
+                            <Form.Control
+                                name="mode"
+                                as="select"
+                                value={input.mode}
+                                onChange={onChange}
+                            >
+                                <option value="single">개인전</option>
+                                <option value="double">팀전</option>
+                            </Form.Control>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                    >
+                        <Col>
+                            <StyledSubmitButton
+                                type="submit"
+                                size="lg"
+                                block
+                            >
+                                생성
+                            </StyledSubmitButton>
+                        </Col>
+                    </Form.Group>
+                </Form>
+            </StyledDialogBody>
+        </StyledDialogBox>
     );
 }
 
