@@ -1,16 +1,7 @@
 import React, { RefObject } from 'react';
-import styled from 'styled-components';
 import { Chats } from '../../../server/src/socket/chats';
+import { StyledChatBox } from './styled/StyledChat';
 import ChatMsg from './ChatMsg';
-
-const ChatBoxBlock = styled.div`
-    height: 200px;
-    padding: 12px;
-    border-top: 1px solid #D8D8D8;
-    font-size: 13px;
-    word-break: break-all;
-    overflow-y: auto;
-`;
 
 interface ChatBoxProps {
     chats: Chats;
@@ -19,7 +10,7 @@ interface ChatBoxProps {
 
 function ChatBox({ chats, chatBoxRef }: ChatBoxProps) {
     return (
-        <ChatBoxBlock
+        <StyledChatBox
             ref={chatBoxRef}
         >
             {chats.map((chat, index) =>
@@ -29,7 +20,7 @@ function ChatBox({ chats, chatBoxRef }: ChatBoxProps) {
                     message={chat.message}
                 />
             )}
-        </ChatBoxBlock>
+        </StyledChatBox>
     );
 }
 
