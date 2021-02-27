@@ -6,6 +6,12 @@ export const StyledSubmitButton = styled(Button)`
     margin-bottom: 0;
 `;
 
+export const StyledCornerButton = styled(Button)`
+    position: absolute;
+    right: 6%;
+    top: 10%;
+`;
+
 export const StyledCloseButton = styled.div`
     width: 12px;
     height: 12px;

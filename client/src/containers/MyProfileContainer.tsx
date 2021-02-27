@@ -1,19 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../modules';
-import MyProfile from '../components/MyProfile';
 import { showDialog } from '../modules/dialog';
-
-const LogInButtonBlock = styled.div`
-    height: 100%;
-    padding: 32px;
-    border-top: 1px solid #D8D8D8;
-    border-right: 1px solid #D8D8D8;
-    text-align: center;
-`;
+import MyProfile from '../components/MyProfile';
+import { StyledMyProfileWrapperNotLoggedIn } from '../components/styled/StyledProfile';
 
 function MyProfileContainer() {
     const me = useSelector((state: RootState) => state.users.me.data);
@@ -26,7 +18,7 @@ function MyProfileContainer() {
 
     if (!me) {
         return (
-            <LogInButtonBlock>
+            <StyledMyProfileWrapperNotLoggedIn>
                 <p>
                     로그인이 필요합니다.
                 </p>
@@ -35,7 +27,7 @@ function MyProfileContainer() {
                 >
                     로그인
                 </Button>
-            </LogInButtonBlock>
+            </StyledMyProfileWrapperNotLoggedIn>
         );
     }
 
