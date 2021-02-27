@@ -1,15 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
-
-const LoginMenuBlock = styled.div`
-    width: 800px;
-    height: 400px;
-    margin: 200px auto;
-    padding: 100px 200px;
-    border-radius: 5px;
-    background: #EEE;
-`;
+import { StyledLoginMenu } from './styled/StyledLoginMenu';
 
 function LoginForm() {
     const url = `https://accounts.google.com/o/oauth2/v2/auth?` +
@@ -22,7 +13,7 @@ function LoginForm() {
     `client_id=${process.env.REACT_APP_TEAMTRIS_GOOGLE_CLIENT_ID}`;
     
     return (
-        <LoginMenuBlock>
+        <StyledLoginMenu>
             <Button
                 size="lg"
                 variant="info"
@@ -31,7 +22,7 @@ function LoginForm() {
             >
                 Login with Google
             </Button>
-        </LoginMenuBlock>
+        </StyledLoginMenu>
     );
 }
 
