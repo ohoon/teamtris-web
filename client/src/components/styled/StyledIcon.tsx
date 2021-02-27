@@ -8,13 +8,13 @@ export const StyledLevelIcon = styled.div`
     align-items: center;
     border: 1px solid black;
     border-radius: 3px;
-    margin-right: 6px;
+    margin: 0 6px 0 6px;
     background: grey;
     color: white;
     font-size: 11px;
 `;
 
-export const StyledSmallLevelIcon = styled.div`
+export const StyledLevelIconSmall = styled.div`
     width: 16px;
     height: 16px;
     display: flex;
@@ -22,7 +22,7 @@ export const StyledSmallLevelIcon = styled.div`
     align-items: center;
     border: 1px solid black;
     border-radius: 3px;
-    margin: 0 6px 0 32px;
+    margin: 0 6px 0 6px;
     background: grey;
     color: white;
     font-size: 10px;

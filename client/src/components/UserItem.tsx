@@ -1,24 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const UserItemBlock = styled.li`
-    display: flex;
-    align-items: center;
-`;
-
-const LevelIcon = styled.div`
-    width: 16px;
-    height: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    border-radius: 3px;
-    margin-right: 6px;
-    background: grey;
-    color: white;
-    font-size: 10px;
-`;
+import { StyledUserItem } from './styled/StyledUserList';
+import { StyledLevelIconSmall } from './styled/StyledIcon';
 
 interface UserItemProps {
     socketId: string;
@@ -29,12 +11,12 @@ interface UserItemProps {
 
 function UserItem({ nickname, level }: UserItemProps) {
     return (
-        <UserItemBlock>
-            <LevelIcon>
+        <StyledUserItem>
+            <StyledLevelIconSmall>
                 {level}
-            </LevelIcon>
+            </StyledLevelIconSmall>
             {nickname}
-        </UserItemBlock>
+        </StyledUserItem>
     );
 }
 

@@ -4,7 +4,7 @@ import { User } from '../api/users';
 import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
 import { StyledCloseButton } from './styled/StyledButton';
 import { StyledUserItem } from './styled/StyledUserList';
-import { StyledSmallLevelIcon } from './styled/StyledIcon';
+import { StyledLevelIconSmall } from './styled/StyledIcon';
 
 interface RankingDialogProps {
     users: User[];
@@ -44,9 +44,9 @@ function RankingDialog({ users, onClose }: RankingDialogProps) {
                                 >
                                     <StyledUserItem>
                                         {index + 1}등
-                                        <StyledSmallLevelIcon>
+                                        <StyledLevelIconSmall>
                                             {user.level}
-                                        </StyledSmallLevelIcon>
+                                        </StyledLevelIconSmall>
                                         {user.nickname}
                                     </StyledUserItem>
                                 </Col>
