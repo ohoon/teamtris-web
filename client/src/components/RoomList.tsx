@@ -1,45 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Room } from '../../../server/src/socket/rooms';
 import RoomItem from '../components/RoomItem';
-
-const RoomListBlock = styled.div`
-    height: 100%;
-    padding: 8px;
-
-    .head {
-        padding: 6px 16px 6px 16px;
-        border: 1px solid #747E87;
-        border-radius: 5px;
-        background: #727F8C;
-        font-weight: bold;
-        font-size: 13px;
-    }
-
-    .body {
-        height: 400px;
-        margin: 1% auto;
-        padding: 8px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        font-size: 13px;
-    }
-    
-    .menu {
-        display: flex;
-        justify-content: flex-end;
-        margin: auto;
-    }
-`;
-
-const GoToPracticeButton = styled(Button)`
-
-`;
-
-const CreateRoomButton = styled(Button)`
-    margin-left: 2px;  
-`;
+import { StyledRoomWrapper, StyledRoomHead, StyledRoomBody, StyledRoomMenu } from '../components/styled/StyledRoom';
+import { StyledButton } from '../components/styled/StyledButton';
 
 interface RoomListProps {
     rooms: Room;
@@ -50,15 +14,11 @@ interface RoomListProps {
 
 function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListProps) {
     return (
-        <RoomListBlock>
-            <div
-                className="head"
-            >
+        <StyledRoomWrapper>
+            <StyledRoomHead>
                 방 목록 ({Object.keys(rooms).length}개)
-            </div>
-            <div
-                className="body"
-            >
+            </StyledRoomHead>
+            <StyledRoomBody>
                 <Row
                     lg={2}
                     md={2}
@@ -88,26 +48,24 @@ function RoomList({ rooms, onJoinRoom, onCreateRoom, goToPractice }: RoomListPro
                         </Col>
                     )}
                 </Row>
-            </div>
-            <div
-                className="menu"
-            >
-                <GoToPracticeButton
+            </StyledRoomBody>
+            <StyledRoomMenu>
+                <StyledButton
                     variant="dark"
                     size="sm"
                     onClick={goToPractice}
                 >
                     연습하기
-                </GoToPracticeButton>
-                <CreateRoomButton
+                </StyledButton>
+                <StyledButton
                     variant="dark"
                     size="sm"
                     onClick={onCreateRoom}
                 >
                     방 만들기
-                </CreateRoomButton>
-            </div>
-        </RoomListBlock>
+                </StyledButton>
+            </StyledRoomMenu>
+        </StyledRoomWrapper>
     );
 }
 

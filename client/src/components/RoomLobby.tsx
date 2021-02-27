@@ -1,59 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { WaitingPlayer } from '../../../server/src/socket/users';
+import { StyledRoomWrapper, StyledRoomHead, StyledRoomHeadRight, StyledRoomBody, StyledRoomMenu } from './styled/StyledRoom';
+import { StyledButton } from './styled/StyledButton';
 import RoomLobbySlot from './RoomLobbySlot';
 import RoomLobbyEmptySlot from './RoomLobbyEmptySlot';
-
-const RoomLobbyBlock = styled.div`
-    height: 100%;
-    padding: 8px;
-
-    .head {
-        display: flex;
-        padding: 8px 16px 8px 16px;
-        border: 1px solid #747E87;
-        border-radius: 5px;
-        background: #727F8C;
-        font-weight: bold;
-        font-size: 14px;
-
-        .tail {
-            margin-left: auto;
-        }
-    }
-
-    .body {
-        height: 400px;
-        margin: 1% auto;
-        padding: 8px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        font-size: 13px;
-    }
-
-    .menu {
-        display: flex;
-        justify-content: flex-end;
-        margin: auto;
-    }
-`;
-
-const StartGameButton = styled(Button)`
-    
-`;
-
-const ReadyButton = styled(Button)`
-    
-`;
-
-const EditRoomButton = styled(Button)`
-    margin-left: 2px;
-`;
-
-const LeaveRoomButton = styled(Button)`
-    margin-left: 2px;
-`;
 
 interface RoomLobbyProps {
     roomId: number;
@@ -76,24 +27,18 @@ interface RoomLobbyProps {
 
 function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMaster, onStartGame, onToggleReady, onChangeTeam, onKickPlayer, onEditRoom, onLeaveRoom }: RoomLobbyProps) {
     return (
-        <RoomLobbyBlock>
-            <div
-                className="head"
-            >
+        <StyledRoomWrapper>
+            <StyledRoomHead>
                 [{roomId}]
                 &nbsp;
                 {title}
-                <div
-                    className="tail"
-                >
+                <StyledRoomHeadRight>
                     {mode === 'single' ? '개인전' : '팀전'}
                     &nbsp;
                     참여자 {current}/{max}
-                </div>
-            </div>
-            <div
-                className="body"
-            >
+                </StyledRoomHeadRight>
+            </StyledRoomHead>
+            <StyledRoomBody>
                 <Row
                     lg={4}
                     md={4}
@@ -134,28 +79,26 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                         </Col>
                     )}
                 </Row>
-            </div>
-            <div
-                className="menu"
-            >
+            </StyledRoomBody>
+            <StyledRoomMenu>
                 {isMaster ?
                     <>
-                        <StartGameButton
+                        <StyledButton
                             variant="dark"
                             size="sm"
                             onClick={onStartGame}
                         >
                             시작
-                        </StartGameButton>
-                        <EditRoomButton
+                        </StyledButton>
+                        <StyledButton
                             variant="dark"
                             size="sm"
                             onClick={onEditRoom}
                         >
                             방 설정
-                        </EditRoomButton>
+                        </StyledButton>
                     </> :
-                    <ReadyButton
+                    <StyledButton
                         variant="dark"
                         size="sm"
                         onClick={onToggleReady}
@@ -164,17 +107,17 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
                             "준비 취소":
                             "준비"
                         }
-                    </ReadyButton>
+                    </StyledButton>
                 }
-                <LeaveRoomButton
+                <StyledButton
                     variant="dark"
                     size="sm"
                     onClick={onLeaveRoom}
                 >
                     나가기
-                </LeaveRoomButton>
-            </div>
-        </RoomLobbyBlock>
+                </StyledButton>
+            </StyledRoomMenu>
+        </StyledRoomWrapper>
     );
 }
 

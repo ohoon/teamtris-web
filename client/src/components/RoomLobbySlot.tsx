@@ -1,59 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import { BsX } from 'react-icons/bs';
 import socket from '../socket';
-import { TEAM } from '../socket/rooms';
-
-const RoomLobbySlotBlock = styled.div<{ team?: string }>`
-    height: 11.5rem;
-    border: 1px solid #D8D8D8;
-    border-radius: 16px;
-    margin: 4px;
-    padding: 16px;
-    background: ${props => props.team ? TEAM[props.team].color : '#D5D9DE'};
-    font-size: 16px;
-    text-align: left;
-
-    .profile-image {
-        width: 80px;
-        height: 80px;
-        border: 0px;
-        border-radius: 15%;
-        margin: 3%;
-    }
-`;
-
-const PlayerStatusBlock = styled.div`
-    position: absolute;
-    right: 10%;
-    top: 10%;
-    font-weight: bold;
-`;
-
-const PlayerBlock = styled.div`
-    display: flex;
-    position: relative;
-    left: 5%;
-    top: 3%;
-    font-weight: bold;
-`;
-
-const KickButton = styled.div`
-    margin-left: 3%;
-    cursor: pointer;
-
-    &:hover {
-        color: rgba(0, 0, 0, 0.5);
-    }
-`;
-
-const TeamBlock = styled.div`
-    position: absolute;
-    right: 10%;
-    bottom: 10%;
-    font-weight: bold;
-    cursor: pointer;
-`;
+import { StyledRoomSlot, StyledRoomPlayer, StyledRoomPlayerStatus, StyledRoomTeam } from './styled/StyledRoom';
+import { StyledProfileImage } from './styled/StyledProfile';
+import { StyledKickButton } from './styled/StyledButton';
 
 interface RoomLobbySlotProps {
     socketId: string;
@@ -69,29 +19,28 @@ interface RoomLobbySlotProps {
 
 function RoomLobbySlot({ socketId, nickname, profileImage, isReady, isMaster, team, onChangeTeam, onKickPlayer }: RoomLobbySlotProps) {
     return (
-        <RoomLobbySlotBlock
+        <StyledRoomSlot
             team={team}
         >
-            <img
-                className="profile-image"
+            <StyledProfileImage
                 src={profileImage}
                 alt="profileImage"
             />
-            <PlayerStatusBlock>
+            <StyledRoomPlayerStatus>
                 {isMaster ? "방장" : isReady && "준비 완료"}
-            </PlayerStatusBlock>
-            <PlayerBlock>
+            </StyledRoomPlayerStatus>
+            <StyledRoomPlayer>
                 {nickname}
                 {onKickPlayer && !isMaster && socket.id !== socketId ?            
-                    <KickButton
+                    <StyledKickButton
                         onClick={() => onKickPlayer(socketId)}
                     >
                         <BsX />
-                    </KickButton> :
+                    </StyledKickButton> :
                     null
                 }
-            </PlayerBlock>
-            <TeamBlock>
+            </StyledRoomPlayer>
+            <StyledRoomTeam>
                 {team &&
                     <span
                         onClick={socket.id === socketId ? onChangeTeam : undefined}
@@ -99,8 +48,8 @@ function RoomLobbySlot({ socketId, nickname, profileImage, isReady, isMaster, te
                         {team}
                     </span>
                 }
-            </TeamBlock>
-        </RoomLobbySlotBlock>
+            </StyledRoomTeam>
+        </StyledRoomSlot>
     );
 }
 
