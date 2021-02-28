@@ -22,7 +22,7 @@
 * ~포인트 및 랭킹 시스템 구현~ [2021-02-25]
 * ~구글 로그인 구현~ [2021-02-22]
 * ~전체적인 UI 디자인 설정~ [2021-02-25]
-* 중복되는 코드 정리 [70%]
+* ~중복되는 코드 정리~ [2021-02-28]
 
 ## Change Log
 ### [2021-01-07]
@@ -458,3 +458,13 @@
 
 **Changed**
 * `Chat` `Dialog` `Login Menu` `My Profile` `RoomList` `RoomLobby` `UserList` styled-component 코드 리팩토링
+
+### [2021-02-28]
+
+**Added**
+* 게임 로비에서 team이 하나 밖에 없거나 혼자 뿐인 팀이 있을 경우 게임 시작이 되지 않도록 구현
+* 게임 중인 방에는 들어가지 않도록 구현
+
+**Changed**
+* `tetris` styled-component 코드 리팩토링
+* React.memo로 컴포넌트 렌더링 최적화
