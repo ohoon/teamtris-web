@@ -80,6 +80,14 @@ export const StyledRoomItemMode = styled.div`
     font-size: 14px;
 `;
 
+export const StyledRoomItemStatus = styled.div`
+    position: absolute;
+    right: 6%;
+    bottom: 15%;
+    font-weight: bold;
+    font-size: 13px;
+`;
+
 export const StyledRoomSlot = styled.div<{ team?: string }>`
     height: 11.5rem;
     border: 1px solid #D8D8D8;

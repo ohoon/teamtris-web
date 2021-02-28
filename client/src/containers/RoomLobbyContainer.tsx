@@ -83,7 +83,6 @@ function RoomLobbyContainer() {
             current={room.current}
             max={room.max}
             mode={room.mode}
-            isStart={room.isStart}
             isReady={socket.id in room.players ? room.players[socket.id].isReady : false}
             isMaster={socket.id in room.players ? room.players[socket.id].isMaster : false}
             onStartGame={onStartGame}

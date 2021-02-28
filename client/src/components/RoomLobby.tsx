@@ -14,7 +14,6 @@ interface RoomLobbyProps {
     current: number;
     max: 2 | 4 | 8;
     mode: 'single' | 'double';
-    isStart: boolean;
     isReady: boolean;
     isMaster: boolean;
     onStartGame: () => void;

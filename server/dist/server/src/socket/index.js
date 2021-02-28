@@ -64,7 +64,7 @@ function createSocketIoServer(server) {
             if (roomId in rooms) {
                 const room = rooms[roomId];
                 const players = room.players;
-                if (room.current < room.max) {
+                if (room.current < room.max && !room.isStart) {
                     if (room.mode === 'double') {
                         const teams = Object.keys(rooms_1.TEAM);
                         teams.some(team => {
@@ -149,6 +149,7 @@ function createSocketIoServer(server) {
                     room.isStart = true;
                     Object.values(players).forEach(player => player.isMaster ? null : player.isReady = !player.isReady);
                     io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
+                    io.in('channel').emit('update roomlist', rooms);
                     Object.assign(games, game);
                     io.in(`room${roomId}`).emit('create game');
                 }
@@ -257,6 +258,7 @@ function createSocketIoServer(server) {
                     socket.emit('send grade', 1);
                     room.isStart = false;
                     io.in(`room${roomId}`).emit('update room', Object.assign(Object.assign({}, room), { roomId: roomId }));
+                    io.in('channel').emit('update roomlist', rooms);
                     io.in(`room${roomId}`).emit('end game', game);
                 }
             }

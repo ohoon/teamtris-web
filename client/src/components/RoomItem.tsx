@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsFillLockFill } from 'react-icons/bs';
 import { WaitingPlayer } from '../../../server/src/socket/users';
-import { StyledRoomItemWrapper, StyledRoomItemRoomId, StyledRoomItemPeople, StyledRoomItemRoomInfo, StyledRoomItemTitle, StyledRoomItemMode } from './styled/StyledRoom';
+import { StyledRoomItemWrapper, StyledRoomItemRoomId, StyledRoomItemPeople, StyledRoomItemRoomInfo, StyledRoomItemTitle, StyledRoomItemMode, StyledRoomItemStatus } from './styled/StyledRoom';
 
 interface RoomItemProps {
     roomId: number;
@@ -15,7 +15,7 @@ interface RoomItemProps {
     onJoinRoom: (roomId: number) => void;
 }
 
-function RoomItem({ roomId, title, password, current, max, mode, onJoinRoom }: RoomItemProps) {
+function RoomItem({ roomId, title, password, current, max, mode, isStart, onJoinRoom }: RoomItemProps) {
     const handleJoinRoom = () => {
         if (current >= max) {
             return alert('정원이 초과되었습니다.');
@@ -23,6 +23,10 @@ function RoomItem({ roomId, title, password, current, max, mode, onJoinRoom }: R
 
         if (password && password !== prompt('비밀번호를 입력해주세요.')) {
             return alert('비밀번호가 일치하지 않습니다.');
+        }
+
+        if (isStart) {
+            return alert('이미 게임 중인 방입니다.');
         }
 
         onJoinRoom(roomId);
@@ -44,6 +48,9 @@ function RoomItem({ roomId, title, password, current, max, mode, onJoinRoom }: R
                 <StyledRoomItemMode>
                     {mode === 'single' ? '개인전' : '팀전'}
                 </StyledRoomItemMode>
+                <StyledRoomItemStatus>
+                    {isStart && '게임중'}
+                </StyledRoomItemStatus>
             </StyledRoomItemRoomInfo>
             <StyledRoomItemPeople>
                 {current} / {max}
