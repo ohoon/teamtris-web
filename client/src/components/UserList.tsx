@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { ConnectedUser } from '../../../server/src/socket/users';
 import { StyledUserListWrapper, StyledUserListHead, StyledUserListBody } from './styled/StyledUserList';
 import UserItem from './UserItem';
@@ -28,4 +28,4 @@ function UserList({ users }: UserListProps) {
     );
 }
 
-export default UserList;
+export default memo(UserList);

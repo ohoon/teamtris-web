@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BsX } from 'react-icons/bs';
 import socket from '../socket';
 import { StyledRoomSlot, StyledRoomPlayer, StyledRoomPlayerStatus, StyledRoomTeam } from './styled/StyledRoom';
@@ -53,4 +53,4 @@ function RoomLobbySlot({ socketId, nickname, profileImage, isReady, isMaster, te
     );
 }
 
-export default RoomLobbySlot;
+export default memo(RoomLobbySlot);

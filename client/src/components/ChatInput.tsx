@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent } from 'react';
+import React, { ChangeEvent, FormEvent, memo } from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { StyledChatInput } from './styled/StyledChat';
 
@@ -45,4 +45,4 @@ function ChatInput({ input, onChange, onSubmit, disabled }: ChatInputProps) {
     );
 }
 
-export default ChatInput;
+export default memo(ChatInput);

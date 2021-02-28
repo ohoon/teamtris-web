@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Player } from '../../../server/src/socket/users';
 import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
@@ -91,4 +91,4 @@ function GameResultDialog({ players, mode, onApplyResult, onClose }: GameResultD
     );
 }
 
-export default GameResultDialog;
+export default memo(GameResultDialog);

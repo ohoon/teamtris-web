@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Navbar, Nav, NavDropdown, NavLink } from 'react-bootstrap';
 import { Me } from '../api/users';
@@ -67,4 +67,4 @@ function NavBar({ me, redirect, logout }: NavBarProps) {
     );
 }
 
-export default NavBar;
+export default memo(NavBar);

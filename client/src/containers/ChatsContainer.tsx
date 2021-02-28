@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
@@ -63,4 +63,4 @@ function ChatBoxContainer() {
     );
 }
 
-export default ChatBoxContainer;
+export default memo(ChatBoxContainer);

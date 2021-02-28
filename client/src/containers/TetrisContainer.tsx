@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, memo } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
@@ -458,4 +458,4 @@ function TetrisContainer() {
     );
 }
 
-export default TetrisContainer;
+export default memo(TetrisContainer);

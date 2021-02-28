@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { RootState } from '../modules';
@@ -105,4 +105,4 @@ function RoomLobbyContainer() {
     );
 }
 
-export default RoomLobbyContainer;
+export default memo(RoomLobbyContainer);

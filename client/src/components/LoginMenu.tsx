@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Button } from 'react-bootstrap';
 import { StyledLoginMenu } from './styled/StyledLoginMenu';
 
@@ -26,4 +26,4 @@ function LoginForm() {
     );
 }
 
-export default LoginForm;
+export default memo(LoginForm);

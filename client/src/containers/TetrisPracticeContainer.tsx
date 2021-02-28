@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, memo } from 'react';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import TetrisHold from '../components/TetrisHold';
@@ -324,4 +324,4 @@ function TetrisPracticeContainer() {
     );
 }
 
-export default TetrisPracticeContainer;
+export default memo(TetrisPracticeContainer);

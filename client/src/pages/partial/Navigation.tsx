@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import NavBarContainer from '../../containers/NavBarContainer';
 
 function Navigation() {
@@ -7,4 +7,4 @@ function Navigation() {
     );
 }
 
-export default Navigation;
+export default memo(Navigation);

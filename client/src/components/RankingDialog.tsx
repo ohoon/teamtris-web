@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { User } from '../api/users';
 import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
@@ -66,4 +66,4 @@ function RankingDialog({ users, onClose }: RankingDialogProps) {
     );
 }
 
-export default RankingDialog;
+export default memo(RankingDialog);

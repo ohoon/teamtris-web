@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { createStage, Stage } from '../tetris/stage';
 import { StyledTetrisOthersItem } from './styled/StyledTetris';
 import TetrisStage from './TetrisStage';
@@ -31,4 +31,4 @@ function TetrisOthersItem({ nickname, team, stage = createStage(), gameOver = fa
     );
 }
 
-export default TetrisOthersItem;
+export default memo(TetrisOthersItem);

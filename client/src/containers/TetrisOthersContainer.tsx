@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Game } from '../../../server/src/socket/rooms';
 import { Player } from '../../../server/src/socket/users';
 import TetrisOthersList from '../components/TetrisOthersList';
@@ -32,4 +32,4 @@ function TetrisOthersContainer() {
     );
 }
 
-export default TetrisOthersContainer;
+export default memo(TetrisOthersContainer);

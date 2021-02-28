@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
 import LoginContainer from '../containers/LoginContainer';
@@ -16,4 +16,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default memo(Login);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Me } from '../api/users';
 import { StyledMyProfileWrapper, StyledMyProfile, StyledProfileImage, StyledMyInfo, StyledUserName } from './styled/StyledProfile';
 import { StyledLevelIcon } from './styled/StyledIcon';
@@ -49,4 +49,4 @@ function MyProfile({ nickname, profileImage, level, exp, win, lose, onRanking }:
     );
 }
 
-export default MyProfile;
+export default memo(MyProfile);

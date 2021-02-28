@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
@@ -41,4 +41,4 @@ function UserListContainer() {
     );
 }
 
-export default UserListContainer;
+export default memo(UserListContainer);

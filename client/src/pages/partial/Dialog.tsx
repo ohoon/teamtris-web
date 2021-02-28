@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import DialogContainer from '../../containers/DialogContainer';
 
 function Dialog() {
@@ -7,4 +7,4 @@ function Dialog() {
     );
 }
 
-export default Dialog;
+export default memo(Dialog);

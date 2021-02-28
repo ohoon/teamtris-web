@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BsFillLockFill } from 'react-icons/bs';
 import { WaitingPlayer } from '../../../server/src/socket/users';
 import { StyledRoomItemWrapper, StyledRoomItemRoomId, StyledRoomItemPeople, StyledRoomItemRoomInfo, StyledRoomItemTitle, StyledRoomItemMode, StyledRoomItemStatus } from './styled/StyledRoom';
@@ -59,4 +59,4 @@ function RoomItem({ roomId, title, password, current, max, mode, isStart, onJoin
     );
 }
 
-export default RoomItem;
+export default memo(RoomItem);

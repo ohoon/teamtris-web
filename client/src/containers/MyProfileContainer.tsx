@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -45,4 +45,4 @@ function MyProfileContainer() {
     );
 }
 
-export default MyProfileContainer;
+export default memo(MyProfileContainer);

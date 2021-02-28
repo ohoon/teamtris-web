@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import GoogleOAuth2 from '../components/GoogleOAuth2';
 
@@ -27,4 +27,4 @@ function Auth() {
     );
 }
 
-export default Auth;
+export default memo(Auth);

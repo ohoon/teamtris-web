@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { WaitingPlayer } from '../../../server/src/socket/users';
 import { StyledRoomWrapper, StyledRoomHead, StyledRoomHeadRight, StyledRoomBody, StyledRoomMenu } from './styled/StyledRoom';
@@ -120,4 +120,4 @@ function RoomLobby({ roomId, title, players, current, max, mode, isReady, isMast
     );
 }
 
-export default RoomLobby;
+export default memo(RoomLobby);

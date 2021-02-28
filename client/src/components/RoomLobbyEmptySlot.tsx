@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyledRoomEmptySlot } from './styled/StyledRoom';
 
 function RoomLobbySlot() {
@@ -7,4 +7,4 @@ function RoomLobbySlot() {
     );
 }
 
-export default RoomLobbySlot;
+export default memo(RoomLobbySlot);

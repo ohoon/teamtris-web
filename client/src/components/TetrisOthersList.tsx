@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Player } from '../../../server/src/socket/users';
 import { StyledTetirsOthers } from './styled/StyledTetris';
@@ -42,4 +42,4 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
     );
 }
 
-export default TetrisOthersList;
+export default memo(TetrisOthersList);

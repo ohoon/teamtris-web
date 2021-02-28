@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyledTetrisOverlay } from './styled/StyledTetris';
 
 interface TetrisOverlayProps {
@@ -16,4 +16,4 @@ function TetrisOverlay({ text, size }: TetrisOverlayProps) {
     );
 }
 
-export default TetrisOverlay;
+export default memo(TetrisOverlay);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyledUserItem } from './styled/StyledUserList';
 import { StyledLevelIconSmall } from './styled/StyledIcon';
 
@@ -20,4 +20,4 @@ function UserItem({ nickname, level }: UserItemProps) {
     );
 }
 
-export default UserItem;
+export default memo(UserItem);

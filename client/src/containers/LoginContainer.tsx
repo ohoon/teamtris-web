@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import LoginMenu from '../components/LoginMenu';
 
 function LoginContainer() {
@@ -7,4 +7,4 @@ function LoginContainer() {
     );
 }
 
-export default LoginContainer;
+export default memo(LoginContainer);

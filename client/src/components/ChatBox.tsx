@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React, { RefObject, memo } from 'react';
 import { Chats } from '../../../server/src/socket/chats';
 import { StyledChatBox } from './styled/StyledChat';
 import ChatMsg from './ChatMsg';
@@ -24,4 +24,4 @@ function ChatBox({ chats, chatBoxRef }: ChatBoxProps) {
     );
 }
 
-export default ChatBox;
+export default memo(ChatBox);

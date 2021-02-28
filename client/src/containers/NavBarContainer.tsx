@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import axios from 'axios';
@@ -63,4 +63,4 @@ function NavBarContainer() {
     );
 }
 
-export default NavBarContainer;
+export default memo(NavBarContainer);

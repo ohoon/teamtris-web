@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -42,4 +42,4 @@ function Game() {
     );
 }
 
-export default Game;
+export default memo(Game);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -76,4 +76,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default memo(Home);

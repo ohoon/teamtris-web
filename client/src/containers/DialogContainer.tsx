@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Player } from '../../../server/src/socket/users';
 import socket from '../socket';
@@ -113,4 +113,4 @@ function DialogContainer() {
     );
 }
 
-export default DialogContainer;
+export default memo(DialogContainer);

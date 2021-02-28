@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState, memo } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
 import { CurrentRoom, RoomInputs } from '../socket/rooms';
 import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
@@ -157,4 +157,4 @@ function EditRoomDialog({ room, onClose, onSubmit }: EditRoomDialogProps) {
     );
 }
 
-export default EditRoomDialog;
+export default memo(EditRoomDialog);
