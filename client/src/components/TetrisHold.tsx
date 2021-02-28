@@ -1,30 +1,7 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
 import { TetrominoShape } from '../tetris/tetrominos';
+import { StyledTetrisHold, StyledTetromino } from './styled/StyledTetris';
 import TetrisStageCell from './TetrisStageCell';
-
-const HoldBlock = styled.div`
-    width: 6vw;
-    height: 6vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #111;
-`;
-
-const TetrominoBlock = styled.div<{ width: number, height: number }>`
-    display: grid;
-    grid-template-rows: repeat(
-        ${props => props.height},
-        calc(6vw / 5)
-    );
-    grid-template-columns: repeat(
-        ${props => props.width},
-        calc(6vw / 5)
-    );
-    grid-gap: 1px;
-    margin: auto;
-`;
 
 interface TetrisHoldProps {
     tetromino: TetrominoShape | null;
@@ -32,9 +9,9 @@ interface TetrisHoldProps {
 
 function TetrisHold({ tetromino }: TetrisHoldProps) {
     return (
-        <HoldBlock>
+        <StyledTetrisHold>
             {tetromino &&
-                <TetrominoBlock
+                <StyledTetromino
                     width={tetromino.length}
                     height={tetromino[0].length}
                 >
@@ -46,9 +23,9 @@ function TetrisHold({ tetromino }: TetrisHoldProps) {
                             />
                         )
                     )}
-                </TetrominoBlock>
+                </StyledTetromino>
             }
-        </HoldBlock>
+        </StyledTetrisHold>
     );
 }
 

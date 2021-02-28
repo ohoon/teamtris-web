@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsFillLockFill } from 'react-icons/bs';
-import { StyledRoomItemWrapper, StyledRoomItemRoomId, StyledRoomItemPeople, StyledRoomItemRoomInfo, StyledRoomItemTitle, StyledRoomItemMode } from './styled/StyledRoom';
 import { WaitingPlayer } from '../../../server/src/socket/users';
+import { StyledRoomItemWrapper, StyledRoomItemRoomId, StyledRoomItemPeople, StyledRoomItemRoomInfo, StyledRoomItemTitle, StyledRoomItemMode } from './styled/StyledRoom';
 
 interface RoomItemProps {
     roomId: number;

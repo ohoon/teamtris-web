@@ -1,14 +1,5 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
-
-const StatusBlock = styled.div`
-    margin-top: 10%;
-    padding-top: 10%;
-    padding-left: 15%;
-    border: 5px solid #343A40;
-    border-radius: 10px;
-    font-size: 14px;
-`;
+import { StyledTetrisStatus } from './styled/StyledTetris';
 
 interface TetrisStatusProps {
     score: number;
@@ -18,7 +9,7 @@ interface TetrisStatusProps {
 
 function TetrisStatus({ score, rows, level }: TetrisStatusProps) {
     return (
-        <StatusBlock>
+        <StyledTetrisStatus>
             <p>
                 score
                 <br />
@@ -34,7 +25,7 @@ function TetrisStatus({ score, rows, level }: TetrisStatusProps) {
                 <br />
                 {level}
             </p>
-        </StatusBlock>
+        </StyledTetrisStatus>
     );
 }
 

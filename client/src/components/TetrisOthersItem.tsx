@@ -1,16 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import { TEAM } from '../socket/rooms';
 import { createStage, Stage } from '../tetris/stage';
+import { StyledTetrisOthersItem } from './styled/StyledTetris';
 import TetrisStage from './TetrisStage';
-
-const Wrapper = styled.div<{ team?: string }>`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5%;
-    ${props => props.team && `background: ${TEAM[props.team].color}`}
-`;
 
 interface TetrisOthersItemProps {
     socketId: string;
@@ -24,7 +15,7 @@ interface TetrisOthersItemProps {
 
 function TetrisOthersItem({ nickname, team, stage = createStage(), gameOver = false, grade }: TetrisOthersItemProps) {
     return (
-        <Wrapper
+        <StyledTetrisOthersItem
             team={team}
         >
             <strong>
@@ -36,7 +27,7 @@ function TetrisOthersItem({ nickname, team, stage = createStage(), gameOver = fa
                 size={8}
                 overlay={grade ? `${grade}등` : ""}
             />
-        </Wrapper>
+        </StyledTetrisOthersItem>
     );
 }
 

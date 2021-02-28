@@ -1,17 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Wrapper = styled.div<{ size: number }>`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    font-size: ${props => props.size}vw;
-    color: #AA2222;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-`;
+import { StyledTetrisOverlay } from './styled/StyledTetris';
 
 interface TetrisOverlayProps {
     text: string;
@@ -20,11 +8,11 @@ interface TetrisOverlayProps {
 
 function TetrisOverlay({ text, size }: TetrisOverlayProps) {
     return (
-        <Wrapper
+        <StyledTetrisOverlay
             size={size}
         >
             {text}
-        </Wrapper>
+        </StyledTetrisOverlay>
     );
 }
 

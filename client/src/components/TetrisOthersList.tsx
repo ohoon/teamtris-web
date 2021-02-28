@@ -1,13 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 import { Player } from '../../../server/src/socket/users';
+import { StyledTetirsOthers } from './styled/StyledTetris';
 import TetrisOthersItem from './TetrisOthersItem';
-
-const Wrapper = styled.div`
-    min-height: 37vw;
-    padding: 2%;
-`;
 
 interface TetrisOthersListProps {
     players: Player;
@@ -15,7 +10,7 @@ interface TetrisOthersListProps {
 
 function TetrisOthersList({ players }: TetrisOthersListProps) {
     return (
-        <Wrapper>
+        <StyledTetirsOthers>
             <Row
                 lg={4}
                 md={4}
@@ -43,7 +38,7 @@ function TetrisOthersList({ players }: TetrisOthersListProps) {
                     </Col>
                 )}
             </Row>
-        </Wrapper>
+        </StyledTetirsOthers>
     );
 }
 

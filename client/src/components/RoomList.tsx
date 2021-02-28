@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Room } from '../../../server/src/socket/rooms';
-import RoomItem from '../components/RoomItem';
-import { StyledRoomWrapper, StyledRoomHead, StyledRoomBody, StyledRoomMenu } from '../components/styled/StyledRoom';
-import { StyledButton } from '../components/styled/StyledButton';
+import { StyledRoomWrapper, StyledRoomHead, StyledRoomBody, StyledRoomMenu } from './styled/StyledRoom';
+import { StyledButton } from './styled/StyledButton';
+import RoomItem from './RoomItem';
 
 interface RoomListProps {
     rooms: Room;
