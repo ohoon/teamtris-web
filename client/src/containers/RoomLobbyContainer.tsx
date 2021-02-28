@@ -15,8 +15,18 @@ function RoomLobbyContainer() {
     const history = useHistory();
 
     const onStartGame = () => {
-        if (Object.keys(room.players).length === 1) {
+        if (room.mode === 'single' && Object.keys(room.players).length < 2) {
             return alert('혼자서는 시작할 수 없습니다.');
+        }
+
+        if (room.mode === 'double') {
+            if (new Set(Object.values(room.players).map(player => player.team)).size < 2) {
+                return alert('한 팀으로는 시작할 수 없습니다.')
+            }
+
+            if (Object.keys(room.players).length < 2 * new Set(Object.values(room.players).map(player => player.team)).size) {
+                return alert('파트너가 없는 팀이 있습니다.')
+            }
         }
         
         if(Object.values(room.players).find(player => player.isReady === false)) {
