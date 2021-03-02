@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5005');
+const socket = io('https://teamtris-server.herokuapp.com');
 
 export default socket;
