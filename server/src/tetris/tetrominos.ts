@@ -1,0 +1,1 @@
+export type TetrominoType = number | string;

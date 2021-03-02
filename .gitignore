@@ -87,3 +87,6 @@ server/.env
 
 # next.js build output
 server/.next
+
+# tsc build output
+server/dist

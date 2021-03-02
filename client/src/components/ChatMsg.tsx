@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Chat } from '../../../server/src/socket/chats';
+import { Chat } from '../socket/chats';
 
 interface ChatMsgProps extends Chat {
     
@@ -13,4 +13,4 @@ function ChatMsg({ sender, message }: ChatMsgProps) {
     );
 }
 
-export default ChatMsg;
+export default memo(ChatMsg);

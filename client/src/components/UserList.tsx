@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { ConnectedUser } from '../../../server/src/socket/users';
+import { ConnectedUser } from '../socket/users';
 import { StyledUserListWrapper, StyledUserListHead, StyledUserListBody } from './styled/StyledUserList';
 import UserItem from './UserItem';
 

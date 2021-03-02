@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
-import { Game } from '../../../server/src/socket/rooms';
-import { Player } from '../../../server/src/socket/users';
+import { Game } from '../socket/rooms';
+import { Player } from '../socket/users';
 import TetrisOthersList from '../components/TetrisOthersList';
 import socket from '../socket';
 

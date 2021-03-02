@@ -3,8 +3,8 @@ import { Server as socketIO, Socket } from 'socket.io';
 import { ConnectedUser, WaitingPlayer } from './users';
 import { Game, Room } from './rooms';
 import { Chat } from './chats';
-import { Stage } from '../../../client/src/tetris/stage';
-import { RoomInputs, TEAM } from '../../../client/src/socket/rooms';
+import { Stage } from '../tetris/stage';
+import { RoomInputs, TEAM } from '../socket/rooms';
 
 interface CustomSocket extends Socket {
     currentRoomId?: number;

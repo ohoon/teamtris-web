@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Player } from '../../../server/src/socket/users';
+import { Player } from '../socket/users';
 import { StyledTetirsOthers } from './styled/StyledTetris';
 import TetrisOthersItem from './TetrisOthersItem';
 

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import socket from '../socket';
 import { showDialog } from '../modules/dialog';
 import RoomList from '../components/RoomList';
-import { Room } from '../../../server/src/socket/rooms';
+import { Room } from '../socket/rooms';
 import { setRoom } from '../modules/room';
 import { RootState } from '../modules';
 import { CurrentRoom } from '../socket/rooms';

@@ -2,7 +2,7 @@ import React, { useEffect, useState, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
-import { ConnectedUser } from '../../../server/src/socket/users';
+import { ConnectedUser } from '../socket/users';
 import UserList from '../components/UserList';
 
 function UserListContainer() {
