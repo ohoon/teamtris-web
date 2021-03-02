@@ -2,9 +2,12 @@
   "name": "server",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "14.15.4"
+  },
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"pm2 start ./dist/bin/www.js --watch --no-daemon\"",
-    "stop": "pm2 stop ./dist/bin/www.js"
+    "start": "node ./dist/bin/www.js",
+    "postinstall": "tsc"
   },
   "dependencies": {
     "axios": "^0.21.1",
