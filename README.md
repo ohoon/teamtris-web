@@ -1,11 +1,11 @@
 # Teamtris - Simple Tetris Game Playing With Partner
 ---
 
-**프로젝트 명:** Teamtris
+**프로젝트 명:** Teamtris([teamtris.herokuapp.com])(https://teamtris.herokuapp.com)
 
 **클라이언트:** [client](client)
 
-**서버:** [server](server)
+**서버:** [server]()
 
 **TODO:**
 * ~메인화면 UI 구성 (ex: lobby, userlist, profile, chatbox...)~ [2021-01-10]
@@ -23,6 +23,7 @@
 * ~구글 로그인 구현~ [2021-02-22]
 * ~전체적인 UI 디자인 설정~ [2021-02-25]
 * ~중복되는 코드 정리~ [2021-02-28]
+* ~웹사이트 배포~ [2021-03-03]
 
 ## Change Log
 ### [2021-01-07]
@@ -468,3 +469,8 @@
 **Changed**
 * `tetris` styled-component 코드 리팩토링
 * React.memo로 컴포넌트 렌더링 최적화
+
+### [2021-02-28]
+
+**Added**
+* `heroku` 호스팅 서비스를 이용해 웹사이트 배포
