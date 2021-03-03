@@ -12,6 +12,7 @@ function LoginForm() {
     `redirect_uri=${'https%3A//teamtris.herokuapp.com/auth/google'}&` +
     `client_id=${process.env.REACT_APP_TEAMTRIS_GOOGLE_CLIENT_ID}`;
     
+    console.info(process.env);
     return (
         <StyledLoginMenu>
             <Button
