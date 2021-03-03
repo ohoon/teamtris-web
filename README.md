@@ -1,11 +1,11 @@
 # Teamtris - Simple Tetris Game Playing With Partner
 ---
 
-**프로젝트 명:** Teamtris([teamtris.herokuapp.com])(https://teamtris.herokuapp.com)
+**프로젝트 명:** Teamtris([teamtris.herokuapp.com](https://teamtris.herokuapp.com))
 
-**클라이언트:** [client](client)
+**클라이언트:** [client](https://github.com/ohoon/teamtris-web/blob/master/client)
 
-**서버:** [server]()
+**서버:** [server](https://github.com/ohoon/teamtris-web)
 
 **TODO:**
 * ~메인화면 UI 구성 (ex: lobby, userlist, profile, chatbox...)~ [2021-01-10]
