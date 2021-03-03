@@ -1,5 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 import logger from 'morgan';
 import cors from 'cors';
 
@@ -38,7 +39,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/game', gameRouter);
 
 app.get('*', (req: Request, res: Response, next: NextFunction) => {
-  res.sendFile('/client/build/index.html');
+  res.sendFile(path.join(__dirname + '../../client/build/index.html'));
 });
 
 export default app;
