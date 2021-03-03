@@ -11,7 +11,7 @@ function LoginForm() {
     `state=${'state_parameter_passthrough_value'}&` +
     `redirect_uri=${'http%3A//localhost:5000/auth/google'}&` +
     `client_id=${process.env.REACT_APP_TEAMTRIS_GOOGLE_CLIENT_ID}`;
-    console.log(process.env);
+    alert(process.env);
     
     return (
         <StyledLoginMenu>
