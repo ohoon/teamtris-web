@@ -11,7 +11,7 @@ export interface User {
 
 export async function getUsers() {
     const response = await axios.get<any>(
-        'https://teamtris.herokuapp.com/api/users/'
+        '/api/users/'
     );
 
     return response.data;
@@ -23,7 +23,7 @@ export interface Me extends User {
 
 export async function getMe() {
     const response = await axios.get<any>(
-        'https://teamtris.herokuapp.com/api/users/me'
+        '/api/users/me'
     );
 
     return response.data;
