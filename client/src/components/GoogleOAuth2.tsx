@@ -32,6 +32,7 @@ function GoogleOAuth2({ location }: GoogleOAuth2Props) {
                 dispatch(getMeThunk());
                 history.push('/');
             } catch (err) {
+                console.error(err);
                 alert('로그인 실패');
             }
         })();
