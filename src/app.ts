@@ -37,6 +37,8 @@ app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/game', gameRouter);
 
+app.use(express.static('/app/client/build'));
+
 app.get('*', (req: Request, res: Response, next: NextFunction) => {
   res.sendFile('/app/client/build/index.html');
 });
