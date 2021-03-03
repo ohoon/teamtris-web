@@ -43,7 +43,7 @@ router.post('/login/google',
 
       if (user) {
         const updateUser = await axios.put(
-          `/api/users/${_id}`,
+          `https://teamtris.herokuapp.com/api/users/${_id}`,
           {
             nickname: name,
             profileImage: picture
@@ -55,7 +55,7 @@ router.post('/login/google',
         }
       } else {
         const createUser = await axios.post(
-          '/api/users',
+          'https://teamtris.herokuapp.com/api/users',
           {
             userId: id,
             nickname: name,

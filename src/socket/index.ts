@@ -14,7 +14,7 @@ interface CustomSocket extends Socket {
 export default function createSocketIoServer(server: Server) {
     const io = new socketIO(server, {
         cors: {
-            origin: '/'
+            origin: 'https://teamtris.herokuapp.com'
         }
     });
 
