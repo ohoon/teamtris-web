@@ -9,7 +9,7 @@ function LoginForm() {
     `include_granted_scopes=${'true'}&` +
     `response_type=${'code'}&` +
     `state=${'state_parameter_passthrough_value'}&` +
-    `redirect_uri=${'http%3A//localhost:5000/auth/google'}&` +
+    `redirect_uri=${'https://teamtris.herokuapp.com/auth/google'}&` +
     `client_id=${process.env.REACT_APP_TEAMTRIS_GOOGLE_CLIENT_ID}`;
     alert(process.env);
     
