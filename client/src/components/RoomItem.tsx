@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { BsFillLockFill } from 'react-icons/bs';
-import { WaitingPlayer } from '../../../server/src/socket/users';
+import { WaitingPlayer } from '../../../src/socket/users';
 import { StyledRoomItemWrapper, StyledRoomItemRoomId, StyledRoomItemPeople, StyledRoomItemRoomInfo, StyledRoomItemTitle, StyledRoomItemMode, StyledRoomItemStatus } from './styled/StyledRoom';
 
 interface RoomItemProps {

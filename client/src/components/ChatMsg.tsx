@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Chat } from '../../../server/src/socket/chats';
+import { Chat } from '../../../src/socket/chats';
 
 interface ChatMsgProps extends Chat {
     

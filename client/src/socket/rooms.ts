@@ -1,4 +1,4 @@
-import { WaitingPlayer } from '../../../server/src/socket/users';
+import { WaitingPlayer } from '../../../src/socket/users';
 
 export interface RoomInputs {
     title: string;

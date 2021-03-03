@@ -2,9 +2,14 @@
   "name": "server",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "14.15.4"
+  },
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"pm2 start ./dist/server/src/bin/www.js --watch --no-daemon\"",
-    "stop": "pm2 stop ./dist/server/src/bin/www.js"
+    "start": "node dist/src/bin/www.js",
+    "build": "tsc",
+    "postinstall": "npm run build",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "axios": "^0.21.1",

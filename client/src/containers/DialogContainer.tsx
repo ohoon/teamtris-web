@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Player } from '../../../server/src/socket/users';
+import { Player } from '../../../src/socket/users';
 import socket from '../socket';
 import { RoomInputs } from '../socket/rooms';
 import { User, getUsers } from '../api/users';

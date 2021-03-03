@@ -3,8 +3,8 @@ import { Server as socketIO, Socket } from 'socket.io';
 import { ConnectedUser, WaitingPlayer } from './users';
 import { Game, Room } from './rooms';
 import { Chat } from './chats';
-import { Stage } from '../../../client/src/tetris/stage';
-import { RoomInputs, TEAM } from '../../../client/src/socket/rooms';
+import { Stage } from '../../client/src/tetris/stage';
+import { RoomInputs, TEAM } from '../../client/src/socket/rooms';
 
 interface CustomSocket extends Socket {
     currentRoomId?: number;
@@ -14,7 +14,7 @@ interface CustomSocket extends Socket {
 export default function createSocketIoServer(server: Server) {
     const io = new socketIO(server, {
         cors: {
-            origin: 'http://localhost:5000'
+            origin: 'https://teamtris.herokuapp.com'
         }
     });
 

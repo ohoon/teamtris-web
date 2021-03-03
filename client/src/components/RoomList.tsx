@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Room } from '../../../server/src/socket/rooms';
+import { Room } from '../../../src/socket/rooms';
 import { StyledRoomWrapper, StyledRoomHead, StyledRoomBody, StyledRoomMenu } from './styled/StyledRoom';
 import { StyledButton } from './styled/StyledButton';
 import RoomItem from './RoomItem';

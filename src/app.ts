@@ -1,9 +1,9 @@
-import express, { Application } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 import logger from 'morgan';
 import cors from 'cors';
 
-import indexRouter from './api/index';
 import usersRouter from './api/users';
 import authRouter from './api/auth';
 import gameRouter from './api/game';
@@ -34,9 +34,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth', authRouter);
-app.use('/game', gameRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/game', gameRouter);
+
+app.get('*', (req: Request, res: Response, next: NextFunction) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 export default app;

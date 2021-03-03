@@ -6,7 +6,7 @@ export interface GoogleInputs {
 
 export async function getAccessTokenGoogle(input: GoogleInputs) {
     const response = await axios.post<any>(
-        'http://localhost:5005/auth/login/google',
+        'https://teamtris.herokuapp.com/api/auth/login/google',
         input
     );
 

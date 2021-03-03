@@ -1,4 +1,4 @@
-import { Stage } from '../../../client/src/tetris/stage';
+import { Stage } from '../../client/src/tetris/stage';
 
 export interface ConnectedUser {
     [socketId: string]: {

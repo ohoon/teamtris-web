@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import socket from '../socket';
-import { Chat, Chats } from '../../../server/src/socket/chats';
+import { Chat, Chats } from '../../../src/socket/chats';
 import ChatBox from '../components/ChatBox';
 import ChatInput from '../components/ChatInput';
 

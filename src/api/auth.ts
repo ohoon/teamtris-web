@@ -16,7 +16,7 @@ router.post('/login/google',
           code: req.body.code,
           client_id: process.env.TEAMTRIS_GOOGLE_CLIENT_ID!,
           client_secret: process.env.TEAMTRIS_GOOGLE_SECRET!,
-          redirect_uri: 'http://localhost:5000/auth/google',
+          redirect_uri: 'https://teamtris.herokuapp.com/auth/google',
           grant_type: 'authorization_code'
         }
       );
@@ -43,7 +43,7 @@ router.post('/login/google',
 
       if (user) {
         const updateUser = await axios.put(
-          `http://localhost:5005/users/${_id}`,
+          `https://teamtris.herokuapp.com/api/users/${_id}`,
           {
             nickname: name,
             profileImage: picture
@@ -55,7 +55,7 @@ router.post('/login/google',
         }
       } else {
         const createUser = await axios.post(
-          'http://localhost:5005/users',
+          'https://teamtris.herokuapp.com/api/users',
           {
             userId: id,
             nickname: name,

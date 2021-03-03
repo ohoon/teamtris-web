@@ -1,5 +1,5 @@
 import React, { RefObject, memo } from 'react';
-import { Chats } from '../../../server/src/socket/chats';
+import { Chats } from '../../../src/socket/chats';
 import { StyledChatBox } from './styled/StyledChat';
 import ChatMsg from './ChatMsg';
 

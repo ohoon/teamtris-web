@@ -1,6 +1,6 @@
 import React, { useEffect, memo } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Player } from '../../../server/src/socket/users';
+import { Player } from '../../../src/socket/users';
 import { StyledDialogBox, StyledDialogHead, StyledDialogBody } from './styled/StyledDialog';
 import { StyledCloseButton } from './styled/StyledButton';
 
