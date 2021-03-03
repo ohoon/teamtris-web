@@ -10,6 +10,7 @@ const router = express.Router();
 router.post('/login/google',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log(process.env);
       const getToken = await axios.post(
         'https://oauth2.googleapis.com/token',
         {
